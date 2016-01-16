@@ -204,6 +204,55 @@ namespace Phaxio
             return performRequest<Url>("createPhaxCode", Method.GET, true, addParameters).Data;
         }
 
+        /// <summary>
+        ///  Creates a PhaxCode and returns a byte array representing the image.
+        /// </summary>
+        /// <param name="metadata">Metadata to associate with this code.</param>
+        /// <returns>a byte array of barcode image.</returns>
+        public byte[] CreateAndDownloadPhaxCode(string metadata = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("redirect", true);
+
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+            };
+
+            return performRawRequest<Url>("createPhaxCode", Method.GET, true, addParameters);
+        }
+
+        // TODO: Figure out how to combine performRequests methods
+        private byte[] performRawRequest<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
+        {
+            var request = new RestRequest();
+
+            if (auth)
+            {
+                request.AddParameter(KeyName, key);
+                request.AddParameter(SecretName, secret);
+            }
+
+            // Run any custom modifications
+            requestModifier(request);
+
+            request.Method = method;
+            request.Resource = resource;
+
+            var response = client.Execute(request);
+
+            if (response.ErrorException != null)
+            {
+                const string message = "Error retrieving response. Check inner exception.";
+                var phaxioException = new ApplicationException(message, response.ErrorException);
+                throw phaxioException;
+            }
+
+            return response.RawBytes;
+        }
+
         private Response<T> performRequest<T>(string resource, Method method)
         {
             return performRequest<T>(resource, method, true, r => { });

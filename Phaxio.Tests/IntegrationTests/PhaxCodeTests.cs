@@ -22,5 +22,15 @@ namespace Phaxio.Tests.IntegrationTests
 
             var code = phaxio.CreatePhaxCode();
         }
+
+        [Test]
+        public void IntegrationTests_CreatePhaxCodeGetBytes()
+        {
+            var config = new KeyManager();
+
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+
+            var code = phaxio.CreateAndDownloadPhaxCode();
+        }
     }
 }
