@@ -54,8 +54,9 @@
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
     <Compile Include="Fixtures\JsonResponseFixtures.cs" />
     <Compile Include="IntegrationTests\AreaCodesTests.cs" />
+    <Compile Include="UnitTests\FaxCancelTests.cs" />
     <Compile Include="UnitTests\AccountStatusTests.cs" />
-    <Compile Include="Helpers\MockPhaxioService.cs" />
+    <Compile Include="Helpers\IRestClientBuilder.cs" />
     <Compile Include="UnitTests\AreaCodesTests.cs" />
     <Compile Include="UnitTests\PhaxioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

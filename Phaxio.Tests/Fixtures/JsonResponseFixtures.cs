@@ -38,6 +38,13 @@ namespace Phaxio.Tests
                         }
                     }
                 }"
+            },
+            {
+                "faxCancel",
+                @"{
+                    ""success"":true,
+                    ""message"":""Fax canceled successfully.""
+                }"
             }
         };
     }

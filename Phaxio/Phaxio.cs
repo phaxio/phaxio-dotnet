@@ -38,9 +38,10 @@ namespace Phaxio
         /// <summary>
         ///  Gets the account for this Phaxio instance.
         /// </summary>
+        /// <returns>An Account object</returns>
         public Account GetAccountStatus ()
         {
-            return performRequest<Account>("accountStatus", Method.GET);
+            return performRequest<Account>("accountStatus", Method.GET).Data;
         }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace Phaxio
         /// <param name="tollFree">Whether the number should be tollfree.</param>
         /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
         /// Will only return area codes available for this state.</param>
+        /// <returns>A Dictionary<string, CityState> with area codes for keys and CityStates for values</returns>
         public Dictionary<string, CityState> GetAreaCodes (bool? tollFree = null, string state = null)
         {
             Action<IRestRequest> addParameters = req =>
@@ -64,15 +66,32 @@ namespace Phaxio
                     }
                 };
 
-            return performRequest<Dictionary<string, CityState>>("areaCodes", Method.POST, false, addParameters);
+            return performRequest<Dictionary<string, CityState>>("areaCodes", Method.POST, false, addParameters).Data;
         }
 
-        private T performRequest<T>(string resource, Method method)
+        /// <summary>
+        ///  Cancels a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to cancel.</param>
+        /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
+        /// Will only return area codes available for this state.</param>
+        /// <returns>A bool indicating whether the operation was successful.</returns>
+        public bool CancelFax (int faxId)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("id", faxId);
+            };
+
+            return performRequest<Object>("faxCancel", Method.GET, true, addParameters).Success;
+        }
+
+        private Response<T> performRequest<T>(string resource, Method method)
         {
             return performRequest<T>(resource, method, true, r => { });
         }
 
-        private T performRequest<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
+        private Response<T> performRequest<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
         {
             var request = new RestRequest();
 
@@ -102,7 +121,7 @@ namespace Phaxio
                 throw new ApplicationException(response.Data.Message);
             }
 
-            return response.Data.Data;
+            return response.Data;
         }
     }
 }

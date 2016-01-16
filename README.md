@@ -36,5 +36,12 @@ Or both:
 
     Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes(tollFree:true, state:"MA");
     
+## Cancelling a fax
 
+You can cancel a fax by id:
+
+    bool success = phaxio.CancelFax(123);
+
+It returns a bool saying whether the operation was successful or not.
+    
 &copy; 2016 Noel Herrick

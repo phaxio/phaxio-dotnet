@@ -35,6 +35,10 @@ namespace Phaxio.Tests
             {
                 setup<Dictionary<string, CityState>>(content, mockIRestClient);
             }
+            else if (Op == "faxCancel")
+            {
+                setup<Object>(content, mockIRestClient);
+            }
 
             return mockIRestClient.Object;
         }
@@ -53,11 +57,18 @@ namespace Phaxio.Tests
         {
             if (!NoAuth)
             {
-                if ((string)request.Parameters[0].Value != TEST_KEY || (string)request.Parameters[1].Value != TEST_SECRET)
+                foreach (var param in request.Parameters)
                 {
-                    obj.Success = false;
-                    obj.Message = "Account keys were invalid.";
-                    obj.Data = default(T);
+                    if (
+                            (param.Name == Phaxio.KeyName && (string)param.Value != TEST_KEY)
+                            ||
+                            (param.Name == Phaxio.SecretName && (string)param.Value != TEST_SECRET)
+                       )
+                    {
+                        obj.Success = false;
+                        obj.Message = "Account keys were invalid.";
+                        obj.Data = default(T);
+                    }
                 }
             }
 
