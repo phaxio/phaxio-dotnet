@@ -43,5 +43,23 @@ You can cancel a fax by id:
     bool success = phaxio.CancelFax(123);
 
 It returns a bool saying whether the operation was successful or not.
-    
+
+## Resending a fax
+
+You can resend a fax by id:
+
+    bool success = phaxio.ResendFax(123);
+
+It returns a bool saying whether the operation was successful or not.
+
+## Deleting a fax
+
+You can delete a fax by id:
+
+    bool success = phaxio.DeleteFax(123);
+
+It returns a bool saying whether the operation was successful or not. You can also specify whether to only delete the files (default is false):
+
+    bool success = phaxio.DeleteFax(123, true);
+
 &copy; 2016 Noel Herrick

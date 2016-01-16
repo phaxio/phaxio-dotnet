@@ -73,8 +73,6 @@ namespace Phaxio
         ///  Cancels a fax
         /// </summary>
         /// <param name="faxId">The id of the fax to cancel.</param>
-        /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
-        /// Will only return area codes available for this state.</param>
         /// <returns>A bool indicating whether the operation was successful.</returns>
         public bool CancelFax (int faxId)
         {
@@ -89,9 +87,7 @@ namespace Phaxio
         /// <summary>
         ///  Resends a fax
         /// </summary>
-        /// <param name="faxId">The id of the fax to cancel.</param>
-        /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
-        /// Will only return area codes available for this state.</param>
+        /// <param name="faxId">The id of the fax to resend.</param>
         /// <returns>A bool indicating whether the operation was successful.</returns>
         public bool ResendFax(int faxId)
         {
@@ -101,6 +97,23 @@ namespace Phaxio
             };
 
             return performRequest<Object>("resendFax", Method.GET, true, addParameters).Success;
+        }
+
+        /// <summary>
+        ///  Deletes a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to delete.</param>
+        /// <param name="filesOnly">A boolean indicating whether to only delete the files.</param>
+        /// <returns>A bool indicating whether the operation was successful.</returns>
+        public bool DeleteFax(int faxId, bool filesOnly = false)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("id", faxId);
+                req.AddParameter("files_only", filesOnly);
+            };
+
+            return performRequest<Object>("deleteFax", Method.GET, true, addParameters).Success;
         }
 
         private Response<T> performRequest<T>(string resource, Method method)
