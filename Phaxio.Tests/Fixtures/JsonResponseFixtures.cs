@@ -45,6 +45,13 @@ namespace Phaxio.Tests
                     ""success"":true,
                     ""message"":""Fax canceled successfully.""
                 }"
+            },
+            {
+                "resendFax",
+                @"{
+                    ""success"":true,
+                    ""message"":""Fax resent successfully.""
+                }"
             }
         };
     }

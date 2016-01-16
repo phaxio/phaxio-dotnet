@@ -86,6 +86,23 @@ namespace Phaxio
             return performRequest<Object>("faxCancel", Method.GET, true, addParameters).Success;
         }
 
+        /// <summary>
+        ///  Resends a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to cancel.</param>
+        /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
+        /// Will only return area codes available for this state.</param>
+        /// <returns>A bool indicating whether the operation was successful.</returns>
+        public bool ResendFax(int faxId)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("id", faxId);
+            };
+
+            return performRequest<Object>("resendFax", Method.GET, true, addParameters).Success;
+        }
+
         private Response<T> performRequest<T>(string resource, Method method)
         {
             return performRequest<T>(resource, method, true, r => { });

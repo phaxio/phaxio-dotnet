@@ -39,6 +39,10 @@ namespace Phaxio.Tests
             {
                 setup<Object>(content, mockIRestClient);
             }
+            else if (Op == "resendFax")
+            {
+                setup<Object>(content, mockIRestClient);
+            }
 
             return mockIRestClient.Object;
         }
