@@ -5,6 +5,7 @@ using RestSharp;
 using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -147,7 +148,6 @@ namespace Phaxio
             return performRequest<PhoneNumber>("provisionNumber", Method.GET, true, addParameters).Data;
         }
         
-
         /// <summary>
         ///  Lists all of your numbers
         /// </summary>
@@ -222,11 +222,137 @@ namespace Phaxio
                 }
             };
 
-            return performDownloadRequest<Url>("createPhaxCode", Method.GET, addParameters, "image/png");
+            return performDownloadRequest("createPhaxCode", Method.GET, addParameters, "image/png");
+        }
+
+        /// <summary>
+        ///  Attaches a PhaxCode to the supplied File.
+        /// </summary>
+        /// <param name="x">The x-coordinate (in PDF points) of where the PhaxCode should be drawn.
+        /// x=0 is the left most point of the page.</param>
+        /// <param name="y">The y-coordinate (in PDF points) of where the PhaxCode should be drawn.
+        /// y=0 is the bottom most point of the page.</param>
+        /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
+        /// If you leave this blank, the default account code will be used.</param>
+        /// <param name="pageNumber">The page number to attach the code to.</param>
+        /// <returns>a byte array of PDF with the code.</returns>
+        public byte[] AttachPhaxCodeToPdf(float x, float y, FileInfo pdf, string metadata = null, int? pageNumber = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                req.AddHeader("Content-Type", "multipart/form-data");
+
+                req.AddParameter("x", x);
+                req.AddParameter("y", y);
+
+                Action<Stream> write = stream => {
+                    using (FileStream source = pdf.OpenRead())
+                    {
+                        source.CopyTo(stream);
+                    }
+                };
+
+                req.AddFile("filename", write, pdf.Name);
+
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+
+                if (pageNumber != null)
+                {
+                    req.AddParameter("page_number", pageNumber);
+                }
+            };
+
+            return performDownloadRequest("attachPhaxCodeToPdf", Method.POST, requestModifier, "application/pdf");
+        }
+
+        /// <summary>
+        ///  Attaches a PhaxCode to the supplied File and streams the result to the supplied stream
+        /// </summary>
+        /// <param name="x">The x-coordinate (in PDF points) of where the PhaxCode should be drawn.
+        /// x=0 is the left most point of the page.</param>
+        /// <param name="y">The y-coordinate (in PDF points) of where the PhaxCode should be drawn.
+        /// y=0 is the bottom most point of the page.</param>
+        /// <param name="destination">The stream you want the new PDF to be written to.</param>
+        /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
+        /// If you leave this blank, the default account code will be used.</param>
+        /// <param name="pageNumber">The page number to attach the code to.</param>
+        /// <returns>a byte array of PDF with the code.</returns>
+        public void AttachPhaxCodeToPdf(float x, float y, FileInfo pdf, Stream destination, string metadata = null, int? pageNumber = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                req.ResponseWriter = (responseStream) => responseStream.CopyTo(destination);
+
+                req.AddHeader("Content-Type", "multipart/form-data");
+
+                req.AddParameter("x", x);
+                req.AddParameter("y", y);
+
+                Action<Stream> write = stream =>
+                {
+                    using (FileStream source = pdf.OpenRead())
+                    {
+                        source.CopyTo(stream);
+                    }
+                };
+
+                req.AddFile("filename", write, pdf.Name);
+
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+
+                if (pageNumber != null)
+                {
+                    req.AddParameter("page_number", pageNumber);
+                }
+            };
+
+            performStreamRequest("attachPhaxCodeToPdf", Method.POST, requestModifier, "application/pdf");
+        }
+
+        private void performStreamRequest(string resource, Method method, Action<IRestRequest> requestModifier, string expectedContentType)
+        {
+            var request = new RestRequest();
+
+            request.AddParameter(KeyName, key);
+            request.AddParameter(SecretName, secret);
+
+            // Run any custom modifications
+            requestModifier(request);
+
+            request.Method = method;
+            request.Resource = resource;
+
+            var response = client.Execute(request);
+
+            if (response.ErrorException != null)
+            {
+                const string message = "Error retrieving response. Check inner exception.";
+                var phaxioException = new ApplicationException(message, response.ErrorException);
+                throw phaxioException;
+            }
+
+            if (response.ContentType == "application/json")
+            {
+                var json = new JsonDeserializer();
+
+                var phaxioResponse = json.Deserialize<Response<Object>>(response);
+
+                throw new ApplicationException(phaxioResponse.Message);
+            }
+            else if (response.ContentType != expectedContentType)
+            {
+                throw new ApplicationException("An unexpected error occured.");
+            }
         }
 
         // TODO: Figure out how to combine performRequests methods
-        private byte[] performDownloadRequest<T>(string resource, Method method, Action<IRestRequest> requestModifier, string expectedContentType)
+        private byte[] performDownloadRequest(string resource, Method method, Action<IRestRequest> requestModifier, string expectedContentType)
         {
             var request = new RestRequest();
 
@@ -256,7 +382,7 @@ namespace Phaxio
             {
                 var json = new JsonDeserializer();
 
-                var phaxioResponse = json.Deserialize<Response<T>>(response);
+                var phaxioResponse = json.Deserialize<Response<Object>>(response);
 
                 throw new ApplicationException(phaxioResponse.Message);
             }

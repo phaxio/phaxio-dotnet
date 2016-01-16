@@ -114,9 +114,9 @@ Creating a PhaxCode is simple:
     
 Code is a Url object where you can download the barcode.
 
-You can also attach metadata to the code:
+You can also attach metadata to the code so you can reference it later:
 
-    var code = phaxio.CreatePhaxCode("{'key':'value'}");
+    var code = phaxio.CreatePhaxCode("code-for-form1234");
 
 You can also get the image directly:
 
@@ -127,5 +127,27 @@ You can also get the image directly:
 This returns a byte array representing the barcode. You can attach metadata to the code, same as above:
 
     var code = phaxio.DownloadPhaxCodePng("{'key':'value'}");
+
+## Attaching a PhaxCode to a PDF
+
+If you have a PDF you'd like to attach a PhaxCode to, it's easy:
+
+    var pdf = new FileInfo("form1234.pdf");
+    var pdfBytes = phaxio.AttachPhaxCodeToPdf(10, 10, pdf);
     
+The first two parameters are the x,y coordinates in PDF points. This will use the default PhaxCode for your account.
+You can also specify a PhaxCode to use by passing in its metadata:
+
+    var pdfBytes = phaxio.AttachPhaxCodeToPdf(10, 10, pdf, metadata:"code-for-form1234");
+
+If you'd like it to attach it on a specific page:
+    
+    var pdfBytes = phaxio.AttachPhaxCodeToPdf(10, 10, pdf, pageNumber:3);
+
+For bigger files, you can specify a stream to write to:
+
+    var memoryStream = new MemoryStream();
+    phaxio.AttachPhaxCodeToPdf(10, 10, pdf, memoryStream);
+
+The stream memoryStream will now have a copy of the new PDF.
 &copy; 2016 Noel Herrick

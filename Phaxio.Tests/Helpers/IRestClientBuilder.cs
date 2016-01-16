@@ -103,7 +103,63 @@ namespace Phaxio.Tests
                     return response;
                 });
             }
+            else if (Op == "attachPhaxCodeToPdf")
+            {
+                mockIRestClient.Setup(x => x.Execute(It.IsAny<IRestRequest>()))
+                .Returns<IRestRequest>(req =>
+                {
+                    var response = new RestResponse();
+                    var authFailed = false;
 
+                    checks(req, () =>
+                    {
+                        authFailed = true;
+                    });
+
+                    if (authFailed)
+                    {
+                        response.ContentType = "application/json";
+                        response.Content = JsonResponseFixtures.Fixtures["authFail"];
+                    }
+                    else
+                    {
+                        response.ContentType = "application/pdf";
+                        response.RawBytes = BinaryFixtures.GetTestPdf();
+                    }
+
+                    return response;
+                });
+            }
+            else if (Op == "attachPhaxCodeToPdfStream")
+            {
+                mockIRestClient.Setup(x => x.Execute(It.IsAny<IRestRequest>()))
+                .Returns<IRestRequest>(req =>
+                {
+                    var response = new RestResponse();
+                    var authFailed = false;
+
+                    checks(req, () =>
+                    {
+                        authFailed = true;
+                    });
+
+                    if (authFailed)
+                    {
+                        response.ContentType = "application/json";
+                        response.Content = JsonResponseFixtures.Fixtures["authFail"];
+                    }
+                    else
+                    {
+                        response.ContentType = "application/pdf";
+                        var writer = req.ResponseWriter;
+                        var testPdf = BinaryFixtures.getTestPdfFile();
+                        writer(testPdf.OpenRead());
+                    }
+
+                    return response;
+                });
+            }
+            
             return mockIRestClient.Object;
         }
 
