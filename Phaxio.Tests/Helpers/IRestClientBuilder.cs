@@ -63,6 +63,10 @@ namespace Phaxio.Tests
             {
                 setup<List<PhoneNumber>>(content, mockIRestClient);
             }
+            else if (Op == "createPhaxCodeUrl")
+            {
+                setup<Url>(content, mockIRestClient);
+            }
 
             return mockIRestClient.Object;
         }

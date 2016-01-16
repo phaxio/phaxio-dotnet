@@ -98,7 +98,6 @@ You can a number:
 
 It returns a bool saying whether the operation was successful or not.
     
-    
 ## Getting supported countries
 
 If you want to know what countries are supported by Phaxio, you can call this method:
@@ -106,5 +105,17 @@ If you want to know what countries are supported by Phaxio, you can call this me
     Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes();
     
 This returns a Dictionary with the country names as keys, and a Pricing object that has the price per page.
+
+## Creating a PhaxCode
+
+Creating a PhaxCode is simple:
+
+    var code = phaxio.CreatePhaxCode();
+    
+Code is a Url object where you can download the barcode.
+
+You can also attach metadata to the code:
+
+    var code = phaxio.CreatePhaxCode("{'key':'value'}");
 
 &copy; 2016 Noel Herrick

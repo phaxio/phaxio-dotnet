@@ -53,8 +53,10 @@
     <Compile Include="Helpers\IniConfigurationManager.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
     <Compile Include="Fixtures\JsonResponseFixtures.cs" />
+    <Compile Include="IntegrationTests\PhaxCodeTests.cs" />
     <Compile Include="IntegrationTests\SupportedCountriesTests.cs" />
     <Compile Include="IntegrationTests\AreaCodesTests.cs" />
+    <Compile Include="UnitTests\PhaxCodeTests.cs" />
     <Compile Include="UnitTests\SupportedCountriesTests.cs" />
     <Compile Include="UnitTests\NumberTests.cs" />
     <Compile Include="UnitTests\FaxTests.cs" />

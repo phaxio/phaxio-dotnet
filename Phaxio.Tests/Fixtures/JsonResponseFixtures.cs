@@ -112,6 +112,10 @@ namespace Phaxio.Tests
                         }
                     ]
                 }"
+            },
+            {
+                "createPhaxCodeUrl",
+                "{\"success\":true,\"message\":\"success\",\"data\":{\"url\":\"http:\\/\\/www.phaxio.com\\/phaxCodes\\/render\\/4k75ny\"}}"
             }
         };
     }

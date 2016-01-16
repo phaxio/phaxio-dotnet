@@ -67,5 +67,10 @@ namespace Phaxio.Tests.Fixtures
                 }
             };
         }
+
+        public static Uri GetTestPhaxCodeUrl ()
+        {
+            return new Uri("http://www.phaxio.com/phaxCodes/render/4k75ny");
+        }
     }
 }

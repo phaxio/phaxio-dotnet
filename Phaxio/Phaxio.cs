@@ -186,6 +186,24 @@ namespace Phaxio
             return performRequest<Object>("releaseNumber", Method.GET, true, addParameters).Success;
         }
 
+        /// <summary>
+        ///  Creates a PhaxCode and returns a URL to the barcode image.
+        /// </summary>
+        /// <param name="metadata">Metadata to associate with this code.</param>
+        /// <returns>a URI to the barcode image.</returns>
+        public Url CreatePhaxCode(string metadata = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+            };
+
+            return performRequest<Url>("createPhaxCode", Method.GET, true, addParameters).Data;
+        }
+
         private Response<T> performRequest<T>(string resource, Method method)
         {
             return performRequest<T>(resource, method, true, r => { });
