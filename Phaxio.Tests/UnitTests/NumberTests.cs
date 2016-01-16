@@ -9,6 +9,48 @@ namespace Phaxio.Tests
     public class NumberTests
     {
         [Test]
+        public void UnitTests_ProvisionNumberWithCallBackRequestWorks()
+        {
+            var areaCode = "808";
+
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                Assert.AreEqual(req.Parameters[2].Value, areaCode);
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "provisionNumber", RequestAsserts = requestAsserts };
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+
+            var actualNumber = phaxio.ProvisionNumber(areaCode);
+
+            var expectedNumber = PocoFixtures.GetTestPhoneNumber();
+
+            Assert.AreEqual(expectedNumber.Number, actualNumber.Number, "Number should be the same");
+        }
+
+        [Test]
+        public void UnitTests_ProvisionNumberRequestWorks()
+        {
+            var areaCode = "808";
+            var callback = "http://example.com/callback";
+
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                Assert.AreEqual(req.Parameters[2].Value, areaCode);
+                Assert.AreEqual(req.Parameters[3].Value, callback);
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "provisionNumber", RequestAsserts = requestAsserts };
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+
+            var actualNumber = phaxio.ProvisionNumber(areaCode, callback);
+
+            var expectedNumber = PocoFixtures.GetTestPhoneNumber();
+
+            Assert.AreEqual(expectedNumber.Number, actualNumber.Number, "Number should be the same");
+        }
+
+        [Test]
         public void UnitTests_ReleaseNumberRequestWorks ()
         {
             var number = "8088675309";

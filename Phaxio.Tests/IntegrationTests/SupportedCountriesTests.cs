@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace Phaxio.Tests.IntegrationTests
 {
     [TestFixture, Explicit]
-    public class SupporteCountriesTests
+    public class SupportedCountriesTests
     {
         [Test]
-        public void IntegrationTests_SupporteCountriesRequestWorks()
+        public void IntegrationTests_SupportedCountriesRequestWorks()
         {
             var config = new KeyManager();
 

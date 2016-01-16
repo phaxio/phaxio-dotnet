@@ -55,6 +55,10 @@ namespace Phaxio.Tests
             {
                 setup<Dictionary<string, Pricing>>(content, mockIRestClient);
             }
+            else if (Op == "provisionNumber")
+            {
+                setup<PhoneNumber>(content, mockIRestClient);
+            }
 
             return mockIRestClient.Object;
         }

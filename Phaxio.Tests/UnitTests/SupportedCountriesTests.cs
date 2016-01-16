@@ -21,7 +21,7 @@ namespace Phaxio.Tests.UnitTests
 
             var countries = phaxio.GetSupportedCountries();
 
-            var expectedCountries = PocoFixtures.GetTestSupporteCountries();
+            var expectedCountries = PocoFixtures.GetTestSupportedCountries();
 
             Assert.AreEqual(expectedCountries.Count(), countries.Count(), "Number should be the same");
             Assert.AreEqual(expectedCountries["Canada"].PricePerPage, countries["Canada"].PricePerPage, "PricePerPage should be the same");

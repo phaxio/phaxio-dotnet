@@ -126,6 +126,27 @@ namespace Phaxio
         }
 
         /// <summary>
+        ///  Provisions a new fax number
+        /// </summary>
+        /// <param name="areaCode">The area code to provsion the number in.</param>
+        /// <param name="callbackUrl">The URL that Phaxio will post to when a fax is recieved at this number.</param>
+        /// <returns>A PhoneNumber object representing the new number.</returns>
+        public PhoneNumber ProvisionNumber(string areaCode, string callbackUrl = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("area_code", areaCode);
+
+                if (callbackUrl != null)
+                {
+                    req.AddParameter("callback_url", callbackUrl);
+                }
+            };
+
+            return performRequest<PhoneNumber>("provisionNumber", Method.GET, true, addParameters).Data;
+        }
+
+        /// <summary>
         ///  Releases a number
         /// </summary>
         /// <param name="number">The number to release.</param>

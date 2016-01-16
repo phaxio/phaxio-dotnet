@@ -72,6 +72,21 @@ namespace Phaxio.Tests
                 "supportedCountries",
                 @"{""success"":true,""message"":""Data contains supported countries."",""data"":{""United States"":{""price_per_page"":7},""Canada"":{""price_per_page"":7},""Argentina"":{""price_per_page"":10}}}"
 
+            },
+            {
+                "provisionNumber",
+                @"{
+                    ""success"":true,
+                    ""message"":""Number provisioned successfully!"",
+                    ""data"":{
+                        ""number"":""8475551234"",
+                        ""city"":""Northbrook"",
+                        ""state"":""Illinois"",
+                        ""cost"":200,
+                        ""last_billed_at"":""2013-11-12 11:39:05"",
+                        ""provisioned_at"":""2013-11-12 11:39:05""
+                    }
+                }"
             }
         };
     }

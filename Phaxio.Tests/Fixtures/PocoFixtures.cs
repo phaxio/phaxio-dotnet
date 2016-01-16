@@ -28,13 +28,26 @@ namespace Phaxio.Tests.Fixtures
             };
         }
 
-        public static Dictionary<string, Pricing> GetTestSupporteCountries()
+        public static Dictionary<string, Pricing> GetTestSupportedCountries()
         {
             return new Dictionary<string, Pricing>
             {
                 {"United States", new Pricing { PricePerPage = 7 }},
                 {"Canada", new Pricing { PricePerPage = 7}},
                 {"Argentina", new Pricing { PricePerPage = 10 }}
+            };
+        }
+
+        public static PhoneNumber GetTestPhoneNumber ()
+        {
+            return new PhoneNumber
+            {
+                Number = "8475551234",
+                City = "Northbrook",
+                State = "Illinois",
+                Cost = 200,
+                LastBilled = Convert.ToDateTime("2013-11-12 11:39:05"),
+                Provisioned = Convert.ToDateTime("2013-11-12 11:39:05")
             };
         }
     }
