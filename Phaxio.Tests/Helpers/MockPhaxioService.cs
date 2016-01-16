@@ -1,4 +1,5 @@
 ﻿using Moq;
+using Phaxio.Entities;
 using Phaxio.Entities.Internal;
 using RestSharp;
 using RestSharp.Deserializers;
@@ -11,68 +12,64 @@ using System.Threading.Tasks;
 
 namespace Phaxio.Tests
 {
-    class MockPhaxioService
+    class IRestClientBuilder
     {
         public const string TEST_KEY = "key";
         public const string TEST_SECRET = "secret";
 
-        public static IRestClient GetRestClient (string op)
+        public string Op { get; set; }
+        public bool NoAuth { get; set; }
+        public Action<IRestRequest> RequestAsserts { get; set; }
+
+        public IRestClient Build ()
         {
             var mockIRestClient = new Mock<IRestClient>();
 
-            string content = null;
+            string content = JsonResponseFixtures.Fixtures[Op];
 
-            if (op == "accountStatus")
+            if (Op == "accountStatus")
             {
-                content = @"{
-                                ""success"":true,
-                                ""message"":""Account status retrieved successfully"",
-                                ""data"": {
-                                    ""faxes_sent_this_month"":120,
-                                    ""faxes_sent_today"":10,
-                                    ""balance"":3000
-                                }
-                            }";
-
                 setup<Account>(content, mockIRestClient);
+            }
+            else if (Op == "areaCodes")
+            {
+                setup<Dictionary<string, CityState>>(content, mockIRestClient);
             }
 
             return mockIRestClient.Object;
         }
 
-        private static void setup<T> (string content, Mock<IRestClient> mockIRestClient)
+        private void setup<T> (string content, Mock<IRestClient> mockIRestClient)
         {
             JsonDeserializer json = new JsonDeserializer();
 
-            var response = json.Deserialize<Response<Account>>(new RestResponse { Content = content });
+            var response = json.Deserialize<Response<T>>(new RestResponse { Content = content });
 
-            mockIRestClient.Setup(x => x.Execute<Response<Account>>(It.IsAny<IRestRequest>()))
-                .Returns<IRestRequest>(req => validateCreds(req, response));
+            mockIRestClient.Setup(x => x.Execute<Response<T>>(It.IsAny<IRestRequest>()))
+                .Returns<IRestRequest>(req => respond(req, response));
         }
 
-        private static RestResponse<Response<T>> validateCreds<T>(IRestRequest request, Response<T> obj)
+        private RestResponse<Response<T>> respond<T>(IRestRequest request, Response<T> obj)
         {
-            if ((string)request.Parameters[0].Value != TEST_KEY || (string)request.Parameters[1].Value != TEST_SECRET)
+            if (!NoAuth)
             {
-                obj.Success = false;
-                obj.Message = "Account keys were invalid.";
-                obj.Data = default(T);
+                if ((string)request.Parameters[0].Value != TEST_KEY || (string)request.Parameters[1].Value != TEST_SECRET)
+                {
+                    obj.Success = false;
+                    obj.Message = "Account keys were invalid.";
+                    obj.Data = default(T);
+                }
             }
 
+            if (RequestAsserts != null)
+            {
+                RequestAsserts(request);
+            }
+                
             return new RestResponse<Response<T>>
             {
                 Data = obj,
                 StatusCode = HttpStatusCode.OK
-            };
-        }
-
-        public static Account GetTestAccount ()
-        {
-            return new Account
-            {
-                FaxesSentThisMonth = 120,
-                FaxesSentToday = 10,
-                Balance = 3000
             };
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Phaxio.Tests.Fixtures;
 
 namespace Phaxio.Tests
 {
@@ -7,13 +8,14 @@ namespace Phaxio.Tests
     public class AccountStatusTests
     {
         [Test]
-        public void UnitTest_AccountStatusRequestWorks ()
+        public void UnitTests_AccountStatusRequestWorks ()
         {
-            var phaxio = new Phaxio(MockPhaxioService.TEST_KEY, MockPhaxioService.TEST_SECRET, MockPhaxioService.GetRestClient("accountStatus"));
+            var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var account = phaxio.GetAccountStatus();
 
-            var expectedAccount = MockPhaxioService.GetTestAccount();
+            var expectedAccount = PocoFixtures.GetTestAccount();
 
             Assert.AreEqual(expectedAccount.FaxesSentThisMonth, account.FaxesSentThisMonth, "FaxesSentThisMonth should be the same.");
             Assert.AreEqual(expectedAccount.FaxesSentToday, account.FaxesSentToday, "FaxesSentThisWeek should be the same.");

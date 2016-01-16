@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phaxio
+namespace Phaxio.Entities
 {
     /// <summary>
     ///  This represents a Phaxio account

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Phaxio.Tests.Fixtures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,19 @@ namespace Phaxio.Tests
         [Test]
         public void UnitTests_ValidRequestWorks()
         {
-            var phaxio = new Phaxio(MockPhaxioService.TEST_KEY, MockPhaxioService.TEST_SECRET, MockPhaxioService.GetRestClient("accountStatus"));
+            var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var account = phaxio.GetAccountStatus();
 
-            var expectedAccount = MockPhaxioService.GetTestAccount();
+            var expectedAccount = PocoFixtures.GetTestAccount();
         }
 
         [Test]
         public void UnitTests_InvalidKeyThrowsException()
         {
-            var phaxio = new Phaxio("bad_key", MockPhaxioService.TEST_SECRET, MockPhaxioService.GetRestClient("accountStatus"));
+            var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
+            var phaxio = new Phaxio("bad_key", IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             Assert.Throws( typeof(ApplicationException), () => phaxio.GetAccountStatus());
         }
@@ -31,7 +34,8 @@ namespace Phaxio.Tests
         [Test]
         public void UnitTests_InvalidSecretThrowsException()
         {
-            var phaxio = new Phaxio(MockPhaxioService.TEST_KEY, "bad_secret", MockPhaxioService.GetRestClient("accountStatus"));
+            var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, "bad_secret", clientBuilder.Build());
 
             Assert.Throws(typeof(ApplicationException), () => phaxio.GetAccountStatus());
         }

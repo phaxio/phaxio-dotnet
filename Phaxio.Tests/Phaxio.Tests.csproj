@@ -49,10 +49,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fixtures\PocoFixtures.cs" />
     <Compile Include="Helpers\IniConfigurationManager.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
+    <Compile Include="Fixtures\JsonResponseFixtures.cs" />
+    <Compile Include="IntegrationTests\AreaCodesTests.cs" />
     <Compile Include="UnitTests\AccountStatusTests.cs" />
     <Compile Include="Helpers\MockPhaxioService.cs" />
+    <Compile Include="UnitTests\AreaCodesTests.cs" />
     <Compile Include="UnitTests\PhaxioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
