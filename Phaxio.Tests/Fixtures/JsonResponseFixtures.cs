@@ -87,6 +87,31 @@ namespace Phaxio.Tests
                         ""provisioned_at"":""2013-11-12 11:39:05""
                     }
                 }"
+            },
+            {
+                "numberList",
+                @"{
+                    ""success"":true,
+                    ""message"":""Retrieved user phone numbers successfully"",
+                    ""data"":[
+                {
+                            ""number"":""8475551234"",
+                            ""city"":""Northbrook"",
+                            ""state"":""Illinois"",
+                            ""cost"":200,
+                            ""last_billed_at"":""2013-11-12 11:39:05"",
+                            ""provisioned_at"":""2013-11-12 11:39:05""
+                        },
+                {
+                            ""number"":""8476661235"",
+                            ""city"":""Northbrook"",
+                            ""state"":""Illinois"",
+                            ""cost"":200,
+                            ""last_billed_at"":""2013-11-12 11:31:06"",
+                            ""provisioned_at"":""2013-11-12 11:31:06""
+                        }
+                    ]
+                }"
             }
         };
     }

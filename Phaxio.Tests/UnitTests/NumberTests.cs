@@ -51,6 +51,28 @@ namespace Phaxio.Tests
         }
 
         [Test]
+        public void UnitTests_ListNumbersRequestWorks()
+        {
+            var areaCode = "808";
+            var number = "8088675309";
+
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                Assert.AreEqual(req.Parameters[2].Value, areaCode);
+                Assert.AreEqual(req.Parameters[3].Value, number);
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "numberList", RequestAsserts = requestAsserts };
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+
+            var actualNumbers = phaxio.ListNumbers(areaCode, number);
+
+            var expectedNumbers = PocoFixtures.GetTestPhoneNumbers();
+
+            Assert.AreEqual(expectedNumbers.Count, actualNumbers.Count, "Number should be the same");
+        }
+
+        [Test]
         public void UnitTests_ReleaseNumberRequestWorks ()
         {
             var number = "8088675309";

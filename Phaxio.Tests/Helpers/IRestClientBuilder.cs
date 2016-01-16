@@ -59,6 +59,10 @@ namespace Phaxio.Tests
             {
                 setup<PhoneNumber>(content, mockIRestClient);
             }
+            else if (Op == "numberList")
+            {
+                setup<List<PhoneNumber>>(content, mockIRestClient);
+            }
 
             return mockIRestClient.Object;
         }

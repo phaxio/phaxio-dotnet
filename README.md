@@ -62,6 +62,22 @@ It returns a bool saying whether the operation was successful or not. You can al
 
     bool success = phaxio.DeleteFax(123, true);
 
+## Listing your numbers
+
+To get a list of your numbers, you can run this method:
+
+    var numbers = phaxio.ListNumbers();
+
+which will return a List with all of your numbers.
+
+You can specify an area code to search in:
+
+    var numbers = phaxio.ListNumbers("808");
+
+or you can search for a specific number:
+    
+    var numbers = phaxio.ListNumbers(number: "8088675309");
+    
 ## Provisioning a number
 
 You can ask Phaxio to get you a new number (you must specify an area code:
@@ -73,7 +89,6 @@ The call returns a PhoneNumber object representing your new number.
 You can also specify a callback URL that will be called when a fax is recieved that overrides the default callback URL.
 
     var newNumber = phaxio.ProvisionNumber("808", "https://example.com/callback");
-
     
 ## Release number
 

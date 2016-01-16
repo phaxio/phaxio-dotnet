@@ -145,6 +145,31 @@ namespace Phaxio
 
             return performRequest<PhoneNumber>("provisionNumber", Method.GET, true, addParameters).Data;
         }
+        
+
+        /// <summary>
+        ///  Lists all of your numbers
+        /// </summary>
+        /// <param name="areaCode">The area code to filter by.</param>
+        /// <param name="number">The number to search for.</param>
+        /// <returns>A List of PhoneNumber objects.</returns>
+        public List<PhoneNumber> ListNumbers (string areaCode = null, string number = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                if (areaCode != null)
+                {
+                    req.AddParameter("area_code", areaCode);
+                }
+                
+                if (number != null)
+                {
+                    req.AddParameter("number", number);
+                }
+            };
+
+            return performRequest<List<PhoneNumber>>("numberList", Method.GET, true, addParameters).Data;
+        }
 
         /// <summary>
         ///  Releases a number

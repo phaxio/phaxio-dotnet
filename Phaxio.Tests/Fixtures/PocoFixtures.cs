@@ -50,5 +50,22 @@ namespace Phaxio.Tests.Fixtures
                 Provisioned = Convert.ToDateTime("2013-11-12 11:39:05")
             };
         }
+
+        public static List<PhoneNumber> GetTestPhoneNumbers ()
+        {
+            return new List<PhoneNumber>
+            {
+                GetTestPhoneNumber(),
+                new PhoneNumber
+                {
+                    Number = "8476661235",
+                    City = "Northbrook",
+                    State = "Illinois",
+                    Cost = 200,
+                    LastBilled = Convert.ToDateTime("2013-11-12 11:31:06"),
+                    Provisioned = Convert.ToDateTime("2013-11-12 11:31:06")
+                }
+            };
+        }
     }
 }
