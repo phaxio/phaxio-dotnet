@@ -67,6 +67,11 @@ namespace Phaxio.Tests
                     ""message"":""Number released successfully!."",
                     ""data"":[]
                 }"
+            },
+            {
+                "supportedCountries",
+                @"{""success"":true,""message"":""Data contains supported countries."",""data"":{""United States"":{""price_per_page"":7},""Canada"":{""price_per_page"":7},""Argentina"":{""price_per_page"":10}}}"
+
             }
         };
     }

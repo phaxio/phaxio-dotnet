@@ -45,7 +45,7 @@ namespace Phaxio
         }
 
         /// <summary>
-        ///  Displays a list of area codes available for purchasing Phaxio numbers
+        ///  Returns a dictionary of area codes available for purchasing Phaxio numbers
         /// </summary>
         /// <param name="tollFree">Whether the number should be tollfree.</param>
         /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
@@ -67,6 +67,15 @@ namespace Phaxio
                 };
 
             return performRequest<Dictionary<string, CityState>>("areaCodes", Method.POST, false, addParameters).Data;
+        }
+
+        /// <summary>
+        ///  Returns a dictionary of supported by Phaxio along with pricing information
+        /// </summary>
+        /// <returns>A Dictionary<string, Pricing> with countries for keys and Pricing for values</returns>
+        public Dictionary<string, Pricing> GetSupportedCountries()
+        {
+            return performRequest<Dictionary<string, Pricing>>("supportedCountries", Method.POST, false, r => { }).Data;
         }
 
         /// <summary>

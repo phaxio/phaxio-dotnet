@@ -27,5 +27,15 @@ namespace Phaxio.Tests.Fixtures
                 {"202", new CityState { City = "Washington", State = "District Of Columbia"  }}
             };
         }
+
+        public static Dictionary<string, Pricing> GetTestSupporteCountries()
+        {
+            return new Dictionary<string, Pricing>
+            {
+                {"United States", new Pricing { PricePerPage = 7 }},
+                {"Canada", new Pricing { PricePerPage = 7}},
+                {"Argentina", new Pricing { PricePerPage = 10 }}
+            };
+        }
     }
 }

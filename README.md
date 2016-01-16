@@ -62,4 +62,21 @@ It returns a bool saying whether the operation was successful or not. You can al
 
     bool success = phaxio.DeleteFax(123, true);
 
+## Release number
+
+You can a number:
+
+    bool success = phaxio.ReleaseNumber("8088675309");
+
+It returns a bool saying whether the operation was successful or not.
+    
+    
+## Getting supported countries
+
+If you want to know what countries are supported by Phaxio, you can call this method:
+
+    Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes();
+    
+This returns a Dictionary with the country names as keys, and a Pricing object that has the price per page.
+
 &copy; 2016 Noel Herrick
