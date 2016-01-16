@@ -11,6 +11,13 @@ namespace Phaxio.Tests
         public static Dictionary<string, string> Fixtures = new Dictionary<string, string>
         {
             {
+                "authFail",
+                @"{
+                    ""success"":false,
+                    ""message"":""That key or secret is not correct.""
+                }"
+            },
+            {
                 "accountStatus",
                 @"{
                     ""success"":true,

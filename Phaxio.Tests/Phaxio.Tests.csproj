@@ -49,6 +49,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fixtures\BinaryFixtures.cs" />
     <Compile Include="Fixtures\PocoFixtures.cs" />
     <Compile Include="Helpers\IniConfigurationManager.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />

@@ -46,5 +46,31 @@ namespace Phaxio.Tests.UnitTests
 
             Assert.AreEqual(expectedPhaxCodeUrl, phaxCodeUrl.Address, "URLs should be the same.");
         }
+
+        [Test]
+        public void UnitTests_PhaxCodeDownloadPngRequestWorks()
+        {
+            var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeDownload" };
+
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+
+            var imageBytes = phaxio.DownloadPhaxCodePng();
+
+            var expectedImageBytes = BinaryFixtures.GetTestPhaxCode();
+
+            Assert.AreEqual(expectedImageBytes, imageBytes, "Images should be the same.");
+        }
+
+        [Test]
+        public void UnitTests_PhaxCodeBadDownloadGetsErrorMessage()
+        {
+            var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeDownload" };
+
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY + "bad stuff", IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+
+            var exception = Assert.Throws(typeof(ApplicationException), () => phaxio.DownloadPhaxCodePng());
+
+            Assert.AreEqual("That key or secret is not correct.", exception.Message, "Exception message should be about the auth failure.");
+        }
     }
 }

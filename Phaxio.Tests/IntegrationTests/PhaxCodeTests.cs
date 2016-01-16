@@ -4,6 +4,7 @@ using Phaxio.Tests.Helpers;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,11 @@ namespace Phaxio.Tests.IntegrationTests
 
             var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
-            var code = phaxio.CreateAndDownloadPhaxCode();
+            var code = phaxio.DownloadPhaxCodePng();
+
+            var hex = BitConverter.ToString(code).Replace("-", "");
+
+            File.WriteAllBytes(@"C:\temp\phaxCode.png", code);
         }
     }
 }

@@ -120,10 +120,12 @@ You can also attach metadata to the code:
 
 You can also get the image directly:
 
-    var code = phaxio.CreateAndDownloadPhaxCode();
+    var code = phaxio.DownloadPhaxCodePng();
+    
+    File.WriteAllBytes(@"C:\temp\phaxCode.png", code);
     
 This returns a byte array representing the barcode. You can attach metadata to the code, same as above:
 
-    var code = phaxio.CreateAndDownloadPhaxCode("{'key':'value'}");
+    var code = phaxio.DownloadPhaxCodePng("{'key':'value'}");
     
 &copy; 2016 Noel Herrick

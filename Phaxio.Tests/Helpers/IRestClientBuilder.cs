@@ -27,61 +27,112 @@ namespace Phaxio.Tests
 
             string content = JsonResponseFixtures.Fixtures[Op];
 
+            // Make Build() generic
             if (Op == "accountStatus")
             {
-                setup<Account>(content, mockIRestClient);
+                typedSetup<Account>(content, mockIRestClient);
             }
             else if (Op == "areaCodes")
             {
-                setup<Dictionary<string, CityState>>(content, mockIRestClient);
+                typedSetup<Dictionary<string, CityState>>(content, mockIRestClient);
             }
             else if (Op == "faxCancel")
             {
-                setup<Object>(content, mockIRestClient);
+                typedSetup<Object>(content, mockIRestClient);
             }
             else if (Op == "resendFax")
             {
-                setup<Object>(content, mockIRestClient);
+                typedSetup<Object>(content, mockIRestClient);
             }
             else if (Op == "deleteFax")
             {
-                setup<Object>(content, mockIRestClient);
+                typedSetup<Object>(content, mockIRestClient);
             }
             else if (Op == "releaseNumber")
             {
-                setup<Object>(content, mockIRestClient);
+                typedSetup<Object>(content, mockIRestClient);
             }
             else if (Op == "supportedCountries")
             {
-                setup<Dictionary<string, Pricing>>(content, mockIRestClient);
+                typedSetup<Dictionary<string, Pricing>>(content, mockIRestClient);
             }
             else if (Op == "provisionNumber")
             {
-                setup<PhoneNumber>(content, mockIRestClient);
+                typedSetup<PhoneNumber>(content, mockIRestClient);
             }
             else if (Op == "numberList")
             {
-                setup<List<PhoneNumber>>(content, mockIRestClient);
+                typedSetup<List<PhoneNumber>>(content, mockIRestClient);
             }
             else if (Op == "createPhaxCodeUrl")
             {
-                setup<Url>(content, mockIRestClient);
+                typedSetup<Url>(content, mockIRestClient);
+            }
+            
+            return mockIRestClient.Object;
+        }
+
+        public IRestClient BuildUntyped ()
+        {
+            var mockIRestClient = new Mock<IRestClient>();
+
+            if (Op == "createPhaxCodeDownload")
+            {
+                mockIRestClient.Setup(x => x.Execute(It.IsAny<IRestRequest>()))
+                .Returns<IRestRequest>(req =>
+                {
+                    var response = new RestResponse();
+                    var authFailed = false;
+
+                    checks(req, () =>
+                    {
+                        authFailed = true;
+                    });
+
+                    if (authFailed)
+                    {
+                        response.ContentType = "application/json";
+                        response.Content = JsonResponseFixtures.Fixtures["authFail"];
+                    }
+                    else
+                    {
+                        response.ContentType = "image/png";
+                        response.RawBytes = BinaryFixtures.GetTestPhaxCode();
+                    }
+
+                    return response;
+                });
             }
 
             return mockIRestClient.Object;
         }
 
-        private void setup<T> (string content, Mock<IRestClient> mockIRestClient)
+        private void typedSetup<T> (string content, Mock<IRestClient> mockIRestClient)
         {
             JsonDeserializer json = new JsonDeserializer();
 
             var response = json.Deserialize<Response<T>>(new RestResponse { Content = content });
 
             mockIRestClient.Setup(x => x.Execute<Response<T>>(It.IsAny<IRestRequest>()))
-                .Returns<IRestRequest>(req => respond(req, response));
+                .Returns<IRestRequest>(req => typedRespond(req, response));
         }
 
-        private RestResponse<Response<T>> respond<T>(IRestRequest request, Response<T> obj)
+        private RestResponse<Response<T>> typedRespond<T>(IRestRequest request, Response<T> obj)
+        {
+            checks(request, () => {
+                obj.Success = false;
+                obj.Message = "Account keys were invalid.";
+                obj.Data = default(T);
+            });
+                
+            return new RestResponse<Response<T>>
+            {
+                Data = obj,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
+        private void checks (IRestRequest request, Action onFailure)
         {
             if (!NoAuth)
             {
@@ -93,9 +144,7 @@ namespace Phaxio.Tests
                             (param.Name == Phaxio.SecretName && (string)param.Value != TEST_SECRET)
                        )
                     {
-                        obj.Success = false;
-                        obj.Message = "Account keys were invalid.";
-                        obj.Data = default(T);
+                        onFailure();
                     }
                 }
             }
@@ -104,12 +153,6 @@ namespace Phaxio.Tests
             {
                 RequestAsserts(request);
             }
-                
-            return new RestResponse<Response<T>>
-            {
-                Data = obj,
-                StatusCode = HttpStatusCode.OK
-            };
         }
     }
 }

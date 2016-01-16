@@ -2,6 +2,7 @@
 using Phaxio.Entities;
 using Phaxio.Entities.Internal;
 using RestSharp;
+using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -209,7 +210,7 @@ namespace Phaxio
         /// </summary>
         /// <param name="metadata">Metadata to associate with this code.</param>
         /// <returns>a byte array of barcode image.</returns>
-        public byte[] CreateAndDownloadPhaxCode(string metadata = null)
+        public byte[] DownloadPhaxCodePng(string metadata = null)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -221,19 +222,16 @@ namespace Phaxio
                 }
             };
 
-            return performRawRequest<Url>("createPhaxCode", Method.GET, true, addParameters);
+            return performDownloadRequest<Url>("createPhaxCode", Method.GET, addParameters, "image/png");
         }
 
         // TODO: Figure out how to combine performRequests methods
-        private byte[] performRawRequest<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
+        private byte[] performDownloadRequest<T>(string resource, Method method, Action<IRestRequest> requestModifier, string expectedContentType)
         {
             var request = new RestRequest();
 
-            if (auth)
-            {
-                request.AddParameter(KeyName, key);
-                request.AddParameter(SecretName, secret);
-            }
+            request.AddParameter(KeyName, key);
+            request.AddParameter(SecretName, secret);
 
             // Run any custom modifications
             requestModifier(request);
@@ -250,7 +248,20 @@ namespace Phaxio
                 throw phaxioException;
             }
 
-            return response.RawBytes;
+            if (response.ContentType == expectedContentType)
+            {
+                return response.RawBytes;
+            }
+            else if (response.ContentType == "application/json")
+            {
+                var json = new JsonDeserializer();
+
+                var phaxioResponse = json.Deserialize<Response<T>>(response);
+
+                throw new ApplicationException(phaxioResponse.Message);
+            }
+            
+            throw new ApplicationException("An unexpected error occured.");
         }
 
         private Response<T> performRequest<T>(string resource, Method method)
