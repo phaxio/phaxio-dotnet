@@ -54,6 +54,7 @@
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
     <Compile Include="Fixtures\JsonResponseFixtures.cs" />
     <Compile Include="IntegrationTests\AreaCodesTests.cs" />
+    <Compile Include="UnitTests\NumberTests.cs" />
     <Compile Include="UnitTests\FaxTests.cs" />
     <Compile Include="UnitTests\AccountStatusTests.cs" />
     <Compile Include="Helpers\IRestClientBuilder.cs" />

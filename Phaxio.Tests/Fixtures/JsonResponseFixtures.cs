@@ -59,6 +59,14 @@ namespace Phaxio.Tests
                     ""success"":true,
                     ""message"":""Fax deleted successfully.""
                 }"
+            },
+            {
+                "releaseNumber",
+                @"{
+                    ""success"":true,
+                    ""message"":""Number released successfully!."",
+                    ""data"":[]
+                }"
             }
         };
     }

@@ -116,6 +116,21 @@ namespace Phaxio
             return performRequest<Object>("deleteFax", Method.GET, true, addParameters).Success;
         }
 
+        /// <summary>
+        ///  Releases a number
+        /// </summary>
+        /// <param name="number">The number to release.</param>
+        /// <returns>A bool indicating whether the operation was successful.</returns>
+        public bool ReleaseNumber(string number)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("number", number);
+            };
+
+            return performRequest<Object>("releaseNumber", Method.GET, true, addParameters).Success;
+        }
+
         private Response<T> performRequest<T>(string resource, Method method)
         {
             return performRequest<T>(resource, method, true, r => { });
