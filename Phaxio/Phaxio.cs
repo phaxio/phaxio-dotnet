@@ -441,7 +441,7 @@ namespace Phaxio
         /// <param name="faxId">The id of the fax to download.</param>
         /// <param name="fileType">The file type of the download. Specify "s" for a small JPEG,
         /// "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF</param>
-        /// <returns>The fax in the specified format.</returns>
+        /// <returns>A byte array representing the fax in the specified format.</returns>
         public byte[] DownloadFax(string faxId, string fileType = null)
         {
             Action<IRestRequest> requestModifier = req =>
@@ -455,6 +455,30 @@ namespace Phaxio
             };
 
             return performDownloadRequest("faxFile", Method.GET, requestModifier);
+        }
+
+        /// <summary>
+        ///  Downloads a hosted document
+        /// </summary>
+        /// <param name="faxId">The id of the fax to download.</param>
+        /// <param name="metadata"Custom metadata to be associated with the PhaxCode that
+        /// will be attached to the hosted document. If not present, the basic PhaxCode
+        /// for your account will be used.F</param>
+        /// <returns>A byte array represent the hosted document PDF.</returns>
+        [Obsolete("GetHostedDocument is deprecated, please use DownloadFax instead.")]
+        public byte[] GetHostedDocument(string name, string metadata = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                req.AddParameter("name", name);
+
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+            };
+
+            return performDownloadRequest("getHostedDocument", Method.GET, requestModifier);
         }
 
         private byte[] readAllBytes (Stream stream)

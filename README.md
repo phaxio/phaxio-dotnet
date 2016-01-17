@@ -158,7 +158,7 @@ At the heart of the Phaxio API is the ability to send a fax:
     var pdf = new FileInfo("form1234.pdf");
     var faxId = phaxio.Send("8088675309", pdf);
 
-This returns a string with an id in it that you can use to reference your fax later. Well, now, wasn't that simple?
+This returns a string id that you can use to reference your fax later. Well, now, wasn't that simple?
 
 You can customize how this sends by passing in a FaxOptions object:
 
@@ -199,5 +199,16 @@ for an individual number and you'd like to test that callback, you can specify i
 You can also fake who the fax is from:
 
     var success = phaxio.TestRecieveCallback(testFax, fromNumber:"2125552368");
+
+## Download a hosted document (deprecated)
+
+Although it's deprecated, you can still get a hosted document:
+
+    var file = phaxio.GetHostedDocument("form1234.pdf");
+    
+File is a byte array representing your document in PDF form that you can write to disk or store in a database.
+You can also specify the metadata of the PhaxCode you'd like:
+
+    var file = phaxio.GetHostedDocument("1234", metadata:"key");
     
 &copy; 2016 Noel Herrick
