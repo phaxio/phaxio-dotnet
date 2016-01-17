@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace Phaxio.Tests.IntegrationTests
 {
     [TestFixture, Explicit]
-    public class AreaCodesTests
+    public class NumbersTests
     {
         [Test]
-        public void IntegrationTests_AreaCodesRequestWorks()
+        public void IntegrationTests_Numbers_GetAreaCodes()
         {
             var config = new KeyManager();
 

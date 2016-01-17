@@ -238,3 +238,6 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# The uploads directory for the example website
+Phaxio.Examples.ReceiveCallback/App_Data/uploads

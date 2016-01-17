@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Phaxio.Entities;
 using Phaxio.Entities.Internal;
+using Phaxio.Tests.Helpers;
 using RestSharp;
 using RestSharp.Deserializers;
 using System;
@@ -254,16 +255,12 @@ namespace Phaxio.Tests
         {
             if (!NoAuth)
             {
-                foreach (var param in request.Parameters)
+                var parameters = ParametersHelper.ToDictionary(request.Parameters);
+
+                if ((string)parameters[PhaxioConstants.KEY_NAME] != TEST_KEY
+                    || (string)parameters[PhaxioConstants.SECRET_NAME] != TEST_SECRET)
                 {
-                    if (
-                            (param.Name == Phaxio.KeyName && (string)param.Value != TEST_KEY)
-                            ||
-                            (param.Name == Phaxio.SecretName && (string)param.Value != TEST_SECRET)
-                       )
-                    {
-                        onFailure();
-                    }
+                    onFailure();
                 }
             }
 

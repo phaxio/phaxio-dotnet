@@ -53,7 +53,7 @@ namespace Phaxio.Tests.IntegrationTests
         }
 
         [Test]
-        public void IntegrationTests__PhaxCode_AttachAndStreamRequestWorks()
+        public void IntegrationTests_PhaxCode_AttachAndStreamRequestWorks()
         {
             var config = new KeyManager();
 

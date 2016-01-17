@@ -16,8 +16,6 @@ namespace Phaxio
     public class Phaxio
     {
         private const string phaxioApiEndpoint = "https://api.phaxio.com/v1/";
-        public const string KeyName = "api_key";
-        public const string SecretName = "api_secret";
         private readonly string key;
         private readonly string secret;
         private IRestClient client;
@@ -53,7 +51,7 @@ namespace Phaxio
         /// <param name="tollFree">Whether the number should be tollfree.</param>
         /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
         /// Will only return area codes available for this state.</param>
-        /// <returns>A Dictionary<string, CityState> with area codes for keys and CityStates for values</returns>
+        /// <returns>A Dictionary&lt;string, CityState&gt; with area codes for keys and CityStates for values</returns>
         public Dictionary<string, CityState> GetAreaCodes (bool? tollFree = null, string state = null)
         {
             Action<IRestRequest> addParameters = req =>
@@ -73,9 +71,9 @@ namespace Phaxio
         }
 
         /// <summary>
-        ///  Returns a dictionary of supported by Phaxio along with pricing information
+        ///  Returns a dictionary of supported countries by Phaxio along with pricing information
         /// </summary>
-        /// <returns>A Dictionary<string, Pricing> with countries for keys and Pricing for values</returns>
+        /// <returns>A Dictionary&lt;string, Pricing&gt; with countries for keys and Pricing for values</returns>
         public Dictionary<string, Pricing> GetSupportedCountries()
         {
             return performRequest<Dictionary<string, Pricing>>("supportedCountries", Method.POST, false, r => { }).Data;
@@ -115,7 +113,7 @@ namespace Phaxio
         /// </summary>
         /// <param name="faxId">The id of the fax to cancel.</param>
         /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool CancelFax (int faxId)
+        public bool CancelFax (string faxId)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -130,7 +128,7 @@ namespace Phaxio
         /// </summary>
         /// <param name="faxId">The id of the fax to resend.</param>
         /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool ResendFax(int faxId)
+        public bool ResendFax(string faxId)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -146,7 +144,7 @@ namespace Phaxio
         /// <param name="faxId">The id of the fax to delete.</param>
         /// <param name="filesOnly">A boolean indicating whether to only delete the files.</param>
         /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool DeleteFax(int faxId, bool filesOnly = false)
+        public bool DeleteFax(string faxId, bool filesOnly = false)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -333,7 +331,7 @@ namespace Phaxio
         /// <summary>
         ///  Sends a fax
         /// </summary>
-        /// <param name="to">The number to send the fax to</param>
+        /// <param name="toNumber">The number to send the fax to</param>
         /// <param name="file">The file to send. Supoorts doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
         /// <param name="options">Additional fax options.</param>
         /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
@@ -363,7 +361,7 @@ namespace Phaxio
         /// <summary>
         ///  Sends a fax
         /// </summary>
-        /// <param name="to">The number to send the fax to</param>
+        /// <param name="toNumber">The number to send the fax to</param>
         /// <param name="files">The files to send. Supoorts doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
         /// <param name="options">Additional fax options.</param>
         /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
@@ -461,9 +459,9 @@ namespace Phaxio
         ///  Downloads a hosted document
         /// </summary>
         /// <param name="faxId">The id of the fax to download.</param>
-        /// <param name="metadata"Custom metadata to be associated with the PhaxCode that
+        /// <param name="metadata">Custom metadata to be associated with the PhaxCode that
         /// will be attached to the hosted document. If not present, the basic PhaxCode
-        /// for your account will be used.F</param>
+        /// for your account will be used.</param>
         /// <returns>A byte array represent the hosted document PDF.</returns>
         [Obsolete("GetHostedDocument is deprecated, please use DownloadFax instead.")]
         public byte[] GetHostedDocument(string name, string metadata = null)
@@ -497,8 +495,8 @@ namespace Phaxio
             // Run any custom modifications
             requestModifier(request);
 
-            request.AddParameter(KeyName, key);
-            request.AddParameter(SecretName, secret);
+            request.AddParameter(PhaxioConstants.KEY_NAME, key);
+            request.AddParameter(PhaxioConstants.SECRET_NAME, secret);
 
             request.Method = method;
             request.Resource = resource;
@@ -530,8 +528,8 @@ namespace Phaxio
             // Run any custom modifications
             requestModifier(request);
 
-            request.AddParameter(KeyName, key);
-            request.AddParameter(SecretName, secret);
+            request.AddParameter(PhaxioConstants.KEY_NAME, key);
+            request.AddParameter(PhaxioConstants.SECRET_NAME, secret);
 
             request.Method = method;
             request.Resource = resource;
@@ -568,8 +566,8 @@ namespace Phaxio
 
             if (auth)
             {
-                request.AddParameter(KeyName, key);
-                request.AddParameter(SecretName, secret);
+                request.AddParameter(PhaxioConstants.KEY_NAME, key);
+                request.AddParameter(PhaxioConstants.SECRET_NAME, secret);
             }
 
             // Run any custom modifications

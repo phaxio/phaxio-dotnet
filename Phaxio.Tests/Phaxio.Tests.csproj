@@ -53,12 +53,13 @@
     <Compile Include="Fixtures\PocoFixtures.cs" />
     <Compile Include="Helpers\IniConfigurationManager.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
+    <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
     <Compile Include="Fixtures\JsonResponseFixtures.cs" />
     <Compile Include="IntegrationTests\FaxTests.cs" />
     <Compile Include="IntegrationTests\PhaxCodeTests.cs" />
     <Compile Include="IntegrationTests\SupportedCountriesTests.cs" />
-    <Compile Include="IntegrationTests\AreaCodesTests.cs" />
+    <Compile Include="IntegrationTests\NumbersTests.cs" />
     <Compile Include="UnitTests\GetHostedDocumentTests.cs" />
     <Compile Include="UnitTests\TestRecieveCallbackTests.cs" />
     <Compile Include="UnitTests\PhaxCodeTests.cs" />
