@@ -52,8 +52,10 @@
     <Compile Include="Fixtures\BinaryFixtures.cs" />
     <Compile Include="Fixtures\PocoFixtures.cs" />
     <Compile Include="Helpers\IniConfigurationManager.cs" />
+    <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
     <Compile Include="Fixtures\JsonResponseFixtures.cs" />
+    <Compile Include="IntegrationTests\FaxTests.cs" />
     <Compile Include="IntegrationTests\PhaxCodeTests.cs" />
     <Compile Include="IntegrationTests\SupportedCountriesTests.cs" />
     <Compile Include="IntegrationTests\AreaCodesTests.cs" />

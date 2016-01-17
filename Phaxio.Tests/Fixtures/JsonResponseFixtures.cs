@@ -123,6 +123,17 @@ namespace Phaxio.Tests
             {
                 "createPhaxCodeUrl",
                 "{\"success\":true,\"message\":\"success\",\"data\":{\"url\":\"http:\\/\\/www.phaxio.com\\/phaxCodes\\/render\\/4k75ny\"}}"
+            },
+            {
+                "send",
+                @"{
+                    ""success"":true,
+                    ""message"":""Fax queued for sending"",
+                    ""faxId"":1234,
+                    ""data"":{
+                        ""faxId"":1234
+                    }
+                }"
             }
         };
     }

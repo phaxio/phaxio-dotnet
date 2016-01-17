@@ -68,6 +68,10 @@ namespace Phaxio.Tests
             {
                 typedSetup<Url>(content, mockIRestClient);
             }
+            else if (Op == "send")
+            {
+                typedSetup<dynamic>(content, mockIRestClient);
+            }
             
             return mockIRestClient.Object;
         }

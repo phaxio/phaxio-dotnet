@@ -150,4 +150,25 @@ For bigger files, you can specify a stream to write to:
     phaxio.AttachPhaxCodeToPdf(10, 10, pdf, memoryStream);
 
 The stream memoryStream will now have a copy of the new PDF.
+
+## Sending a fax
+
+At the heart of the Phaxio API is the ability to send a fax:
+
+    var pdf = new FileInfo("form1234.pdf");
+    var faxId = phaxio.Send("8088675309", pdf);
+
+This returns a string with an id in it that you can use to reference your fax later. Well, now, wasn't that simple?
+
+You can customize how this sends by passing in a FaxOptions object:
+
+    var options = new FaxOptions { CallerId = "2125552368" };
+    var faxId = phaxio.Send("8088675309", pdf, options);
+    
+If you have more than one file, you can pass in a list and Phaxio will concatenate them into one fax:
+
+    var pdf1 = new FileInfo("form1234.pdf");
+    var pdf2 = new FileInfo("form4321.pdf");
+    var faxId = phaxio.Send("8088675309", new List<FileInfo> { pdf1, pdf2 });
+    
 &copy; 2016 Noel Herrick

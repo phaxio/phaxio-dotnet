@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -298,6 +299,89 @@ namespace Phaxio
             };
 
             performStreamRequest("attachPhaxCodeToPdf", Method.POST, requestModifier);
+        }
+
+        /// <summary>
+        ///  Sends a fax
+        /// </summary>
+        /// <param name="to">The number to send the fax to</param>
+        /// <param name="file">The file to send. Supoorts doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
+        /// <param name="options">Additional fax options.</param>
+        /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
+        /// If you leave this blank, the default account code will be used.</param>
+        /// <param name="pageNumber">The page number to attach the code to.</param>
+        /// <returns>a string representing a fax id.</returns>
+        public string Send(string toNumber, FileInfo file, FaxOptions options = null)
+        {
+            return Send(toNumber, new List<FileInfo> { file }, options);
+        }
+
+        /// <summary>
+        ///  Sends a fax
+        /// </summary>
+        /// <param name="to">The number to send the fax to</param>
+        /// <param name="files">The files to send. Supoorts doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
+        /// <param name="options">Additional fax options.</param>
+        /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
+        /// If you leave this blank, the default account code will be used.</param>
+        /// <param name="pageNumber">The page number to attach the code to.</param>
+        /// <returns>a string representing a fax id.</returns>
+        public string Send(string toNumber, IEnumerable<FileInfo> files, FaxOptions options = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                req.AddHeader("Content-Type", "multipart/form-data");
+
+                foreach (var file in files)
+                {
+                    byte[] fileBytes = File.ReadAllBytes(file.DirectoryName + Path.DirectorySeparatorChar + file.Name);
+
+                    req.AddFile("filename[]", fileBytes, file.Name, "application/octet");
+                }
+
+                req.AddParameter("to", toNumber);
+
+                if (options != null)
+                {
+                    // Add all the scalar properties
+                    var props = typeof(FaxOptions).GetProperties();
+                    foreach (var prop in props)
+                    {
+                        var serializeAs = prop.GetCustomAttributes(false)
+                            .OfType<SerializeAsAttribute>()
+                            .FirstOrDefault();
+
+                        if (serializeAs != null)
+                        {
+                            object value = prop.GetValue(options, null);
+
+                            if (value != null)
+                            {
+                                req.AddParameter(serializeAs.Value, value);
+                            }
+                        }
+                    }
+
+                    // Add the tags
+                    foreach (var pair in options.Tags)
+                    {
+                        req.AddParameter("tag[" + pair.Key + "]", pair.Value);
+                    }
+                }
+            };
+
+            var longId = performRequest<dynamic>("send", Method.POST, true, requestModifier).Data["faxId"];
+
+            return longId.ToString();
+        }
+
+        private byte[] readAllBytes (Stream stream)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
 
         private void performStreamRequest(string resource, Method method, Action<IRestRequest> requestModifier)
