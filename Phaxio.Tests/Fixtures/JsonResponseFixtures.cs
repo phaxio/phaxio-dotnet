@@ -134,7 +134,14 @@ namespace Phaxio.Tests
                         ""faxId"":1234
                     }
                 }"
-            }
+            },
+            {
+                "testReceive",
+                @"{
+                    ""success"":true,
+                    ""message"":""Test fax received from 234567890. Calling back now.""
+                }"
+            },
         };
     }
 }

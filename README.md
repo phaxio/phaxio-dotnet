@@ -183,5 +183,21 @@ You can also specify which format you'd like:
     var file = phaxio.DownloadFax("1234", fileType:"s");
     
 Specify "s" for a small JPEG, "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF.
+
+## Testing callbacks (web hooks)
+
+So you've written a callback or a webhook you'd like tested. It's simple to have Phaxio send you a fax:
+
+    var testFax = new FileInfo("test-fax.pdf");
+    var success = phaxio.TestRecieveCallback(testFax);
+    
+This returns a bool indicating success. This will call your default account callback. If you've specified a callback
+for an individual number and you'd like to test that callback, you can specify it with the toNumber parameter:
+
+    var success = phaxio.TestRecieveCallback(testFax, toNumber:"8088675309");
+
+You can also fake who the fax is from:
+
+    var success = phaxio.TestRecieveCallback(testFax, fromNumber:"2125552368");
     
 &copy; 2016 Noel Herrick

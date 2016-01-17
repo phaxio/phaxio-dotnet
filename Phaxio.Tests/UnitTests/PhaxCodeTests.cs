@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Phaxio.Tests.Fixtures;
+using Phaxio.Tests.Helpers;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -77,13 +78,24 @@ namespace Phaxio.Tests.UnitTests
         [Test]
         public void UnitTests_PhaxCodeAttachRequestWorks()
         {
-            var clientBuilder = new IRestClientBuilder { Op = "attachPhaxCodeToPdf" };
+            var testPdf = BinaryFixtures.getTestPdfFile();
+
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                Assert.AreEqual(1, req.Files.Count);
+                Assert.AreEqual("filename", req.Files[0].Name);
+
+                var parameters = ParametersHelper.ToDictionary(req.Parameters);
+
+                Assert.AreEqual(1, parameters["x"], "x's should be the same.");
+                Assert.AreEqual(2, parameters["y"], "y's should be the same.");
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "attachPhaxCodeToPdf", RequestAsserts = requestAsserts };
 
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
-            var testPdf = BinaryFixtures.getTestPdfFile();
-
-            var pdfBytes = phaxio.AttachPhaxCodeToPdf(0, 0, testPdf);
+            var pdfBytes = phaxio.AttachPhaxCodeToPdf(1, 2, testPdf);
 
             Assert.IsNotEmpty(pdfBytes);
 

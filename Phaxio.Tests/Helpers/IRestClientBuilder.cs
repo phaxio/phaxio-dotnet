@@ -52,6 +52,10 @@ namespace Phaxio.Tests
             {
                 typedSetup<Object>(content, mockIRestClient);
             }
+            else if (Op == "testReceive")
+            {
+                typedSetup<Object>(content, mockIRestClient);
+            }
             else if (Op == "supportedCountries")
             {
                 typedSetup<Dictionary<string, Pricing>>(content, mockIRestClient);

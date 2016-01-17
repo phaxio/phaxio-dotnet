@@ -82,6 +82,35 @@ namespace Phaxio
         }
 
         /// <summary>
+        ///  Sends a request to Phaxio to test a callback (web hook).
+        /// </summary>
+        /// <param name="file">The file to send to the callback.</param>
+        /// <param name="fromNumber">The phone number of the simulated sender.</param>
+        /// <param name="toNumber">The phone number that is receiving the fax.</param>
+        /// <returns>A bool indicating whether the operation was successful.</returns>
+        public bool TestRecieveCallback(FileInfo file, string fromNumber = null, string toNumber = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                byte[] fileBytes = File.ReadAllBytes(file.DirectoryName + Path.DirectorySeparatorChar + file.Name);
+
+                req.AddFile("filename", fileBytes, file.Name, "application/pdf");
+
+                if (fromNumber != null)
+                {
+                    req.AddParameter("from_number", fromNumber);
+                }
+
+                if (toNumber != null)
+                {
+                    req.AddParameter("to_number", toNumber);
+                }
+            };
+
+            return performRequest<Object>("testReceive", Method.GET, true, addParameters).Success;
+        }
+
+        /// <summary>
         ///  Cancels a fax
         /// </summary>
         /// <param name="faxId">The id of the fax to cancel.</param>
