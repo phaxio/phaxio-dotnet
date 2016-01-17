@@ -222,7 +222,7 @@ namespace Phaxio
                 }
             };
 
-            return performDownloadRequest("createPhaxCode", Method.GET, addParameters, "image/png");
+            return performDownloadRequest("createPhaxCode", Method.GET, addParameters);
         }
 
         /// <summary>
@@ -240,19 +240,12 @@ namespace Phaxio
         {
             Action<IRestRequest> requestModifier = req =>
             {
-                req.AddHeader("Content-Type", "multipart/form-data");
+                byte[] fileBytes = File.ReadAllBytes(pdf.DirectoryName + Path.DirectorySeparatorChar + pdf.Name);
+
+                req.AddFile("filename", fileBytes, pdf.Name, "application/pdf");
 
                 req.AddParameter("x", x);
                 req.AddParameter("y", y);
-
-                Action<Stream> write = stream => {
-                    using (FileStream source = pdf.OpenRead())
-                    {
-                        source.CopyTo(stream);
-                    }
-                };
-
-                req.AddFile("filename", write, pdf.Name);
 
                 if (metadata != null)
                 {
@@ -265,7 +258,7 @@ namespace Phaxio
                 }
             };
 
-            return performDownloadRequest("attachPhaxCodeToPdf", Method.POST, requestModifier, "application/pdf");
+            return performDownloadRequest("attachPhaxCodeToPdf", Method.POST, requestModifier);
         }
 
         /// <summary>
@@ -286,20 +279,12 @@ namespace Phaxio
             {
                 req.ResponseWriter = (responseStream) => responseStream.CopyTo(destination);
 
-                req.AddHeader("Content-Type", "multipart/form-data");
+                byte[] fileBytes = File.ReadAllBytes(pdf.DirectoryName + Path.DirectorySeparatorChar + pdf.Name);
+
+                req.AddFile("filename", fileBytes, pdf.Name, "application/pdf");
 
                 req.AddParameter("x", x);
                 req.AddParameter("y", y);
-
-                Action<Stream> write = stream =>
-                {
-                    using (FileStream source = pdf.OpenRead())
-                    {
-                        source.CopyTo(stream);
-                    }
-                };
-
-                req.AddFile("filename", write, pdf.Name);
 
                 if (metadata != null)
                 {
@@ -312,18 +297,18 @@ namespace Phaxio
                 }
             };
 
-            performStreamRequest("attachPhaxCodeToPdf", Method.POST, requestModifier, "application/pdf");
+            performStreamRequest("attachPhaxCodeToPdf", Method.POST, requestModifier);
         }
 
-        private void performStreamRequest(string resource, Method method, Action<IRestRequest> requestModifier, string expectedContentType)
+        private void performStreamRequest(string resource, Method method, Action<IRestRequest> requestModifier)
         {
             var request = new RestRequest();
 
-            request.AddParameter(KeyName, key);
-            request.AddParameter(SecretName, secret);
-
             // Run any custom modifications
             requestModifier(request);
+
+            request.AddParameter(KeyName, key);
+            request.AddParameter(SecretName, secret);
 
             request.Method = method;
             request.Resource = resource;
@@ -345,22 +330,18 @@ namespace Phaxio
 
                 throw new ApplicationException(phaxioResponse.Message);
             }
-            else if (response.ContentType != expectedContentType)
-            {
-                throw new ApplicationException("An unexpected error occured.");
-            }
         }
 
         // TODO: Figure out how to combine performRequests methods
-        private byte[] performDownloadRequest(string resource, Method method, Action<IRestRequest> requestModifier, string expectedContentType)
+        private byte[] performDownloadRequest(string resource, Method method, Action<IRestRequest> requestModifier)
         {
             var request = new RestRequest();
 
-            request.AddParameter(KeyName, key);
-            request.AddParameter(SecretName, secret);
-
             // Run any custom modifications
             requestModifier(request);
+
+            request.AddParameter(KeyName, key);
+            request.AddParameter(SecretName, secret);
 
             request.Method = method;
             request.Resource = resource;
@@ -374,11 +355,7 @@ namespace Phaxio
                 throw phaxioException;
             }
 
-            if (response.ContentType == expectedContentType)
-            {
-                return response.RawBytes;
-            }
-            else if (response.ContentType == "application/json")
+            if (response.ContentType == "application/json")
             {
                 var json = new JsonDeserializer();
 
@@ -386,8 +363,8 @@ namespace Phaxio
 
                 throw new ApplicationException(phaxioResponse.Message);
             }
-            
-            throw new ApplicationException("An unexpected error occured.");
+
+            return response.RawBytes;
         }
 
         private Response<T> performRequest<T>(string resource, Method method)

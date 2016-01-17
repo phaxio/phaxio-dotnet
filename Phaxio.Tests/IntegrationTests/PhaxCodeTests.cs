@@ -15,17 +15,19 @@ namespace Phaxio.Tests.IntegrationTests
     public class PhaxCodeTests
     {
         [Test]
-        public void IntegrationTests_CreatePhaxCodeGetUrl()
+        public void IntegrationTests_PhaxCode_GetCodeUrl()
         {
             var config = new KeyManager();
 
             var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             var code = phaxio.CreatePhaxCode();
+
+            Assert.IsNotEmpty(code.Address.AbsoluteUri);
         }
 
         [Test]
-        public void IntegrationTests_CreatePhaxCodeGetBytes()
+        public void IntegrationTests_PhaxCode_GetCodeBytes()
         {
             var config = new KeyManager();
 
@@ -33,9 +35,41 @@ namespace Phaxio.Tests.IntegrationTests
 
             var code = phaxio.DownloadPhaxCodePng();
 
-            var hex = BitConverter.ToString(code).Replace("-", "");
+            Assert.IsNotEmpty(code);
+        }
 
-            File.WriteAllBytes(@"C:\temp\phaxCode.png", code);
+        [Test]
+        public void IntegrationTests_PhaxCode_AttachCodeAndGetBytes()
+        {
+            var config = new KeyManager();
+
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+
+            var testPdf = BinaryFixtures.getTestPdfFile();
+
+            var code = phaxio.AttachPhaxCodeToPdf(0, 0, testPdf);
+
+            Assert.IsNotEmpty(code);
+        }
+
+        [Test]
+        public void IntegrationTests__PhaxCode_AttachAndStreamRequestWorks()
+        {
+            var config = new KeyManager();
+
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+
+            var testPdf = BinaryFixtures.getTestPdfFile();
+
+            var memoryStream = new MemoryStream();
+
+            phaxio.AttachPhaxCodeToPdf(0, 0, testPdf, memoryStream);
+
+            var expectedPdf = BinaryFixtures.GetTestPdf();
+
+            var bytes = memoryStream.ToArray();
+
+            Assert.IsNotEmpty(bytes);
         }
     }
 }

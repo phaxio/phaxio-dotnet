@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Entities\CityState.cs" />
+    <Compile Include="Entities\FaxOptions.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\Pricing.cs" />
     <Compile Include="Entities\Url.cs" />
