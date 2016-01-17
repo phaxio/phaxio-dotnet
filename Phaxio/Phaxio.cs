@@ -313,7 +313,22 @@ namespace Phaxio
         /// <returns>a string representing a fax id.</returns>
         public string Send(string toNumber, FileInfo file, FaxOptions options = null)
         {
-            return Send(toNumber, new List<FileInfo> { file }, options);
+            return Send(new List<string> { toNumber }, new List<FileInfo> { file }, options);
+        }
+
+        /// <summary>
+        ///  Sends a fax
+        /// </summary>
+        /// <param name="toNumbers">The numbers to send the fax to</param>
+        /// <param name="file">The file to send. Supoorts doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
+        /// <param name="options">Additional fax options.</param>
+        /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
+        /// If you leave this blank, the default account code will be used.</param>
+        /// <param name="pageNumber">The page number to attach the code to.</param>
+        /// <returns>a string representing a fax id.</returns>
+        public string Send(IEnumerable<string> toNumbers, FileInfo file, FaxOptions options = null)
+        {
+            return Send(toNumbers, new List<FileInfo> { file }, options);
         }
 
         /// <summary>
@@ -328,6 +343,21 @@ namespace Phaxio
         /// <returns>a string representing a fax id.</returns>
         public string Send(string toNumber, IEnumerable<FileInfo> files, FaxOptions options = null)
         {
+            return Send(new List<string> { toNumber }, files, options);
+        }
+
+        /// <summary>
+        ///  Sends a fax
+        /// </summary>
+        /// <param name="toNumbers">The numbers to send the fax to</param>
+        /// <param name="files">The files to send. Supoorts doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
+        /// <param name="options">Additional fax options.</param>
+        /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
+        /// If you leave this blank, the default account code will be used.</param>
+        /// <param name="pageNumber">The page number to attach the code to.</param>
+        /// <returns>a string representing a fax id.</returns>
+        public string Send(IEnumerable<string> toNumbers, IEnumerable<FileInfo> files, FaxOptions options = null)
+        {
             Action<IRestRequest> requestModifier = req =>
             {
                 foreach (var file in files)
@@ -337,8 +367,11 @@ namespace Phaxio
                     req.AddFile("filename[]", fileBytes, file.Name, "application/octet");
                 }
 
-                req.AddParameter("to", toNumber);
-
+                foreach (var number in toNumbers)
+                {
+                    req.AddParameter("to[]", number);
+                }
+                
                 if (options != null)
                 {
                     // Add all the scalar properties
@@ -371,6 +404,28 @@ namespace Phaxio
             var longId = performRequest<dynamic>("send", Method.POST, true, requestModifier).Data["faxId"];
 
             return longId.ToString();
+        }
+
+        /// <summary>
+        ///  Downloads a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to download.</param>
+        /// <param name="fileType">The file type of the download. Specify "s" for a small JPEG,
+        /// "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF</param>
+        /// <returns>The fax in the specified format.</returns>
+        public byte[] DownloadFax(string faxId, string fileType = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                req.AddParameter("id", faxId);
+
+                if (fileType != null)
+                {
+                    req.AddParameter("type", fileType);
+                }
+            };
+
+            return performDownloadRequest("faxFile", Method.GET, requestModifier);
         }
 
         private byte[] readAllBytes (Stream stream)

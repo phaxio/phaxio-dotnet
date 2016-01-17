@@ -170,5 +170,18 @@ If you have more than one file, you can pass in a list and Phaxio will concatena
     var pdf1 = new FileInfo("form1234.pdf");
     var pdf2 = new FileInfo("form4321.pdf");
     var faxId = phaxio.Send("8088675309", new List<FileInfo> { pdf1, pdf2 });
+
+## Download a fax
+
+To retrieve a fax after you've sent it, call DownloadFax with its id:
+
+    var file = phaxio.DownloadFax("1234");
+    
+File is a byte array representing your fax in PDF form that you can write to disk or store in a database.
+You can also specify which format you'd like:
+
+    var file = phaxio.DownloadFax("1234", fileType:"s");
+    
+Specify "s" for a small JPEG, "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF.
     
 &copy; 2016 Noel Herrick

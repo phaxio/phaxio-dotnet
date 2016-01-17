@@ -56,7 +56,7 @@ namespace Phaxio.Tests
             {
                 var parameters = ParametersHelper.ToDictionary(req.Parameters);
 
-                Assert.AreEqual(testToNumber, parameters["to"]);
+                Assert.AreEqual(testToNumber, parameters["to[]"]);
 
                 var props = typeof(FaxOptions).GetProperties();
                 foreach (var prop in props)
@@ -100,7 +100,7 @@ namespace Phaxio.Tests
             {
                 var parameters = ParametersHelper.ToDictionary(req.Parameters);
 
-                Assert.AreEqual(testToNumber, parameters["to"]);
+                Assert.AreEqual(testToNumber, parameters["to[]"]);
 
                 var props = typeof(FaxOptions).GetProperties();
                 foreach (var prop in props)
@@ -148,7 +148,7 @@ namespace Phaxio.Tests
             {
                 var parameters = ParametersHelper.ToDictionary(req.Parameters);
 
-                Assert.AreEqual(testToNumber, parameters["to"]);
+                Assert.AreEqual(testToNumber, parameters["to[]"]);
 
                 foreach (var pair in testOptions.Tags)
                 {
@@ -177,7 +177,7 @@ namespace Phaxio.Tests
             {
                 var parameters = ParametersHelper.ToDictionary(req.Parameters);
 
-                Assert.AreEqual(testToNumber, parameters["to"]);
+                Assert.AreEqual(testToNumber, parameters["to[]"]);
 
                 Assert.AreEqual(3, parameters.Count());
             };
@@ -256,6 +256,57 @@ namespace Phaxio.Tests
             var success = phaxio.DeleteFax(123, true);
 
             Assert.True(success, "Should be success.");
+        }
+
+        [Test]
+        public void UnitTests_Fax_DownloadFax()
+        {
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                var parameters = ParametersHelper.ToDictionary(req.Parameters);
+
+                Assert.AreEqual(parameters["id"], "1234");
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "faxFile", RequestAsserts = requestAsserts };
+
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+
+            var testPdf = BinaryFixtures.getTestPdfFile();
+
+            var pdfBytes = phaxio.DownloadFax("1234");
+
+            Assert.IsNotEmpty(pdfBytes);
+
+            var expectedPdf = BinaryFixtures.GetTestPdf();
+
+            Assert.AreEqual(expectedPdf, pdfBytes, "PDFs should be the same.");
+        }
+
+        [Test]
+        public void UnitTests_Fax_DownloadFax_SpecifyType()
+        {
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                var parameters = ParametersHelper.ToDictionary(req.Parameters);
+
+                Assert.AreEqual(parameters["id"], "1234");
+                Assert.AreEqual(parameters["type"], "l");
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "faxFile", RequestAsserts = requestAsserts };
+
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+
+            var testPdf = BinaryFixtures.getTestPdfFile();
+
+            var pdfBytes = phaxio.DownloadFax("1234", "l");
+
+            Assert.IsNotEmpty(pdfBytes);
+
+            var expectedPdf = BinaryFixtures.GetTestPdf();
+
+            Assert.AreEqual(expectedPdf, pdfBytes, "PDFs should be the same.");
         }
     }
 }

@@ -83,16 +83,13 @@ namespace Phaxio.Tests.UnitTests
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 
-            using (var stream = testPdf.OpenRead())
-            {
-                var pdfBytes = phaxio.AttachPhaxCodeToPdf(0, 0, testPdf);
+            var pdfBytes = phaxio.AttachPhaxCodeToPdf(0, 0, testPdf);
 
-                Assert.IsNotEmpty(pdfBytes);
+            Assert.IsNotEmpty(pdfBytes);
 
-                var expectedPdf = BinaryFixtures.GetTestPdf();
+            var expectedPdf = BinaryFixtures.GetTestPdf();
 
-                Assert.AreEqual(expectedPdf, pdfBytes, "PDFs should be the same.");
-            }
+            Assert.AreEqual(expectedPdf, pdfBytes, "PDFs should be the same.");
         }
 
         [Test]
