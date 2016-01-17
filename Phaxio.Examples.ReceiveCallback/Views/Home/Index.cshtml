@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Phaxio.Examples.ReceiveCallback.Models.Fax>
+
+@{
+    ViewBag.Title = "Recieved callbacks";
+}
+
+<h2>Recieved callbacks</h2>
+
+<form action="~/api/trigger" method="get">
+    <p>Key: <input type="text" name="key" /></p>
+    <p>Secret: <input type="text" name="secret" /></p>
+    <p><button>Trigger</button></p>
+</form>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr><th>Direction</th><th>Success?</th><th>IsTest?</th><th>JSON</th><th>File</th></tr>
+        @foreach (var fax in Model)
+        {
+            <tr>
+                <td>@fax.Direction</td>
+                <td>@fax.Success</td>
+                <td>@fax.IsTest</td>
+                <td>@fax.Json</td>
+                <td><a href="~/api/fax?key=@fax.Key">PDF</a></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No callbacks have been received.</p>
+}
+
+<h2>Setup instructions</h2>
+
+<p>
+    You first need to setup your local environment. <a href="https://localtunnel.me/">Localtunnel</a> provides a service
+    that will proxy requests to a custom domain to your local development server. 
+</p>
+
+<ol>
+    <li>Setup <a href="https://nodejs.org/en/">node/NPM</a> (if you haven't already)</li>
+    <li>Setup <a href="https://localtunnel.me/">Localtunnel</a></li>
+    <li>Follow <a href="http://irwinj.blogspot.com/2012/06/using-localtunnel-to-allow-external.html">this tutorial</a> to get IISExpress to allow the proxy</li>
+    <li>Run this command: lt --port @Request.Url.Port</li>
+    <li>This creates an Internet-accessible address to will proxy requests to your computer</li>
+    <li>Go to your Phaxio control panel and put this as your default callback: proxy + /api/fax/</li>
+    <li>Trigger callback</li>
+</ol>

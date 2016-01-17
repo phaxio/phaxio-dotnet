@@ -94,7 +94,7 @@ namespace Phaxio
             {
                 byte[] fileBytes = File.ReadAllBytes(file.DirectoryName + Path.DirectorySeparatorChar + file.Name);
 
-                req.AddFile("filename", fileBytes, file.Name, "application/pdf");
+                req.AddFile("filename", fileBytes, file.Name, "application/octet");
 
                 if (fromNumber != null)
                 {
@@ -107,7 +107,7 @@ namespace Phaxio
                 }
             };
 
-            return performRequest<Object>("testReceive", Method.GET, true, addParameters).Success;
+            return performRequest<Object>("testReceive", Method.POST, true, addParameters).Success;
         }
 
         /// <summary>
