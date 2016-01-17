@@ -330,8 +330,6 @@ namespace Phaxio
         {
             Action<IRestRequest> requestModifier = req =>
             {
-                req.AddHeader("Content-Type", "multipart/form-data");
-
                 foreach (var file in files)
                 {
                     byte[] fileBytes = File.ReadAllBytes(file.DirectoryName + Path.DirectorySeparatorChar + file.Name);
