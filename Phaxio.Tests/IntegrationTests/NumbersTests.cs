@@ -21,7 +21,7 @@ namespace Phaxio.Tests.IntegrationTests
 
             var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
-            var areaCodes = phaxio.GetAreaCodes(state:"HI");
+            var areaCodes = phaxio.ListAreaCodes(state:"HI");
 
             Assert.Greater(areaCodes.Count(), 0, "There should be some area codes");
         }
@@ -34,7 +34,7 @@ namespace Phaxio.Tests.IntegrationTests
             var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             // Find area codes to provision a number in
-            var areaCodes = phaxio.GetAreaCodes(state: "DE");
+            var areaCodes = phaxio.ListAreaCodes(state: "DE");
 
             Assert.Greater(areaCodes.Count(), 0, "There should be some area codes");
 

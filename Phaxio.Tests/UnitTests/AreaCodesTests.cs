@@ -19,7 +19,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var codes = phaxio.GetAreaCodes(tollFree: true);
+            var codes = phaxio.ListAreaCodes(tollFree: true);
 
             var expectedCodes = PocoFixtures.GetTestAreaCodes();
 
@@ -40,7 +40,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var codes = phaxio.GetAreaCodes(tollFree: true);
+            var codes = phaxio.ListAreaCodes(tollFree: true);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var codes = phaxio.GetAreaCodes(state: "ID");
+            var codes = phaxio.ListAreaCodes(state: "ID");
         }
     }
 }

@@ -21,20 +21,20 @@ The Phaxio class is the entry point for any Phaxio operation.
 
 If you want to know what area codes are available for purchase, you can call this method:
 
-    Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes();
+    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes();
     
 This returns a Dictionary with the area codes as keys, and a CityState object that has the city and state of
 the area code. You can also optionally request tollfree numbers:
 
-    Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes(tollFree:true);
+    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes(tollFree:true);
 
 You can specifiy the state:
 
-    Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes(state:"MA");
+    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes(state:"MA");
 
 Or both:
 
-    Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes(tollFree:true, state:"MA");
+    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes(tollFree:true, state:"MA");
     
 ## Cancelling a fax
 
@@ -102,7 +102,7 @@ It returns a bool saying whether the operation was successful or not.
 
 If you want to know what countries are supported by Phaxio, you can call this method:
 
-    Dictionary<string, CityState> areaCodes = phaxio.GetAreaCodes();
+    Dictionary<string, Pricing> supportedCountries = phaxio.ListSupportedCountries();
     
 This returns a Dictionary with the country names as keys, and a Pricing object that has the price per page.
 
@@ -144,32 +144,25 @@ If you'd like it to attach it on a specific page:
     
     var pdfBytes = phaxio.AttachPhaxCodeToPdf(10, 10, pdf, pageNumber:3);
 
-For bigger files, you can specify a stream to write to:
-
-    var memoryStream = new MemoryStream();
-    phaxio.AttachPhaxCodeToPdf(10, 10, pdf, memoryStream);
-
-The stream memoryStream will now have a copy of the new PDF.
-
 ## Sending a fax
 
 At the heart of the Phaxio API is the ability to send a fax:
 
     var pdf = new FileInfo("form1234.pdf");
-    var faxId = phaxio.Send("8088675309", pdf);
+    var faxId = phaxio.SendFax("8088675309", pdf);
 
 This returns a string id that you can use to reference your fax later. Well, now, wasn't that simple?
 
 You can customize how this sends by passing in a FaxOptions object:
 
     var options = new FaxOptions { CallerId = "2125552368" };
-    var faxId = phaxio.Send("8088675309", pdf, options);
+    var faxId = phaxio.SendFax("8088675309", pdf, options);
     
 If you have more than one file, you can pass in a list and Phaxio will concatenate them into one fax:
 
     var pdf1 = new FileInfo("form1234.pdf");
     var pdf2 = new FileInfo("form4321.pdf");
-    var faxId = phaxio.Send("8088675309", new List<FileInfo> { pdf1, pdf2 });
+    var faxId = phaxio.SendFax("8088675309", new List<FileInfo> { pdf1, pdf2 });
 
 If you have a bunch of faxes going to one number, you might want to check out [batching](https://www.phaxio.com/docs/api/send/batching/).
 You first specify a batch delay in the FaxOptions. Then, you send as many faxes as you'd like to the number in question, 
@@ -177,8 +170,8 @@ and when you're finished and the batch delay is expired, Phaxio will send them a
 batching FaxOptions would look like:
     
     var options = new FaxOptions { IsBatch = true, BatchDelaySeconds = 30 };
-    var fax1Id = phaxio.Send("8088675309", pdf1);
-    var fax2Id = phaxio.Send("8088675309", pdf2);
+    var fax1Id = phaxio.SendFax("8088675309", pdf1);
+    var fax2Id = phaxio.SendFax("8088675309", pdf2);
 
 The machine at 808-867-5309 will see pdf1 and pdf2 as one long fax.
     

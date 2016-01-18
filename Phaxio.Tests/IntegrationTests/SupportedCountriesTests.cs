@@ -20,7 +20,7 @@ namespace Phaxio.Tests.IntegrationTests
 
             var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
-            var countries = phaxio.GetSupportedCountries();
+            var countries = phaxio.ListSupportedCountries();
 
             Assert.Greater(countries.Count(), 0, "There should be some countries");
         }

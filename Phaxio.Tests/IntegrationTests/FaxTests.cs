@@ -38,7 +38,7 @@ namespace Phaxio.Tests.IntegrationTests
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 
-            var faxId = phaxio.Send("8088675309", testPdf);
+            var faxId = phaxio.SendFax("8088675309", testPdf);
 
             Assert.IsNotEmpty(faxId);
         }
@@ -76,7 +76,7 @@ namespace Phaxio.Tests.IntegrationTests
             var testPdfWithCode = new FileInfo(testPdfWithCodeFilename);
 
             // Send phax using pdf with phax code
-            var faxId = phaxio.Send("8088675309", testPdfWithCode);
+            var faxId = phaxio.SendFax("8088675309", testPdfWithCode);
 
             // Phaxio rate limits, so we need to wait a second.
             Thread.Sleep(100);

@@ -29,7 +29,7 @@ namespace Phaxio.Tests
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
-            var faxId = phaxio.Send(testToNumber, testFile);
+            var faxId = phaxio.SendFax(testToNumber, testFile);
 
             Assert.AreEqual("1234", faxId, "FaxId should be the same.");
         }
@@ -79,7 +79,7 @@ namespace Phaxio.Tests
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
-            var faxId = phaxio.Send(testToNumber, testFile, testOptions);
+            var faxId = phaxio.SendFax(testToNumber, testFile, testOptions);
 
             Assert.AreEqual("1234", faxId, "FaxId should be the same.");
         }
@@ -130,7 +130,7 @@ namespace Phaxio.Tests
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
-            var faxId = phaxio.Send(testToNumber, testFile, testOptions);
+            var faxId = phaxio.SendFax(testToNumber, testFile, testOptions);
 
             Assert.AreEqual("1234", faxId, "FaxId should be the same.");
         }
@@ -163,7 +163,7 @@ namespace Phaxio.Tests
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
-            var faxId = phaxio.Send(testToNumber, testFile, testOptions);
+            var faxId = phaxio.SendFax(testToNumber, testFile, testOptions);
 
             Assert.AreEqual("1234", faxId, "FaxId should be the same.");
         }
@@ -187,7 +187,7 @@ namespace Phaxio.Tests
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
-            var faxId = phaxio.Send(testToNumber, new List<FileInfo> { testFile, testFile });
+            var faxId = phaxio.SendFax(testToNumber, new List<FileInfo> { testFile, testFile });
 
             Assert.AreEqual("1234", faxId, "FaxId should be the same.");
         }

@@ -19,7 +19,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var countries = phaxio.GetSupportedCountries();
+            var countries = phaxio.ListSupportedCountries();
 
             var expectedCountries = PocoFixtures.GetTestSupportedCountries();
 

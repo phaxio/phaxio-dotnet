@@ -52,7 +52,7 @@ namespace Phaxio
         /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
         /// Will only return area codes available for this state.</param>
         /// <returns>A Dictionary&lt;string, CityState&gt; with area codes for keys and CityStates for values</returns>
-        public Dictionary<string, CityState> GetAreaCodes (bool? tollFree = null, string state = null)
+        public Dictionary<string, CityState> ListAreaCodes (bool? tollFree = null, string state = null)
         {
             Action<IRestRequest> addParameters = req =>
                 {
@@ -74,7 +74,7 @@ namespace Phaxio
         ///  Returns a dictionary of supported countries by Phaxio along with pricing information
         /// </summary>
         /// <returns>A Dictionary&lt;string, Pricing&gt; with countries for keys and Pricing for values</returns>
-        public Dictionary<string, Pricing> GetSupportedCountries()
+        public Dictionary<string, Pricing> ListSupportedCountries()
         {
             return request<Dictionary<string, Pricing>>("supportedCountries", Method.POST, false, r => { }).Data;
         }
@@ -290,45 +290,6 @@ namespace Phaxio
         }
 
         /// <summary>
-        ///  Attaches a PhaxCode to the supplied File and streams the result to the supplied stream
-        /// </summary>
-        /// <param name="x">The x-coordinate (in PDF points) of where the PhaxCode should be drawn.
-        /// x=0 is the left most point of the page.</param>
-        /// <param name="y">The y-coordinate (in PDF points) of where the PhaxCode should be drawn.
-        /// y=0 is the bottom most point of the page.</param>
-        /// <param name="destination">The stream you want the new PDF to be written to.</param>
-        /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
-        /// If you leave this blank, the default account code will be used.</param>
-        /// <param name="pageNumber">The page number to attach the code to.</param>
-        /// <returns>a byte array of PDF with the code.</returns>
-        public void AttachPhaxCodeToPdf(float x, float y, FileInfo pdf, Stream destination, string metadata = null, int? pageNumber = null)
-        {
-            Action<IRestRequest> requestModifier = req =>
-            {
-                req.ResponseWriter = (responseStream) => responseStream.CopyTo(destination);
-
-                byte[] fileBytes = File.ReadAllBytes(pdf.DirectoryName + Path.DirectorySeparatorChar + pdf.Name);
-
-                req.AddFile("filename", fileBytes, pdf.Name, "application/pdf");
-
-                req.AddParameter("x", x);
-                req.AddParameter("y", y);
-
-                if (metadata != null)
-                {
-                    req.AddParameter("metadata", metadata);
-                }
-
-                if (pageNumber != null)
-                {
-                    req.AddParameter("page_number", pageNumber);
-                }
-            };
-
-            stream("attachPhaxCodeToPdf", Method.POST, requestModifier);
-        }
-
-        /// <summary>
         ///  Sends a fax
         /// </summary>
         /// <param name="toNumber">The number to send the fax to</param>
@@ -338,9 +299,9 @@ namespace Phaxio
         /// If you leave this blank, the default account code will be used.</param>
         /// <param name="pageNumber">The page number to attach the code to.</param>
         /// <returns>a string representing a fax id.</returns>
-        public string Send(string toNumber, FileInfo file, FaxOptions options = null)
+        public string SendFax(string toNumber, FileInfo file, FaxOptions options = null)
         {
-            return Send(new List<string> { toNumber }, new List<FileInfo> { file }, options);
+            return SendFax(new List<string> { toNumber }, new List<FileInfo> { file }, options);
         }
 
         /// <summary>
@@ -353,9 +314,9 @@ namespace Phaxio
         /// If you leave this blank, the default account code will be used.</param>
         /// <param name="pageNumber">The page number to attach the code to.</param>
         /// <returns>a string representing a fax id.</returns>
-        public string Send(IEnumerable<string> toNumbers, FileInfo file, FaxOptions options = null)
+        public string SendFax(IEnumerable<string> toNumbers, FileInfo file, FaxOptions options = null)
         {
-            return Send(toNumbers, new List<FileInfo> { file }, options);
+            return SendFax(toNumbers, new List<FileInfo> { file }, options);
         }
 
         /// <summary>
@@ -368,9 +329,9 @@ namespace Phaxio
         /// If you leave this blank, the default account code will be used.</param>
         /// <param name="pageNumber">The page number to attach the code to.</param>
         /// <returns>a string representing a fax id.</returns>
-        public string Send(string toNumber, IEnumerable<FileInfo> files, FaxOptions options = null)
+        public string SendFax(string toNumber, IEnumerable<FileInfo> files, FaxOptions options = null)
         {
-            return Send(new List<string> { toNumber }, files, options);
+            return SendFax(new List<string> { toNumber }, files, options);
         }
 
         /// <summary>
@@ -383,7 +344,7 @@ namespace Phaxio
         /// If you leave this blank, the default account code will be used.</param>
         /// <param name="pageNumber">The page number to attach the code to.</param>
         /// <returns>a string representing a fax id.</returns>
-        public string Send(IEnumerable<string> toNumbers, IEnumerable<FileInfo> files, FaxOptions options = null)
+        public string SendFax(IEnumerable<string> toNumbers, IEnumerable<FileInfo> files, FaxOptions options = null)
         {
             Action<IRestRequest> requestModifier = req =>
             {
@@ -488,17 +449,7 @@ namespace Phaxio
             }
         }
 
-        private void stream(string resource, Method method, Action<IRestRequest> requestModifier)
-        {
-            request(resource, method, requestModifier);
-        }
-
         private byte[] download(string resource, Method method, Action<IRestRequest> requestModifier)
-        {
-            return request(resource, method, requestModifier).RawBytes;
-        }
-
-        private IRestResponse request(string resource, Method method, Action<IRestRequest> requestModifier)
         {
             IRestResponse response = null;
 
@@ -517,7 +468,7 @@ namespace Phaxio
                 throw new ApplicationException(phaxioResponse.Message);
             }
 
-            return response;
+            return response.RawBytes;
         }
 
         private Response<T> request<T>(string resource, Method method)

@@ -136,23 +136,5 @@ namespace Phaxio.Tests.UnitTests
 
             Assert.AreEqual(expectedPdf, pdfBytes, "PDFs should be the same.");
         }
-
-        [Test]
-        public void UnitTests_PhaxCode_AttachStream()
-        {
-            var clientBuilder = new IRestClientBuilder { Op = "attachPhaxCodeToPdfStream" };
-
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
-
-            var testPdf = BinaryFixtures.getTestPdfFile();
-
-            var memoryStream = new MemoryStream();
-
-            phaxio.AttachPhaxCodeToPdf(0, 0, testPdf, memoryStream);
-
-            var expectedPdf = BinaryFixtures.GetTestPdf();
-
-            Assert.AreEqual(expectedPdf, memoryStream.ToArray(), "PDFs should be the same.");
-        }
     }
 }

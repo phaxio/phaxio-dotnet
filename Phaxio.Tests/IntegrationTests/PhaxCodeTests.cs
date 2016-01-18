@@ -51,25 +51,5 @@ namespace Phaxio.Tests.IntegrationTests
 
             Assert.IsNotEmpty(code);
         }
-
-        [Test]
-        public void IntegrationTests_PhaxCode_AttachAndStream()
-        {
-            var config = new KeyManager();
-
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
-
-            var testPdf = BinaryFixtures.getTestPdfFile();
-
-            var memoryStream = new MemoryStream();
-
-            phaxio.AttachPhaxCodeToPdf(0, 0, testPdf, memoryStream);
-
-            var expectedPdf = BinaryFixtures.GetTestPdf();
-
-            var bytes = memoryStream.ToArray();
-
-            Assert.IsNotEmpty(bytes);
-        }
     }
 }
