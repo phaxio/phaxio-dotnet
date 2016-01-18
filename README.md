@@ -8,6 +8,10 @@ First, [sign up](https://www.phaxio.com/signup) if you haven't already.
 
 Second, go to [api settings](https://www.phaxio.com/apiSettings) and get your key and your secret.
 
+Third, install this client with Nuget:
+
+    Install-Package Phaxio
+
 If you're a C# developer, [see here](Docs/README-csharp.md) for basic usage.
 
 If you're a VB.NET developer, [see here](Docs/README-vb.md) for basic usage.
