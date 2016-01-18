@@ -91,6 +91,25 @@ namespace Phaxio
         }
 
         /// <summary>
+        ///  Creates a Fax object
+        /// </summary>
+        /// <returns>a new fax object.</returns>
+        public Fax CreateFax()
+        {
+            return new Fax(this);
+        }
+
+        /// <summary>
+        ///  Creates a Fax object
+        /// </summary>
+        /// <param name="id">The id of the fax you'd like to use.</param>
+        /// <returns>a new fax object.</returns>
+        public Fax CreateFax(string id)
+        {
+            return new Fax(this) { Id = id };
+        }
+
+        /// <summary>
         ///  Creates a PhaxCode and returns a URL to the barcode image.
         /// </summary>
         /// <param name="metadata">Metadata to associate with this code.</param>

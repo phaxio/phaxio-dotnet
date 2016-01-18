@@ -2,7 +2,7 @@
 
 ## Basics
 
-The Phaxio class is the entry point for any Phaxio operation (be sure to use `Imports Phaxio`)
+The PhaxioClient class is the entry point for any Phaxio operation (be sure to use `Imports Phaxio`)
 
     Dim phaxio As PhaxioClient = New PhaxioClient("secret", "key")
 
@@ -18,20 +18,21 @@ The Phaxio class is the entry point for any Phaxio operation (be sure to use `Im
 At the heart of the Phaxio API is the ability to send a fax:
 
     Dim pdf = New FileInfo("form1234.pdf")
-    Dim faxId = phaxio.SendFax("8088675309", pdf)
+    Dim fax = phaxio.CreateFax()
+    fax.Send("8088675309", pdf)
 
-This returns a string id that you can use to reference your fax later. Well, now, wasn't that simple?
+The Fax object now has its Id field set that you can use to reference your fax later. Well, now, wasn't that simple?
 
 You can customize how this sends by passing in a FaxOptions object:
 
     Dim options = New FaxOptions With {.CallerId = "2125552368"}
-    Dim faxId = phaxio.SendFax("8088675309", pdf, options)
+    fax.Send("8088675309", pdf, options)
     
 If you have more than one file, you can pass in a list and Phaxio will concatenate them into one fax:
 
     Dim pdf1 = New FileInfo("form1234.pdf")
     Dim pdf2 = New FileInfo("form4321.pdf")
-    Dim faxId = phaxio.SendFax("8088675309", New List(Of FileInfo) From {pdf1, pdf2})
+    fax.Send("8088675309", New List(Of FileInfo) From {pdf1, pdf2})
 
 If you have a bunch of faxes going to one number, you might want to check out [batching](https://www.phaxio.com/docs/api/send/batching/).
 You first specify a batch delay in the FaxOptions. Then, you send as many faxes as you'd like to the number in question, 
@@ -39,29 +40,41 @@ and when you're finished and the batch delay is expired, Phaxio will send them a
 batching FaxOptions would look like:
     
     Dim options = New FaxOptions With { .IsBatch = true, .BatchDelaySeconds = 30 }
-    Dim fax1Id = phaxio.SendFax("8088675309", pdf1)
-    Dim fax2Id = phaxio.SendFax("8088675309", pdf2)
+    fax1.Send("8088675309", pdf1, options)
+    fax2.Send("8088675309", pdf2, options)
 
 The machine at 808-867-5309 will see pdf1 and pdf2 as one long fax.
+
+### Get a fax later on
+
+If you need to operate on a fax after you've sent it and you no longer have the original Fax object,
+you can create a new Fax object by its id, and then you can resend it, delete it, etc.
+
+    Dim fax = phaxio.CreateFax("1234")
+    
+This does not work:
+
+    Dim fax = phaxio.CreateFax()
+    fax.Download();
     
 ### Downloading a fax
 
-To retrieve a fax after you've sent it, call DownloadFax with its id:
+To retrieve a fax after you've sent it, call DownloadFax:
 
-    Dim file = phaxio.DownloadFax("1234")
+    Dim file = fax.Download()
     
 File is a byte array representing your fax in PDF form that you can write to disk or store in a database.
 You can also specify which format you'd like:
 
-    Dim file = phaxio.DownloadFax("1234", fileType:="s")
+    Dim file = fax.Download(fileType:="s")
     
 Specify "s" for a small JPEG, "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF.
 
 ### Resending a fax
 
-You can resend a fax by id:
+You can resend a fax:
 
-    Dim result as Result = phaxio.ResendFax("123")
+    Dim result as Result = fax.Resend()
     If Not result.Success Then
         Console.WriteLine("Error: " + result.Message)
     End If
@@ -71,23 +84,23 @@ field called Message with the error message.
 
 ### Cancelling a fax
 
-You can cancel a fax by id:
+You can cancel a fax:
 
-    Dim result = phaxio.CancelFax("123")
+    Dim result = fax.Cancel("123")
 
 It returns a Result object saying whether the operation was successful or not. If the fax has already sent, you cannot cancel
 it and this operation will return a failure.
 
 ### Deleting a fax
 
-You can delete a fax by id:
+You can delete a fax:
 
-    Dim result = phaxio.DeleteFax("123")
+    Dim result = phaxio.Delete()
 
 It returns a Result object saying whether the operation was successful or not.
 You can also specify whether to only delete the files (default is false):
 
-    Dim result = phaxio.DeleteFax("123", true)
+    Dim result = phaxio.Delete(true)
 
 ## Numbers
 

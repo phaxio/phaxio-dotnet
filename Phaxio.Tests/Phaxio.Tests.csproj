@@ -61,6 +61,7 @@
     <Compile Include="IntegrationTests\PhaxCodeTests.cs" />
     <Compile Include="IntegrationTests\SupportedCountriesTests.cs" />
     <Compile Include="IntegrationTests\NumbersTests.cs" />
+    <Compile Include="IntegrationTests\FaxClassTests.cs" />
     <Compile Include="UnitTests\GetHostedDocumentTests.cs" />
     <Compile Include="UnitTests\TestRecieveCallbackTests.cs" />
     <Compile Include="UnitTests\PhaxCodeTests.cs" />
