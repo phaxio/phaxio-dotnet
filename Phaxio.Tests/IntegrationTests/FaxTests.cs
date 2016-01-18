@@ -110,19 +110,21 @@ namespace Phaxio.Tests.IntegrationTests
             // Resend fax
             var resendResult = phaxio.ResendFax(faxId);
 
-            Assert.True(resendResult, "ResendFax should return success.");
+            Assert.True(resendResult.Success, "ResendFax should return success.");
 
             Thread.Sleep(500);
 
             // Cancel a fax
-            var cancelResult = Assert.Throws(typeof(ApplicationException), () => phaxio.CancelFax(faxId));
+            var cancelResult = phaxio.CancelFax(faxId);
+
+            Assert.IsFalse(cancelResult.Success, "CancelFax should not be successful.");
 
             Thread.Sleep(500);
 
             // Delete a fax
             var deleteResult = phaxio.DeleteFax(faxId);
 
-            Assert.True(resendResult, "DeleteResult should return success.");
+            Assert.True(resendResult.Success, "DeleteResult should return success.");
         }
     }
 }

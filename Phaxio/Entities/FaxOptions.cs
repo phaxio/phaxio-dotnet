@@ -33,16 +33,16 @@ namespace Phaxio.Entities
         public string StringDataType { get; set; }
         
         /// <summary>
-        /// If present and true, fax will be sent in batching mode. Requires batch_delay to be specified. See batching for more info.
+        /// If present and true, fax will be sent in batching mode. Requires BatchDelaySeconds to be specified. See batching for more info.
         /// </summary>
         [SerializeAsAttribute("batch")]
         public bool IsBatch { get; set; }
         
         /// <summary>
-        /// The amount of time, in seconds, before the batch is fired. Must be specified if batch=true. Maximum delay is 3600 (1 hour).
+        /// The amount of time, in seconds, before the batch is fired. Must be specified if IsBatch=true. Maximum delay is 3600 (1 hour).
         /// </summary>
         [SerializeAsAttribute("batch_delay")]
-        public int BatchDelay { get; set; }
+        public int BatchDelaySeconds { get; set; }
         
         /// <summary>
         /// If true when batch=true, fax will be blocked until the receiving machine is no longer busy. See batching for more info.
@@ -58,7 +58,7 @@ namespace Phaxio.Entities
         
         /// <summary>
         /// A number of minutes after which the fax will be canceled if it hasn't yet completed. Must be between 3 and 60.
-        /// Additionally, for faxes with a batch_delay, the cancel_timeout must be at least 3 minutes after the batch_delay.
+        /// Additionally, for faxes with a BatchDelaySeconds, the CancelTimeoutAfter must be at least 3 minutes after the batch_delay.
         /// </summary>
         [SerializeAsAttribute("cancel_timeout")]
         public int CancelTimeoutAfter { get; set; }

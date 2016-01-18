@@ -85,9 +85,9 @@ namespace Phaxio.Tests
             var clientBuilder = new IRestClientBuilder { Op = "releaseNumber", RequestAsserts = requestAsserts };
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var success = phaxio.ReleaseNumber(number);
+            var result = phaxio.ReleaseNumber(number);
 
-            Assert.True(success, "Should be success.");
+            Assert.True(result.Success, "Should be success.");
         }
     }
 }

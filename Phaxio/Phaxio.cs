@@ -86,8 +86,8 @@ namespace Phaxio
         /// <param name="file">The file to send to the callback.</param>
         /// <param name="fromNumber">The phone number of the simulated sender.</param>
         /// <param name="toNumber">The phone number that is receiving the fax.</param>
-        /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool TestRecieveCallback(FileInfo file, string fromNumber = null, string toNumber = null)
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result TestRecieveCallback(FileInfo file, string fromNumber = null, string toNumber = null)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -106,37 +106,37 @@ namespace Phaxio
                 }
             };
 
-            return performRequest<Object>("testReceive", Method.POST, true, addParameters).Success;
+            return performRequest<Object>("testReceive", Method.POST, true, addParameters).ToResult();
         }
 
         /// <summary>
         ///  Cancels a fax
         /// </summary>
         /// <param name="faxId">The id of the fax to cancel.</param>
-        /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool CancelFax (string faxId)
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result CancelFax(string faxId)
         {
             Action<IRestRequest> addParameters = req =>
             {
                 req.AddParameter("id", faxId);
             };
 
-            return performRequest<Object>("faxCancel", Method.GET, true, addParameters).Success;
+            return performRequest<Object>("faxCancel", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
         ///  Resends a fax
         /// </summary>
         /// <param name="faxId">The id of the fax to resend.</param>
-        /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool ResendFax(string faxId)
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result ResendFax(string faxId)
         {
             Action<IRestRequest> addParameters = req =>
             {
                 req.AddParameter("id", faxId);
             };
 
-            return performRequest<Object>("resendFax", Method.GET, true, addParameters).Success;
+            return performRequest<Object>("resendFax", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace Phaxio
         /// </summary>
         /// <param name="faxId">The id of the fax to delete.</param>
         /// <param name="filesOnly">A boolean indicating whether to only delete the files.</param>
-        /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool DeleteFax(string faxId, bool filesOnly = false)
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result DeleteFax(string faxId, bool filesOnly = false)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -153,7 +153,7 @@ namespace Phaxio
                 req.AddParameter("files_only", filesOnly);
             };
 
-            return performRequest<Object>("deleteFax", Method.GET, true, addParameters).Success;
+            return performRequest<Object>("deleteFax", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -205,15 +205,15 @@ namespace Phaxio
         ///  Releases a number
         /// </summary>
         /// <param name="number">The number to release.</param>
-        /// <returns>A bool indicating whether the operation was successful.</returns>
-        public bool ReleaseNumber(string number)
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result ReleaseNumber(string number)
         {
             Action<IRestRequest> addParameters = req =>
             {
                 req.AddParameter("number", number);
             };
 
-            return performRequest<Object>("releaseNumber", Method.GET, true, addParameters).Success;
+            return performRequest<Object>("releaseNumber", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -586,7 +586,9 @@ namespace Phaxio
                 throw phaxioException;
             }
 
-            if (!response.Data.Success)
+            // If T is Object, it means that the method will return a
+            // bool indicating success or failure.
+            if (typeof(T) != typeof(Object) && !response.Data.Success)
             {
                 throw new ApplicationException(response.Data.Message);
             }

@@ -17,5 +17,10 @@ namespace Phaxio.Entities.Internal
 
         [DeserializeAs(Name = "data")]
         public T Data { get; set; }
+
+        public Result ToResult()
+        {
+            return new Result { Success = Success, Message = Message };
+        }
     }
 }

@@ -171,6 +171,17 @@ If you have more than one file, you can pass in a list and Phaxio will concatena
     var pdf2 = new FileInfo("form4321.pdf");
     var faxId = phaxio.Send("8088675309", new List<FileInfo> { pdf1, pdf2 });
 
+If you have a bunch of faxes going to one number, you might want to check out [batching](https://www.phaxio.com/docs/api/send/batching/).
+You first specify a batch delay in the FaxOptions. Then, you send as many faxes as you'd like to the number in question, 
+and when you're finished and the batch delay is expired, Phaxio will send them all as one long fax. Here's what a
+batching FaxOptions would look like:
+    
+    var options = new FaxOptions { IsBatch = true, BatchDelaySeconds = 30 };
+    var fax1Id = phaxio.Send("8088675309", pdf1);
+    var fax2Id = phaxio.Send("8088675309", pdf2);
+
+The machine at 808-867-5309 will see pdf1 and pdf2 as one long fax.
+    
 ## Download a fax
 
 To retrieve a fax after you've sent it, call DownloadFax with its id:
@@ -210,5 +221,12 @@ File is a byte array representing your document in PDF form that you can write t
 You can also specify the metadata of the PhaxCode you'd like:
 
     var file = phaxio.GetHostedDocument("1234", metadata:"key");
+
+## Errors
+
+### Rate limiting
+
+The Phaxio API is rate limited. If you make too many requests too quickly, you might receive this error.
+Check the exception message, wait a second, and then try your request again.
     
 &copy; 2016 Noel Herrick

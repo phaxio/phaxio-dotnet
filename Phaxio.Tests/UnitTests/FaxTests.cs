@@ -44,7 +44,7 @@ namespace Phaxio.Tests
                 StringData = "somedata",
                 StringDataType = "html",
                 IsBatch = true,
-                BatchDelay = 10,
+                BatchDelaySeconds = 10,
                 AvoidBatchCollision = true,
                 CallbackUrl = "https://example.com/callback",
                 CancelTimeoutAfter = 20,
@@ -203,9 +203,9 @@ namespace Phaxio.Tests
             var clientBuilder = new IRestClientBuilder { Op = "faxCancel", RequestAsserts = requestAsserts };
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var success = phaxio.CancelFax("123");
+            var result = phaxio.CancelFax("123");
 
-            Assert.True(success, "Should be success.");
+            Assert.True(result.Success, "Should be success.");
         }
 
         [Test]
@@ -219,9 +219,9 @@ namespace Phaxio.Tests
             var clientBuilder = new IRestClientBuilder { Op = "resendFax", RequestAsserts = requestAsserts };
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var success = phaxio.ResendFax("123");
+            var result = phaxio.ResendFax("123");
 
-            Assert.True(success, "Should be success.");
+            Assert.True(result.Success, "Should be success.");
         }
 
         [Test]
@@ -236,9 +236,9 @@ namespace Phaxio.Tests
             var clientBuilder = new IRestClientBuilder { Op = "deleteFax", RequestAsserts = requestAsserts };
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var success = phaxio.DeleteFax("123");
+            var result = phaxio.DeleteFax("123");
 
-            Assert.True(success, "Should be success.");
+            Assert.True(result.Success, "Should be success.");
         }
 
         [Test]
@@ -253,9 +253,9 @@ namespace Phaxio.Tests
             var clientBuilder = new IRestClientBuilder { Op = "deleteFax", RequestAsserts = requestAsserts };
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var success = phaxio.DeleteFax("123", true);
+            var result = phaxio.DeleteFax("123", true);
 
-            Assert.True(success, "Should be success.");
+            Assert.True(result.Success, "Should be success.");
         }
 
         [Test]

@@ -28,9 +28,9 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var success = phaxio.TestRecieveCallback(testPdf);
+            var result = phaxio.TestRecieveCallback(testPdf);
 
-            Assert.IsTrue(success, "Result should be true meaning success.");
+            Assert.IsTrue(result.Success, "Result should be Success = true.");
         }
 
         [Test]
@@ -55,9 +55,9 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
-            var success = phaxio.TestRecieveCallback(testPdf, fromNumber: testFromNumber, toNumber: testToNumber);
+            var result = phaxio.TestRecieveCallback(testPdf, fromNumber: testFromNumber, toNumber: testToNumber);
 
-            Assert.IsTrue(success, "Result should be true meaning success.");
+            Assert.IsTrue(result.Success, "Result should be Success = true.");
         }
     }
 }
