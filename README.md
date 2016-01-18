@@ -12,16 +12,15 @@ Third, install this client with Nuget:
 
     Install-Package Phaxio
 
-If you're a C# developer, [see here](Docs/README-csharp.md) for basic usage.
-
-If you're a VB.NET developer, [see here](Docs/README-vb.md) for basic usage.
+For basic usage, use [this guide](Docs/README-csharp.md) if you're a C# developer or
+[this guide](Docs/README-vb.md) if you're a VB.NET developer.
 
 ## Errors
 
 Sometimes errors will occur, whether it's network timeouts or bad requests. All operations will throw an
 exception if a network or client error occurs. Some operations return data to you, such as a byte array
 representing a PDF. If those requests fail due to an authentication failure, a malformed number, insufficient
-funds, or rate limiting, they'll throw an ApplicationException with an error message describing the problem.
+funds, rate limiting, etc., they'll throw an ApplicationException with an error message describing the problem.
 
 For those requests returning a Result object, that will have a bool named Success and a string called
 Message that will tell you the result of the operation.
@@ -33,6 +32,6 @@ Check the exception message, wait a second, and then try your request again.
 
 ## Writing callbacks (webhooks)
 
-[Read this](Docs/README-callbacks.md)
+Writing a callback to get fax send or recieve events is simple Read this [handy guide](Docs/README-callbacks.md)
 
 &copy; 2016 Noel Herrick
