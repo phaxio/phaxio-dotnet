@@ -23,7 +23,7 @@ namespace Phaxio.Examples.ReceiveCallback
 
             ObjectCache cache = MemoryCache.Default;
 
-            cache["Callbacks"] = new List<Fax>();
+            cache["Callbacks"] = new List<FaxReceipt>();
         }
     }
 }

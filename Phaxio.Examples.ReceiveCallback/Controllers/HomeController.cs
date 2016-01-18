@@ -14,7 +14,7 @@ namespace Phaxio.Examples.ReceiveCallback.Controllers
         {
             ObjectCache cache = MemoryCache.Default;
 
-            var faxList = cache["Callbacks"] as List<Fax>;
+            var faxList = cache["Callbacks"] as List<FaxReceipt>;
 
             return View(faxList);
         }

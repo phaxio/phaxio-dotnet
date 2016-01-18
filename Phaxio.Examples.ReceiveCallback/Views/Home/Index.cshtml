@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Phaxio.Examples.ReceiveCallback.Models.Fax>
+﻿@model IEnumerable<Phaxio.Examples.ReceiveCallback.Models.FaxReceipt>
 
 @{
     ViewBag.Title = "Recieved callbacks";
@@ -15,15 +15,15 @@
 @if (Model.Count() > 0)
 {
     <table class="table">
-        <tr><th>Direction</th><th>Success?</th><th>IsTest?</th><th>JSON</th><th>File</th></tr>
-        @foreach (var fax in Model)
+        <tr><th>Direction</th><th>Success?</th><th>IsTest?</th><th>Fax</th><th>File</th></tr>
+        @foreach (var receipt in Model)
         {
             <tr>
-                <td>@fax.Direction</td>
-                <td>@fax.Success</td>
-                <td>@fax.IsTest</td>
-                <td>@fax.Json</td>
-                <td><a href="~/api/fax?key=@fax.Key">PDF</a></td>
+                <td>@receipt.Direction</td>
+                <td>@receipt.Success</td>
+                <td>@receipt.IsTest</td>
+                <td>@receipt.Json</td>
+                <td><a href="~/api/fax?key=@receipt.Key">PDF</a></td>
             </tr>
         }
     </table>

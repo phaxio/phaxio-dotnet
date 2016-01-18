@@ -2,6 +2,7 @@
 using Phaxio.Examples.ReceiveCallback.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -28,35 +29,43 @@ namespace Phaxio.Examples.ReceiveCallback.Controllers
 
         public Task<HttpResponseMessage> Post()
         {
+            // Check to make sure we're getting the expected format
+            // Phaxio will send the callback as a multipart
             HttpRequestMessage request = this.Request;
             if (!request.Content.IsMimeMultipartContent())
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            string root = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/uploads");
+            // We'll need a place to store the fax uploads
+            // In this case, we'll store it in /App_Data/uploads/
+            string root = HttpContext.Current.Server.MapPath("~/App_Data/uploads");
             var provider = new MultipartFormDataStreamProvider(root);
 
+            // Now we're going to request that the provider process
+            // the request and when it's finished, call back the
+            // lambda below
             var task = request.Content.ReadAsMultipartAsync(provider).
                 ContinueWith<HttpResponseMessage>(o =>
                 {
+                    // Right here, the provider has read all the data
+                    // We get the file that Phaxio sent us
                     var file = provider.FileData.First();
 
-                    var fax = new Fax
-                    {
-                        Direction = provider.FormData["direction"],
-                        Json = JsonConvert.DeserializeObject(provider.FormData["fax"]),
-                        IsTest = provider.FormData["is_test"] == "true" ? true : false,
-                        Success = provider.FormData["success"] == "true" ? true : false,
-                        Key = file.LocalFileName
-                    };
+                    // Here we get a new Fax object from the key/values
+                    // that Phaxio passed us
+                    var receipt = getFaxFromFormData(provider.FormData);
 
+                    // Here we'll get the name of the file so we can
+                    // reference it later
+                    receipt.Key = file.LocalFileName;
+
+                    // We're storing the fax in a memory cache
                     ObjectCache cache = MemoryCache.Default;
+                    var faxList = cache["Callbacks"] as List<FaxReceipt>;
+                    faxList.Add(receipt);
 
-                    var faxList = cache["Callbacks"] as List<Fax>;
-
-                    faxList.Add(fax);
-
+                    // Respond to Phaxio's servers
                     return new HttpResponseMessage()
                     {
                         Content = new StringContent("Callback received.")
@@ -65,6 +74,20 @@ namespace Phaxio.Examples.ReceiveCallback.Controllers
             );
 
             return task;
+        }
+
+        private FaxReceipt getFaxFromFormData(NameValueCollection formData)
+        {
+            return new FaxReceipt
+            {
+                Direction = formData["direction"],
+
+                // The "fax" field is a JSON document, so we'll let
+                // Json.NET make a dynamic object we can use later
+                Fax = JsonConvert.DeserializeObject(formData["fax"]),
+                IsTest = formData["is_test"] == "true" ? true : false,
+                Success = formData["success"] == "true" ? true : false
+            };
         }
     }
 }

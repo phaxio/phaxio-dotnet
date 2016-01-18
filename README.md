@@ -228,5 +228,9 @@ You can also specify the metadata of the PhaxCode you'd like:
 
 The Phaxio API is rate limited. If you make too many requests too quickly, you might receive this error.
 Check the exception message, wait a second, and then try your request again.
-    
+
+## Writing callbacks (webhooks)
+
+[Read this](Docs/README-callbacks.md)
+
 &copy; 2016 Noel Herrick
