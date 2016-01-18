@@ -25,7 +25,7 @@ namespace Phaxio.Tests.UnitTests
 
             var expectedPhaxCodeUrl = PocoFixtures.GetTestPhaxCodeUrl();
 
-            Assert.AreEqual(expectedPhaxCodeUrl, phaxCodeUrl.Address, "URLs should be the same.");
+            Assert.AreEqual(expectedPhaxCodeUrl, phaxCodeUrl, "URLs should be the same.");
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Phaxio.Tests.UnitTests
 
             var expectedPhaxCodeUrl = PocoFixtures.GetTestPhaxCodeUrl();
 
-            Assert.AreEqual(expectedPhaxCodeUrl, phaxCodeUrl.Address, "URLs should be the same.");
+            Assert.AreEqual(expectedPhaxCodeUrl, phaxCodeUrl, "URLs should be the same.");
         }
 
         [Test]

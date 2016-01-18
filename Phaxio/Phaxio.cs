@@ -221,7 +221,7 @@ namespace Phaxio
         /// </summary>
         /// <param name="metadata">Metadata to associate with this code.</param>
         /// <returns>a URI to the barcode image.</returns>
-        public Url CreatePhaxCode(string metadata = null)
+        public Uri CreatePhaxCode(string metadata = null)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -231,7 +231,7 @@ namespace Phaxio
                 }
             };
 
-            return performRequest<Url>("createPhaxCode", Method.GET, true, addParameters).Data;
+            return performRequest<Url>("createPhaxCode", Method.GET, true, addParameters).Data.Address;
         }
 
         /// <summary>

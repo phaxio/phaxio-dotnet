@@ -23,7 +23,7 @@ namespace Phaxio.Tests.IntegrationTests
 
             var code = phaxio.CreatePhaxCode();
 
-            Assert.IsNotEmpty(code.Address.AbsoluteUri);
+            Assert.IsNotEmpty(code.AbsoluteUri);
         }
 
         [Test]

@@ -55,7 +55,7 @@
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\Pricing.cs" />
     <Compile Include="Entities\Result.cs" />
-    <Compile Include="Entities\Url.cs" />
+    <Compile Include="Entities\Internal\Url.cs" />
     <Compile Include="Phaxio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Internal\Response.cs" />
