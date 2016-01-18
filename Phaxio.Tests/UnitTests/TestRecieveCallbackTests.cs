@@ -34,7 +34,7 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_TestRecieveCallbackWithOptions()
+        public void UnitTests_TestRecieveCallback_WithOptions()
         {
             var testPdf = BinaryFixtures.getTestPdfFile();
             var testFromNumber = "8088675309";

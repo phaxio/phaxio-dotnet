@@ -29,13 +29,14 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_PhaxCodeCreateWithUrlAndMetadataRequestWorks()
+        public void UnitTests_PhaxCode_CreateWithUrlAndOptions()
         {
             var metadata = "key=value";
 
             Action<IRestRequest> requestAsserts = req =>
             {
-                Assert.AreEqual(req.Parameters[2].Value, metadata);
+                var parameters = ParametersHelper.ToDictionary(req.Parameters);
+                Assert.AreEqual(metadata, parameters["metadata"], "y's should be the same.");
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeUrl", RequestAsserts = requestAsserts };
@@ -96,6 +97,38 @@ namespace Phaxio.Tests.UnitTests
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var pdfBytes = phaxio.AttachPhaxCodeToPdf(1, 2, testPdf);
+
+            Assert.IsNotEmpty(pdfBytes);
+
+            var expectedPdf = BinaryFixtures.GetTestPdf();
+
+            Assert.AreEqual(expectedPdf, pdfBytes, "PDFs should be the same.");
+        }
+
+        [Test]
+        public void UnitTests_PhaxCode_AttachWithOptions()
+        {
+            var metadata = "key=value";
+            var testPdf = BinaryFixtures.getTestPdfFile();
+
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                Assert.AreEqual(1, req.Files.Count);
+                Assert.AreEqual("filename", req.Files[0].Name);
+
+                var parameters = ParametersHelper.ToDictionary(req.Parameters);
+
+                Assert.AreEqual(1, parameters["x"], "x's should be the same.");
+                Assert.AreEqual(2, parameters["y"], "y's should be the same.");
+                Assert.AreEqual(metadata, parameters["metadata"], "y's should be the same.");
+                Assert.AreEqual(3, parameters["page_number"], "y's should be the same.");
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "attachPhaxCodeToPdf", RequestAsserts = requestAsserts };
+
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+
+            var pdfBytes = phaxio.AttachPhaxCodeToPdf(1, 2, testPdf, metadata: metadata, pageNumber:3);
 
             Assert.IsNotEmpty(pdfBytes);
 

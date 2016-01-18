@@ -9,7 +9,7 @@ namespace Phaxio.Tests
     public class NumberTests
     {
         [Test]
-        public void UnitTests_ProvisionNumberWithCallBackRequestWorks()
+        public void UnitTests_Numbers_Provision()
         {
             var areaCode = "808";
 
@@ -29,7 +29,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_ProvisionNumberRequestWorks()
+        public void UnitTests_Numbers_ProvisionWithCallBack()
         {
             var areaCode = "808";
             var callback = "http://example.com/callback";
@@ -51,7 +51,20 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_ListNumbersRequestWorks()
+        public void UnitTests_Numbers_ListNumbers()
+        {
+            var clientBuilder = new IRestClientBuilder { Op = "numberList" };
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+
+            var actualNumbers = phaxio.ListNumbers();
+
+            var expectedNumbers = PocoFixtures.GetTestPhoneNumbers();
+
+            Assert.AreEqual(expectedNumbers.Count, actualNumbers.Count, "Number should be the same");
+        }
+
+        [Test]
+        public void UnitTests_Numbers_ListNumbersWithOptions()
         {
             var areaCode = "808";
             var number = "8088675309";
@@ -73,7 +86,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_ReleaseNumberRequestWorks ()
+        public void UnitTests_Numbers_Release()
         {
             var number = "8088675309";
 

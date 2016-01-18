@@ -193,7 +193,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_FaxCancelRequestWorks ()
+        public void UnitTests_Fax_Cancel()
         {
             Action<IRestRequest> requestAsserts = req =>
             {
@@ -209,7 +209,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_FaxResendRequestWorks()
+        public void UnitTests_Fax_Resend()
         {
             Action<IRestRequest> requestAsserts = req =>
             {
@@ -225,7 +225,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_FaxDeleteRequestWorks()
+        public void UnitTests_Fax_Delete()
         {
             Action<IRestRequest> requestAsserts = req =>
             {
@@ -242,7 +242,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_FaxDeleteWithFilesRequestWorks()
+        public void UnitTests_Fax_DeleteWithOptions()
         {
             Action<IRestRequest> requestAsserts = req =>
             {

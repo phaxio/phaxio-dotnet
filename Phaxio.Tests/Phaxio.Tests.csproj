@@ -54,6 +54,7 @@
     <Compile Include="Helpers\IniConfigurationManager.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="IntegrationTests\GetHostedDocumentTest.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
     <Compile Include="Fixtures\JsonResponseFixtures.cs" />
     <Compile Include="IntegrationTests\FaxTests.cs" />
