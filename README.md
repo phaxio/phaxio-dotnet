@@ -32,6 +32,6 @@ Check the exception message, wait a second, and then try your request again.
 
 ## Writing callbacks (webhooks)
 
-Writing a callback to get fax send or recieve events is simple Read this [handy guide](Docs/README-callbacks.md)
+Writing a callback to get fax send or recieve events is simple. Read this [handy guide](Docs/README-callbacks.md) to get started.
 
 &copy; 2016 Noel Herrick
