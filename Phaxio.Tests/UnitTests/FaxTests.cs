@@ -259,7 +259,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_Fax_DownloadFax()
+        public void UnitTests_Fax_DownloadFax_NoOptions()
         {
             Action<IRestRequest> requestAsserts = req =>
             {
@@ -284,7 +284,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_Fax_DownloadFax_SpecifyType()
+        public void UnitTests_Fax_DownloadFax_WithOptions()
         {
             Action<IRestRequest> requestAsserts = req =>
             {

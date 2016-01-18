@@ -13,7 +13,7 @@ namespace Phaxio.Tests.UnitTests
     public class AreaCodesTests
     {
         [Test]
-        public void UnitTests_AreaCodesRequestWorks()
+        public void UnitTests_AreaCodes_NoOptions()
         {
             var clientBuilder = new IRestClientBuilder { Op = "areaCodes", NoAuth = true };
 
@@ -29,7 +29,7 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_AreaCodesWithTollFreeRequestWorks()
+        public void UnitTests_AreaCodes_WithTollFree()
         {
             Action<IRestRequest> requestAsserts = req =>
             {
@@ -44,7 +44,7 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_AreaCodesWithStateRequestWorks()
+        public void UnitTests_AreaCodes_WithState()
         {
             Action<IRestRequest> requestAsserts = req =>
             {

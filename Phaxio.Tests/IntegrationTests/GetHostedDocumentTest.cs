@@ -12,7 +12,7 @@ namespace Phaxio.Tests.IntegrationTests
     class GetHostedDocumentTests
     {
         [Test]
-        public void IntegrationTest_GetHostedDocumentTest()
+        public void IntegrationTests_GetHostedDocument()
         {
             var config = new KeyManager();
 

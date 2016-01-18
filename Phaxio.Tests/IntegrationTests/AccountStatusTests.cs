@@ -12,7 +12,7 @@ namespace Phaxio.Tests.IntegrationTests
     class AccountStatusTests
     {
         [Test]
-        public void IntegrationTest_AccountStatus_Get()
+        public void IntegrationTests_AccountStatus_Get()
         {
             var config = new KeyManager();
 

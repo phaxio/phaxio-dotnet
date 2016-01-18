@@ -13,7 +13,7 @@ namespace Phaxio.Tests.UnitTests
     public class SupportedCountriesTests
     {
         [Test]
-        public void UnitTests_SupportedCountriesRequestWorks()
+        public void UnitTests_SupportedCountries()
         {
             var clientBuilder = new IRestClientBuilder { Op = "supportedCountries", NoAuth = true };
 

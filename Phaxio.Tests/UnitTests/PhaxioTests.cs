@@ -12,7 +12,7 @@ namespace Phaxio.Tests
     public class PhaxioTests
     {
         [Test]
-        public void UnitTests_ValidRequestWorks()
+        public void UnitTests_Phaxio_ValidKeys()
         {
             var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
@@ -23,7 +23,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_InvalidKeyThrowsException()
+        public void UnitTests_Phaxio_InvalidKeyThrowsException()
         {
             var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
             var phaxio = new Phaxio("bad_key", IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
@@ -32,7 +32,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_InvalidSecretThrowsException()
+        public void UnitTests_Phaxio_InvalidSecretThrowsException()
         {
             var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
             var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, "bad_secret", clientBuilder.Build());

@@ -15,7 +15,7 @@ namespace Phaxio.Tests.UnitTests
     public class PhaxCodeTests
     {
         [Test]
-        public void UnitTests_PhaxCodeCreateWithUrlRequestWorks()
+        public void UnitTests_PhaxCode_CreateWithUrl_NoOption()
         {
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeUrl" };
 
@@ -51,7 +51,7 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_PhaxCodeDownloadPngRequestWorks()
+        public void UnitTests_PhaxCode_DownloadPng()
         {
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeDownload" };
 
@@ -65,7 +65,7 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_PhaxCodeBadDownloadGetsErrorMessage()
+        public void UnitTests_PhaxCode_BadDownloadGetsErrorMessage()
         {
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeDownload" };
 
@@ -77,7 +77,7 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_PhaxCodeAttachRequestWorks()
+        public void UnitTests_PhaxCode_AttachNoOptions()
         {
             var testPdf = BinaryFixtures.getTestPdfFile();
 
@@ -138,7 +138,7 @@ namespace Phaxio.Tests.UnitTests
         }
 
         [Test]
-        public void UnitTests_PhaxCodeAttachStreamRequestWorks()
+        public void UnitTests_PhaxCode_AttachStream()
         {
             var clientBuilder = new IRestClientBuilder { Op = "attachPhaxCodeToPdfStream" };
 

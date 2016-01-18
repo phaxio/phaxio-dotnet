@@ -14,7 +14,7 @@ namespace Phaxio.Tests.IntegrationTests
     public class SupportedCountriesTests
     {
         [Test]
-        public void IntegrationTests_SupportedCountriesRequestWorks()
+        public void IntegrationTests_SupportedCountries()
         {
             var config = new KeyManager();
 

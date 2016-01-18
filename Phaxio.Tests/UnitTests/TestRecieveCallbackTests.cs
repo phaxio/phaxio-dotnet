@@ -14,7 +14,7 @@ namespace Phaxio.Tests.UnitTests
     public class TestRecieveCallbackTests
     {
         [Test]
-        public void UnitTests_TestRecieveCallback()
+        public void UnitTests_TestRecieveCallback_NoOptions()
         {
             var testPdf = BinaryFixtures.getTestPdfFile();
 
