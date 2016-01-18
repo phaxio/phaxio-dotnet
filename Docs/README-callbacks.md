@@ -1,6 +1,7 @@
-﻿# Writing recieve callbacks (webhooks)
+﻿# Writing callbacks (webhooks)
 
-Writing a callback (or webhook) is the way you get notified you have a new fax sent to one of your numbers.
+Phaxio can send you a message via callback (or webhook) every time you send or recieve a fax.
+Writing a callback is the way you get notified you have a new fax sent to one of your numbers.
 Using Web API, it's simple to write a callback. Checkout the Phaxio.Examples.ReceiveCallback projects for
 a full implementation.
 
@@ -72,7 +73,7 @@ Finally, here's the `FaxReceipt` class:
 
     public class FaxReceipt
     {
-        // Indicates outgoing or coming
+        // Indicates outgoing or incoming (a send or a recieve)
         public string Direction { get; set; }
 
         // A JSON document representing a fax
@@ -84,3 +85,10 @@ Finally, here's the `FaxReceipt` class:
         // Whether the fax was successful or not
         public bool Success { get; set; }
     }
+
+## Testing your callback
+
+To test a send callback, just send a fax. To trigger a recieve callback, use the TestRecieveCallback method:
+
+    var testFax = new FileInfo("test-fax.pdf");
+    var success = phaxio.TestRecieveCallback(testFax);
