@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Phaxio.Entities;
+﻿using Phaxio.Entities;
 using Phaxio.Entities.Internal;
 using RestSharp;
 using RestSharp.Deserializers;
