@@ -42,7 +42,7 @@ namespace Phaxio
         /// <returns>An Account object</returns>
         public Account GetAccountStatus ()
         {
-            return performRequest<Account>("accountStatus", Method.GET).Data;
+            return request<Account>("accountStatus", Method.GET).Data;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Phaxio
                     }
                 };
 
-            return performRequest<Dictionary<string, CityState>>("areaCodes", Method.POST, false, addParameters).Data;
+            return request<Dictionary<string, CityState>>("areaCodes", Method.POST, false, addParameters).Data;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Phaxio
         /// <returns>A Dictionary&lt;string, Pricing&gt; with countries for keys and Pricing for values</returns>
         public Dictionary<string, Pricing> GetSupportedCountries()
         {
-            return performRequest<Dictionary<string, Pricing>>("supportedCountries", Method.POST, false, r => { }).Data;
+            return request<Dictionary<string, Pricing>>("supportedCountries", Method.POST, false, r => { }).Data;
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Phaxio
                 }
             };
 
-            return performRequest<Object>("testReceive", Method.POST, true, addParameters).ToResult();
+            return request<Object>("testReceive", Method.POST, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Phaxio
                 req.AddParameter("id", faxId);
             };
 
-            return performRequest<Object>("faxCancel", Method.GET, true, addParameters).ToResult();
+            return request<Object>("faxCancel", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Phaxio
                 req.AddParameter("id", faxId);
             };
 
-            return performRequest<Object>("resendFax", Method.GET, true, addParameters).ToResult();
+            return request<Object>("resendFax", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Phaxio
                 req.AddParameter("files_only", filesOnly);
             };
 
-            return performRequest<Object>("deleteFax", Method.GET, true, addParameters).ToResult();
+            return request<Object>("deleteFax", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Phaxio
                 }
             };
 
-            return performRequest<PhoneNumber>("provisionNumber", Method.GET, true, addParameters).Data;
+            return request<PhoneNumber>("provisionNumber", Method.GET, true, addParameters).Data;
         }
         
         /// <summary>
@@ -198,7 +198,7 @@ namespace Phaxio
                 }
             };
 
-            return performRequest<List<PhoneNumber>>("numberList", Method.GET, true, addParameters).Data;
+            return request<List<PhoneNumber>>("numberList", Method.GET, true, addParameters).Data;
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace Phaxio
                 req.AddParameter("number", number);
             };
 
-            return performRequest<Object>("releaseNumber", Method.GET, true, addParameters).ToResult();
+            return request<Object>("releaseNumber", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace Phaxio
                 }
             };
 
-            return performRequest<Url>("createPhaxCode", Method.GET, true, addParameters).Data.Address;
+            return request<Url>("createPhaxCode", Method.GET, true, addParameters).Data.Address;
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Phaxio
                 }
             };
 
-            return performDownloadRequest("createPhaxCode", Method.GET, addParameters);
+            return download("createPhaxCode", Method.GET, addParameters);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Phaxio
                 }
             };
 
-            return performDownloadRequest("attachPhaxCodeToPdf", Method.POST, requestModifier);
+            return download("attachPhaxCodeToPdf", Method.POST, requestModifier);
         }
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Phaxio
                 }
             };
 
-            performStreamRequest("attachPhaxCodeToPdf", Method.POST, requestModifier);
+            stream("attachPhaxCodeToPdf", Method.POST, requestModifier);
         }
 
         /// <summary>
@@ -429,7 +429,7 @@ namespace Phaxio
                 }
             };
 
-            var longId = performRequest<dynamic>("send", Method.POST, true, requestModifier).Data["faxId"];
+            var longId = request<dynamic>("send", Method.POST, true, requestModifier).Data["faxId"];
 
             return longId.ToString();
         }
@@ -453,7 +453,7 @@ namespace Phaxio
                 }
             };
 
-            return performDownloadRequest("faxFile", Method.GET, requestModifier);
+            return download("faxFile", Method.GET, requestModifier);
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace Phaxio
                 }
             };
 
-            return performDownloadRequest("getHostedDocument", Method.GET, requestModifier);
+            return download("getHostedDocument", Method.GET, requestModifier);
         }
 
         private byte[] readAllBytes (Stream stream)
@@ -489,60 +489,25 @@ namespace Phaxio
             }
         }
 
-        private void performStreamRequest(string resource, Method method, Action<IRestRequest> requestModifier)
+        private void stream(string resource, Method method, Action<IRestRequest> requestModifier)
         {
-            var request = new RestRequest();
-
-            // Run any custom modifications
-            requestModifier(request);
-
-            request.AddParameter(PhaxioConstants.KEY_NAME, key);
-            request.AddParameter(PhaxioConstants.SECRET_NAME, secret);
-
-            request.Method = method;
-            request.Resource = resource;
-
-            var response = client.Execute(request);
-
-            if (response.ErrorException != null)
-            {
-                const string message = "Error retrieving response. Check inner exception.";
-                var phaxioException = new ApplicationException(message, response.ErrorException);
-                throw phaxioException;
-            }
-
-            if (response.ContentType == "application/json")
-            {
-                var json = new JsonDeserializer();
-
-                var phaxioResponse = json.Deserialize<Response<Object>>(response);
-
-                throw new ApplicationException(phaxioResponse.Message);
-            }
+            request(resource, method, requestModifier);
         }
 
-        // TODO: Figure out how to combine performRequests methods
-        private byte[] performDownloadRequest(string resource, Method method, Action<IRestRequest> requestModifier)
+        private byte[] download(string resource, Method method, Action<IRestRequest> requestModifier)
         {
-            var request = new RestRequest();
+            return request(resource, method, requestModifier).RawBytes;
+        }
 
-            // Run any custom modifications
-            requestModifier(request);
+        private IRestResponse request(string resource, Method method, Action<IRestRequest> requestModifier)
+        {
+            IRestResponse response = null;
 
-            request.AddParameter(PhaxioConstants.KEY_NAME, key);
-            request.AddParameter(PhaxioConstants.SECRET_NAME, secret);
-
-            request.Method = method;
-            request.Resource = resource;
-
-            var response = client.Execute(request);
-
-            if (response.ErrorException != null)
+            runRequest(resource, method, true, requestModifier, (request) =>
             {
-                const string message = "Error retrieving response. Check inner exception.";
-                var phaxioException = new ApplicationException(message, response.ErrorException);
-                throw phaxioException;
-            }
+                response = client.Execute(request);
+                return response.ErrorException;
+            });
 
             if (response.ContentType == "application/json")
             {
@@ -553,15 +518,35 @@ namespace Phaxio
                 throw new ApplicationException(phaxioResponse.Message);
             }
 
-            return response.RawBytes;
+            return response;
         }
 
-        private Response<T> performRequest<T>(string resource, Method method)
+        private Response<T> request<T>(string resource, Method method)
         {
-            return performRequest<T>(resource, method, true, r => { });
+            return request<T>(resource, method, true, r => { });
         }
 
-        private Response<T> performRequest<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
+        private Response<T> request<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
+        {
+            IRestResponse<Response<T>> response = null;
+
+            runRequest(resource, method, auth, requestModifier, (request) =>
+            {
+                response = client.Execute<Response<T>>(request);
+                return response.ErrorException;
+            });
+
+            // If T is Object, it means that the method will return a
+            // bool indicating success or failure.
+            if (typeof(T) != typeof(Object) && !response.Data.Success)
+            {
+                throw new ApplicationException(response.Data.Message);
+            }
+
+            return response.Data;
+        }
+
+        private void runRequest(string resource, Method method, bool auth, Action<IRestRequest> requestModifier, Func<IRestRequest, Exception> executor)
         {
             var request = new RestRequest();
 
@@ -577,23 +562,13 @@ namespace Phaxio
             request.Method = method;
             request.Resource = resource;
 
-            var response = client.Execute<Response<T>>(request);
+            var exception = executor(request);
 
-            if (response.ErrorException != null)
+            if (exception != null)
             {
                 const string message = "Error retrieving response. Check inner exception.";
-                var phaxioException = new ApplicationException(message, response.ErrorException);
-                throw phaxioException;
+                throw new ApplicationException(message, exception);
             }
-
-            // If T is Object, it means that the method will return a
-            // bool indicating success or failure.
-            if (typeof(T) != typeof(Object) && !response.Data.Success)
-            {
-                throw new ApplicationException(response.Data.Message);
-            }
-
-            return response.Data;
         }
     }
 }
