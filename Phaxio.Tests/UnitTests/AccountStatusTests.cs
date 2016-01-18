@@ -11,7 +11,7 @@ namespace Phaxio.Tests
         public void UnitTests_AccountStatus ()
         {
             var clientBuilder = new IRestClientBuilder { Op = "accountStatus" };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var account = phaxio.GetAccountStatus();
 

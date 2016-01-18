@@ -17,7 +17,7 @@ namespace Phaxio.Tests.UnitTests
         {
             var clientBuilder = new IRestClientBuilder { Op = "supportedCountries", NoAuth = true };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var countries = phaxio.ListSupportedCountries();
 

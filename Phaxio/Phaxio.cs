@@ -12,20 +12,24 @@ using System.Threading.Tasks;
 
 namespace Phaxio
 {
-    public class Phaxio
+
+    /// <summary>
+    ///  This is the main class and starting point for interacting with Phaxio.
+    /// </summary>
+    public class PhaxioClient
     {
         private const string phaxioApiEndpoint = "https://api.phaxio.com/v1/";
         private readonly string key;
         private readonly string secret;
         private IRestClient client;
 
-        public Phaxio (string key, string secret)
+        public PhaxioClient (string key, string secret)
             : this(key, secret, new RestClient())
         {
 
         }
 
-        public Phaxio (string key, string secret, IRestClient restClient)
+        public PhaxioClient (string key, string secret, IRestClient restClient)
         {
             this.key = key;
             this.secret = secret;

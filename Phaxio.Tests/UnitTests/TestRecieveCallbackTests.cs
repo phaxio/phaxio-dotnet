@@ -26,7 +26,7 @@ namespace Phaxio.Tests.UnitTests
 
             var clientBuilder = new IRestClientBuilder { Op = "testReceive", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var result = phaxio.TestRecieveCallback(testPdf);
 
@@ -53,7 +53,7 @@ namespace Phaxio.Tests.UnitTests
 
             var clientBuilder = new IRestClientBuilder { Op = "testReceive", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var result = phaxio.TestRecieveCallback(testPdf, fromNumber: testFromNumber, toNumber: testToNumber);
 

@@ -6,9 +6,11 @@ Phaxio is the only cloud based fax API designed for developers. This is the .NET
 
 First, [sign up](https://www.phaxio.com/signup) if you haven't already.
 
-Then, go to [api settings](https://www.phaxio.com/apiSettings) and get your key and your secret.
+Second, go to [api settings](https://www.phaxio.com/apiSettings) and get your key and your secret.
 
 If you're a C# developer, [see here](Docs/README-csharp.md) for basic usage.
+
+If you're a VB.NET developer, [see here](Docs/README-vb.md) for basic usage.
 
 ## Errors
 

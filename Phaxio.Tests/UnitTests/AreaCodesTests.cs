@@ -17,7 +17,7 @@ namespace Phaxio.Tests.UnitTests
         {
             var clientBuilder = new IRestClientBuilder { Op = "areaCodes", NoAuth = true };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var codes = phaxio.ListAreaCodes(tollFree: true);
 
@@ -38,7 +38,7 @@ namespace Phaxio.Tests.UnitTests
 
             var clientBuilder = new IRestClientBuilder { Op = "areaCodes", NoAuth = true, RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var codes = phaxio.ListAreaCodes(tollFree: true);
         }
@@ -53,7 +53,7 @@ namespace Phaxio.Tests.UnitTests
 
             var clientBuilder = new IRestClientBuilder { Op = "areaCodes", NoAuth = true, RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var codes = phaxio.ListAreaCodes(state: "ID");
         }

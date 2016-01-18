@@ -19,7 +19,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "provisionNumber", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var actualNumber = phaxio.ProvisionNumber(areaCode);
 
@@ -41,7 +41,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "provisionNumber", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var actualNumber = phaxio.ProvisionNumber(areaCode, callback);
 
@@ -54,7 +54,7 @@ namespace Phaxio.Tests
         public void UnitTests_Numbers_ListNumbers()
         {
             var clientBuilder = new IRestClientBuilder { Op = "numberList" };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var actualNumbers = phaxio.ListNumbers();
 
@@ -76,7 +76,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "numberList", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var actualNumbers = phaxio.ListNumbers(areaCode, number);
 
@@ -96,7 +96,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "releaseNumber", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var result = phaxio.ReleaseNumber(number);
 

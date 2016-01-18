@@ -19,7 +19,7 @@ namespace Phaxio.Tests.UnitTests
         {
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeUrl" };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var phaxCodeUrl = phaxio.CreatePhaxCode();
 
@@ -41,7 +41,7 @@ namespace Phaxio.Tests.UnitTests
 
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeUrl", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var phaxCodeUrl = phaxio.CreatePhaxCode(metadata);
 
@@ -55,7 +55,7 @@ namespace Phaxio.Tests.UnitTests
         {
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeDownload" };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var imageBytes = phaxio.DownloadPhaxCodePng();
 
@@ -69,7 +69,7 @@ namespace Phaxio.Tests.UnitTests
         {
             var clientBuilder = new IRestClientBuilder { Op = "createPhaxCodeDownload" };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY + "bad stuff", IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY + "bad stuff", IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var exception = Assert.Throws(typeof(ApplicationException), () => phaxio.DownloadPhaxCodePng());
 
@@ -94,7 +94,7 @@ namespace Phaxio.Tests.UnitTests
 
             var clientBuilder = new IRestClientBuilder { Op = "attachPhaxCodeToPdf", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var pdfBytes = phaxio.AttachPhaxCodeToPdf(1, 2, testPdf);
 
@@ -126,7 +126,7 @@ namespace Phaxio.Tests.UnitTests
 
             var clientBuilder = new IRestClientBuilder { Op = "attachPhaxCodeToPdf", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var pdfBytes = phaxio.AttachPhaxCodeToPdf(1, 2, testPdf, metadata: metadata, pageNumber:3);
 

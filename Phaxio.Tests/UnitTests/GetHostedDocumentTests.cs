@@ -28,7 +28,7 @@ namespace Phaxio.Tests
 
             var clientBuilder = new IRestClientBuilder { Op = "getHostedDocument", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 
@@ -57,7 +57,7 @@ namespace Phaxio.Tests
 
             var clientBuilder = new IRestClientBuilder { Op = "getHostedDocument", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 

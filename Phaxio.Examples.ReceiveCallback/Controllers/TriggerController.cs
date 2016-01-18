@@ -13,7 +13,7 @@ namespace Phaxio.Examples.ReceiveCallback.Controllers
     {
         public bool Get(string key, string secret)
         {
-            var phaxio = new Phaxio(key, secret);
+            var phaxio = new PhaxioClient(key, secret);
 
             var filepath = HostingEnvironment.MapPath("~/App_Data/test.pdf");
 

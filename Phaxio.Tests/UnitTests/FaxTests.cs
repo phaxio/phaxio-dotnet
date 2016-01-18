@@ -25,7 +25,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "send", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
@@ -75,7 +75,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "send", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
@@ -126,7 +126,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "send", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
@@ -159,7 +159,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "send", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
@@ -183,7 +183,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "send", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var testFile = BinaryFixtures.getTestPdfFile();
 
@@ -201,7 +201,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "faxCancel", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var result = phaxio.CancelFax("123");
 
@@ -217,7 +217,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "resendFax", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var result = phaxio.ResendFax("123");
 
@@ -234,7 +234,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "deleteFax", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var result = phaxio.DeleteFax("123");
 
@@ -251,7 +251,7 @@ namespace Phaxio.Tests
             };
 
             var clientBuilder = new IRestClientBuilder { Op = "deleteFax", RequestAsserts = requestAsserts };
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
 
             var result = phaxio.DeleteFax("123", true);
 
@@ -270,7 +270,7 @@ namespace Phaxio.Tests
 
             var clientBuilder = new IRestClientBuilder { Op = "faxFile", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 
@@ -296,7 +296,7 @@ namespace Phaxio.Tests
 
             var clientBuilder = new IRestClientBuilder { Op = "faxFile", RequestAsserts = requestAsserts };
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 

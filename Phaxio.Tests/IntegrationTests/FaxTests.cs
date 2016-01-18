@@ -34,7 +34,7 @@ namespace Phaxio.Tests.IntegrationTests
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 
@@ -49,7 +49,7 @@ namespace Phaxio.Tests.IntegrationTests
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             // Create a phax code
             var metadata = StringHelpers.Random(10);

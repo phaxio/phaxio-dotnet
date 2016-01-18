@@ -16,7 +16,7 @@ namespace Phaxio.Tests.IntegrationTests
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             var filename = "hostedoc.pdf";
 

@@ -19,7 +19,7 @@ namespace Phaxio.Tests.IntegrationTests
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             var areaCodes = phaxio.ListAreaCodes(state:"HI");
 
@@ -31,7 +31,7 @@ namespace Phaxio.Tests.IntegrationTests
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             // Find area codes to provision a number in
             var areaCodes = phaxio.ListAreaCodes(state: "DE");
