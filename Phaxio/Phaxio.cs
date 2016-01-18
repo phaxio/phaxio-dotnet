@@ -46,7 +46,8 @@ namespace Phaxio
         }
 
         /// <summary>
-        ///  Returns a dictionary of area codes available for purchasing Phaxio numbers
+        ///  Returns a dictionary of area codes available for purchasing Phaxio numbers.
+        ///  The keys are areacodes, and the values are their city and state.
         /// </summary>
         /// <param name="tollFree">Whether the number should be tollfree.</param>
         /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
