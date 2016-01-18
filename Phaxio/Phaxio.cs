@@ -36,224 +36,6 @@ namespace Phaxio
         }
 
         /// <summary>
-        ///  Gets the account for this Phaxio instance.
-        /// </summary>
-        /// <returns>An Account object</returns>
-        public Account GetAccountStatus ()
-        {
-            return request<Account>("accountStatus", Method.GET).Data;
-        }
-
-        /// <summary>
-        ///  Returns a dictionary of area codes available for purchasing Phaxio numbers.
-        ///  The keys are areacodes, and the values are their city and state.
-        /// </summary>
-        /// <param name="tollFree">Whether the number should be tollfree.</param>
-        /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
-        /// Will only return area codes available for this state.</param>
-        /// <returns>A Dictionary&lt;string, CityState&gt; with area codes for keys and CityStates for values</returns>
-        public Dictionary<string, CityState> ListAreaCodes (bool? tollFree = null, string state = null)
-        {
-            Action<IRestRequest> addParameters = req =>
-                {
-                    if (tollFree != null)
-                    {
-                        req.AddParameter("is_toll_free", tollFree);
-                    }
-
-                    if (state != null)
-                    {
-                        req.AddParameter("state", state);
-                    }
-                };
-
-            return request<Dictionary<string, CityState>>("areaCodes", Method.POST, false, addParameters).Data;
-        }
-
-        /// <summary>
-        ///  Returns a dictionary of supported countries by Phaxio along with pricing information
-        /// </summary>
-        /// <returns>A Dictionary&lt;string, Pricing&gt; with countries for keys and Pricing for values</returns>
-        public Dictionary<string, Pricing> ListSupportedCountries()
-        {
-            return request<Dictionary<string, Pricing>>("supportedCountries", Method.POST, false, r => { }).Data;
-        }
-
-        /// <summary>
-        ///  Sends a request to Phaxio to test a callback (web hook).
-        /// </summary>
-        /// <param name="file">The file to send to the callback.</param>
-        /// <param name="fromNumber">The phone number of the simulated sender.</param>
-        /// <param name="toNumber">The phone number that is receiving the fax.</param>
-        /// <returns>A Result object indicating whether the operation was successful.</returns>
-        public Result TestRecieveCallback(FileInfo file, string fromNumber = null, string toNumber = null)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                byte[] fileBytes = File.ReadAllBytes(file.DirectoryName + Path.DirectorySeparatorChar + file.Name);
-
-                req.AddFile("filename", fileBytes, file.Name, "application/octet");
-
-                if (fromNumber != null)
-                {
-                    req.AddParameter("from_number", fromNumber);
-                }
-
-                if (toNumber != null)
-                {
-                    req.AddParameter("to_number", toNumber);
-                }
-            };
-
-            return request<Object>("testReceive", Method.POST, true, addParameters).ToResult();
-        }
-
-        /// <summary>
-        ///  Cancels a fax
-        /// </summary>
-        /// <param name="faxId">The id of the fax to cancel.</param>
-        /// <returns>A Result object indicating whether the operation was successful.</returns>
-        public Result CancelFax(string faxId)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                req.AddParameter("id", faxId);
-            };
-
-            return request<Object>("faxCancel", Method.GET, true, addParameters).ToResult();
-        }
-
-        /// <summary>
-        ///  Resends a fax
-        /// </summary>
-        /// <param name="faxId">The id of the fax to resend.</param>
-        /// <returns>A Result object indicating whether the operation was successful.</returns>
-        public Result ResendFax(string faxId)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                req.AddParameter("id", faxId);
-            };
-
-            return request<Object>("resendFax", Method.GET, true, addParameters).ToResult();
-        }
-
-        /// <summary>
-        ///  Deletes a fax
-        /// </summary>
-        /// <param name="faxId">The id of the fax to delete.</param>
-        /// <param name="filesOnly">A boolean indicating whether to only delete the files.</param>
-        /// <returns>A Result object indicating whether the operation was successful.</returns>
-        public Result DeleteFax(string faxId, bool filesOnly = false)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                req.AddParameter("id", faxId);
-                req.AddParameter("files_only", filesOnly);
-            };
-
-            return request<Object>("deleteFax", Method.GET, true, addParameters).ToResult();
-        }
-
-        /// <summary>
-        ///  Provisions a new fax number
-        /// </summary>
-        /// <param name="areaCode">The area code to provsion the number in.</param>
-        /// <param name="callbackUrl">The URL that Phaxio will post to when a fax is recieved at this number.</param>
-        /// <returns>A PhoneNumber object representing the new number.</returns>
-        public PhoneNumber ProvisionNumber(string areaCode, string callbackUrl = null)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                req.AddParameter("area_code", areaCode);
-
-                if (callbackUrl != null)
-                {
-                    req.AddParameter("callback_url", callbackUrl);
-                }
-            };
-
-            return request<PhoneNumber>("provisionNumber", Method.GET, true, addParameters).Data;
-        }
-        
-        /// <summary>
-        ///  Lists all of your numbers
-        /// </summary>
-        /// <param name="areaCode">The area code to filter by.</param>
-        /// <param name="number">The number to search for.</param>
-        /// <returns>A List of PhoneNumber objects.</returns>
-        public List<PhoneNumber> ListNumbers (string areaCode = null, string number = null)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                if (areaCode != null)
-                {
-                    req.AddParameter("area_code", areaCode);
-                }
-                
-                if (number != null)
-                {
-                    req.AddParameter("number", number);
-                }
-            };
-
-            return request<List<PhoneNumber>>("numberList", Method.GET, true, addParameters).Data;
-        }
-
-        /// <summary>
-        ///  Releases a number
-        /// </summary>
-        /// <param name="number">The number to release.</param>
-        /// <returns>A Result object indicating whether the operation was successful.</returns>
-        public Result ReleaseNumber(string number)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                req.AddParameter("number", number);
-            };
-
-            return request<Object>("releaseNumber", Method.GET, true, addParameters).ToResult();
-        }
-
-        /// <summary>
-        ///  Creates a PhaxCode and returns a URL to the barcode image.
-        /// </summary>
-        /// <param name="metadata">Metadata to associate with this code.</param>
-        /// <returns>a URI to the barcode image.</returns>
-        public Uri CreatePhaxCode(string metadata = null)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                if (metadata != null)
-                {
-                    req.AddParameter("metadata", metadata);
-                }
-            };
-
-            return request<Url>("createPhaxCode", Method.GET, true, addParameters).Data.Address;
-        }
-
-        /// <summary>
-        ///  Creates a PhaxCode and returns a byte array representing the image.
-        /// </summary>
-        /// <param name="metadata">Metadata to associate with this code.</param>
-        /// <returns>a byte array of barcode image.</returns>
-        public byte[] DownloadPhaxCodePng(string metadata = null)
-        {
-            Action<IRestRequest> addParameters = req =>
-            {
-                req.AddParameter("redirect", true);
-
-                if (metadata != null)
-                {
-                    req.AddParameter("metadata", metadata);
-                }
-            };
-
-            return download("createPhaxCode", Method.GET, addParameters);
-        }
-
-        /// <summary>
         ///  Attaches a PhaxCode to the supplied File.
         /// </summary>
         /// <param name="x">The x-coordinate (in PDF points) of where the PhaxCode should be drawn.
@@ -287,6 +69,241 @@ namespace Phaxio
             };
 
             return download("attachPhaxCodeToPdf", Method.POST, requestModifier);
+        }
+
+        /// <summary>
+        ///  Cancels a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to cancel.</param>
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result CancelFax(string faxId)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("id", faxId);
+            };
+
+            return request<Object>("faxCancel", Method.GET, true, addParameters).ToResult();
+        }
+
+        /// <summary>
+        ///  Creates a PhaxCode and returns a URL to the barcode image.
+        /// </summary>
+        /// <param name="metadata">Metadata to associate with this code.</param>
+        /// <returns>a URI to the barcode image.</returns>
+        public Uri CreatePhaxCode(string metadata = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+            };
+
+            return request<Url>("createPhaxCode", Method.GET, true, addParameters).Data.Address;
+        }
+
+        /// <summary>
+        ///  Deletes a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to delete.</param>
+        /// <param name="filesOnly">A boolean indicating whether to only delete the files.</param>
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result DeleteFax(string faxId, bool filesOnly = false)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("id", faxId);
+                req.AddParameter("files_only", filesOnly);
+            };
+
+            return request<Object>("deleteFax", Method.GET, true, addParameters).ToResult();
+        }
+
+        /// <summary>
+        ///  Downloads a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to download.</param>
+        /// <param name="fileType">The file type of the download. Specify "s" for a small JPEG,
+        /// "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF</param>
+        /// <returns>A byte array representing the fax in the specified format.</returns>
+        public byte[] DownloadFax(string faxId, string fileType = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                req.AddParameter("id", faxId);
+
+                if (fileType != null)
+                {
+                    req.AddParameter("type", fileType);
+                }
+            };
+
+            return download("faxFile", Method.GET, requestModifier);
+        }
+
+        /// <summary>
+        ///  Creates a PhaxCode and returns a byte array representing the image.
+        /// </summary>
+        /// <param name="metadata">Metadata to associate with this code.</param>
+        /// <returns>a byte array of barcode image.</returns>
+        public byte[] DownloadPhaxCodePng(string metadata = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("redirect", true);
+
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+            };
+
+            return download("createPhaxCode", Method.GET, addParameters);
+        }
+
+        /// <summary>
+        ///  Gets the account for this Phaxio instance.
+        /// </summary>
+        /// <returns>An Account object</returns>
+        public Account GetAccountStatus ()
+        {
+            return request<Account>("accountStatus", Method.GET).Data;
+        }
+
+        /// <summary>
+        ///  Downloads a hosted document
+        /// </summary>
+        /// <param name="faxId">The id of the fax to download.</param>
+        /// <param name="metadata">Custom metadata to be associated with the PhaxCode that
+        /// will be attached to the hosted document. If not present, the basic PhaxCode
+        /// for your account will be used.</param>
+        /// <returns>A byte array represent the hosted document PDF.</returns>
+        [Obsolete("GetHostedDocument is deprecated, please use DownloadFax instead.")]
+        public byte[] GetHostedDocument(string name, string metadata = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                req.AddParameter("name", name);
+
+                if (metadata != null)
+                {
+                    req.AddParameter("metadata", metadata);
+                }
+            };
+
+            return download("getHostedDocument", Method.GET, requestModifier);
+        }
+
+        /// <summary>
+        ///  Returns a dictionary of area codes available for purchasing Phaxio numbers.
+        ///  The keys are areacodes, and the values are their city and state.
+        /// </summary>
+        /// <param name="tollFree">Whether the number should be tollfree.</param>
+        /// <param name="state">A two character state or province abbreviation (e.g. IL or YT).
+        /// Will only return area codes available for this state.</param>
+        /// <returns>A Dictionary&lt;string, CityState&gt; with area codes for keys and CityStates for values</returns>
+        public Dictionary<string, CityState> ListAreaCodes (bool? tollFree = null, string state = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+                {
+                    if (tollFree != null)
+                    {
+                        req.AddParameter("is_toll_free", tollFree);
+                    }
+
+                    if (state != null)
+                    {
+                        req.AddParameter("state", state);
+                    }
+                };
+
+            return request<Dictionary<string, CityState>>("areaCodes", Method.POST, false, addParameters).Data;
+        }
+
+        /// <summary>
+        ///  Lists all of your numbers
+        /// </summary>
+        /// <param name="areaCode">The area code to filter by.</param>
+        /// <param name="number">The number to search for.</param>
+        /// <returns>A List of PhoneNumber objects.</returns>
+        public List<PhoneNumber> ListNumbers(string areaCode = null, string number = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                if (areaCode != null)
+                {
+                    req.AddParameter("area_code", areaCode);
+                }
+
+                if (number != null)
+                {
+                    req.AddParameter("number", number);
+                }
+            };
+
+            return request<List<PhoneNumber>>("numberList", Method.GET, true, addParameters).Data;
+        }
+
+        /// <summary>
+        ///  Returns a dictionary of supported countries by Phaxio along with pricing information
+        /// </summary>
+        /// <returns>A Dictionary&lt;string, Pricing&gt; with countries for keys and Pricing for values</returns>
+        public Dictionary<string, Pricing> ListSupportedCountries()
+        {
+            return request<Dictionary<string, Pricing>>("supportedCountries", Method.POST, false, r => { }).Data;
+        }
+
+        /// <summary>
+        ///  Provisions a new fax number
+        /// </summary>
+        /// <param name="areaCode">The area code to provsion the number in.</param>
+        /// <param name="callbackUrl">The URL that Phaxio will post to when a fax is recieved at this number.</param>
+        /// <returns>A PhoneNumber object representing the new number.</returns>
+        public PhoneNumber ProvisionNumber(string areaCode, string callbackUrl = null)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("area_code", areaCode);
+
+                if (callbackUrl != null)
+                {
+                    req.AddParameter("callback_url", callbackUrl);
+                }
+            };
+
+            return request<PhoneNumber>("provisionNumber", Method.GET, true, addParameters).Data;
+        }
+
+        /// <summary>
+        ///  Releases a number
+        /// </summary>
+        /// <param name="number">The number to release.</param>
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result ReleaseNumber(string number)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("number", number);
+            };
+
+            return request<Object>("releaseNumber", Method.GET, true, addParameters).ToResult();
+        }
+
+        /// <summary>
+        ///  Resends a fax
+        /// </summary>
+        /// <param name="faxId">The id of the fax to resend.</param>
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result ResendFax(string faxId)
+        {
+            Action<IRestRequest> addParameters = req =>
+            {
+                req.AddParameter("id", faxId);
+            };
+
+            return request<Object>("resendFax", Method.GET, true, addParameters).ToResult();
         }
 
         /// <summary>
@@ -395,49 +412,32 @@ namespace Phaxio
         }
 
         /// <summary>
-        ///  Downloads a fax
+        ///  Sends a request to Phaxio to test a callback (web hook).
         /// </summary>
-        /// <param name="faxId">The id of the fax to download.</param>
-        /// <param name="fileType">The file type of the download. Specify "s" for a small JPEG,
-        /// "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF</param>
-        /// <returns>A byte array representing the fax in the specified format.</returns>
-        public byte[] DownloadFax(string faxId, string fileType = null)
+        /// <param name="file">The file to send to the callback.</param>
+        /// <param name="fromNumber">The phone number of the simulated sender.</param>
+        /// <param name="toNumber">The phone number that is receiving the fax.</param>
+        /// <returns>A Result object indicating whether the operation was successful.</returns>
+        public Result TestRecieveCallback(FileInfo file, string fromNumber = null, string toNumber = null)
         {
-            Action<IRestRequest> requestModifier = req =>
+            Action<IRestRequest> addParameters = req =>
             {
-                req.AddParameter("id", faxId);
+                byte[] fileBytes = File.ReadAllBytes(file.DirectoryName + Path.DirectorySeparatorChar + file.Name);
 
-                if (fileType != null)
+                req.AddFile("filename", fileBytes, file.Name, "application/octet");
+
+                if (fromNumber != null)
                 {
-                    req.AddParameter("type", fileType);
+                    req.AddParameter("from_number", fromNumber);
+                }
+
+                if (toNumber != null)
+                {
+                    req.AddParameter("to_number", toNumber);
                 }
             };
 
-            return download("faxFile", Method.GET, requestModifier);
-        }
-
-        /// <summary>
-        ///  Downloads a hosted document
-        /// </summary>
-        /// <param name="faxId">The id of the fax to download.</param>
-        /// <param name="metadata">Custom metadata to be associated with the PhaxCode that
-        /// will be attached to the hosted document. If not present, the basic PhaxCode
-        /// for your account will be used.</param>
-        /// <returns>A byte array represent the hosted document PDF.</returns>
-        [Obsolete("GetHostedDocument is deprecated, please use DownloadFax instead.")]
-        public byte[] GetHostedDocument(string name, string metadata = null)
-        {
-            Action<IRestRequest> requestModifier = req =>
-            {
-                req.AddParameter("name", name);
-
-                if (metadata != null)
-                {
-                    req.AddParameter("metadata", metadata);
-                }
-            };
-
-            return download("getHostedDocument", Method.GET, requestModifier);
+            return request<Object>("testReceive", Method.POST, true, addParameters).ToResult();
         }
 
         private byte[] readAllBytes (Stream stream)
