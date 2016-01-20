@@ -2,7 +2,7 @@ language: csharp
 solution: phaxio-dotnet.sln
 install:
   - nuget restore phaxio-dotnet.sln
-  - nuget install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
+  - nuget install NUnit.Runners -Version 2.6.3 -OutputDirectory tools
 script:
   - xbuild /p:Configuration=Release phaxio-dotnet.sln /p:TargetFrameworkVersion="v4.5"
-  - mono ./testrunner/NUnit.Runners.3.0.1/tools/nunit3-console.exe ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
+  - mono ./tools/NUnit.Runners.2.6.3/tools/nunit-console.exe ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
