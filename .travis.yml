@@ -5,4 +5,4 @@ install:
   - nuget install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release phaxio-dotnet.sln /p:TargetFrameworkVersion="v4.5"
-  - mono ./testrunner/NUnit.Runners.3.0.1/tools/nunit-console.exe ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
+  - mono ./testrunner/NUnit.Runners.3.0.1/tools/nunit3-console.exe ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
