@@ -1,4 +1,4 @@
-﻿# Phaxio (ALPHA) (NO LICENSE)
+﻿# Phaxio
 
 ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/s9gjrnfa42g08mb4?svg=true)
 
@@ -39,4 +39,4 @@ Check the exception message, wait a second, and then try your request again.
 
 Writing a callback to get fax send or recieve events is simple. Read this [handy guide](Docs/README-callbacks.md) to get started.
 
-&copy; 2016 Noel Herrick
+&copy; 2016 Phaxio
