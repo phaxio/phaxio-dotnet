@@ -67,6 +67,10 @@ private FaxReceipt getFaxFromFormData(NameValueCollection formData)
         // Json.NET make a dynamic object we can use later
         Fax = JsonConvert.DeserializeObject(formData["fax"]),
         IsTest = formData["is_test"] == "true" ? true : false,
+	
+	// Success means whether the send or recieve worked
+	// You can get a partial receipt (somebody attempted to
+	// send you a fax, but it didn't finish)
         Success = formData["success"] == "true" ? true : false
     };
 }
