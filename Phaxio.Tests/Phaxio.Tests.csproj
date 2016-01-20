@@ -91,7 +91,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)\keys.ini" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>if exist "$(ProjectDir)\keys.ini" copy "$(ProjectDir)\keys.ini" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
