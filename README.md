@@ -2,7 +2,7 @@
 
 ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/s9gjrnfa42g08mb4?svg=true)
 
-![TravisCI build status](https://travis-ci.org/noelherrick/phaxio-dotnet.svg?branch=master)
+[![Build Status](https://travis-ci.org/phaxio/phaxio-dotnet.svg?branch=master)](https://travis-ci.org/phaxio/phaxio-dotnet)
 
 
 Phaxio is the only cloud based fax API designed for developers. This is the .NET client library for Phaxio.
