@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phaxio.Tests", "Phaxio.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phaxio.Examples.ReceiveCallback", "Phaxio.Examples.ReceiveCallback\Phaxio.Examples.ReceiveCallback.csproj", "{ECB853C8-356E-431B-86CA-4886B6F3D0FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phaxio.Examples.Basic", "Phaxio.Examples.Basic\Phaxio.Examples.Basic.csproj", "{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{ECB853C8-356E-431B-86CA-4886B6F3D0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECB853C8-356E-431B-86CA-4886B6F3D0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECB853C8-356E-431B-86CA-4886B6F3D0FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

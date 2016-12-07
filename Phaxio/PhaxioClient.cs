@@ -4,6 +4,7 @@ using RestSharp;
 using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -412,7 +413,7 @@ namespace Phaxio
 
                         if (serializeAs != null)
                         {
-                            object value = prop.GetValue(options, null);
+                            object value = prop.GetValue(options);
 
                             if (value != null)
                             {
@@ -429,7 +430,14 @@ namespace Phaxio
                 }
             };
 
-            var longId = request<dynamic>("send", Method.POST, true, requestModifier).Data["faxId"];
+            var result = request<dynamic>("send", Method.POST, true, requestModifier);
+
+            if (!result.Success)
+            {
+                throw new ApplicationException(result.Message);
+            }
+
+            var longId = result.Data["faxId"];
 
             return longId.ToString();
         }
