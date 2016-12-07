@@ -6,11 +6,11 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <projectUrl>https://github.com/noelherrick/phaxio-dotnet</projectUrl>
-    <licenseUrl>https://github.com/noelherrick/phaxio-dotnet/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/phaxio/phaxio-dotnet</projectUrl>
+    <licenseUrl>https://github.com/phaxio/phaxio-dotnet/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Alpha release of the Phaxio .NET client.</releaseNotes>
+    <releaseNotes>Release of the Phaxio .NET client.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Phaxio Fax Faxing</tags>
   </metadata>
