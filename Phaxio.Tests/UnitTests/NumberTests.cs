@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Phaxio.Tests.Fixtures;
-using RestSharp;
+using Phaxio.ThinRestClient;
 
 namespace Phaxio.Tests
 {

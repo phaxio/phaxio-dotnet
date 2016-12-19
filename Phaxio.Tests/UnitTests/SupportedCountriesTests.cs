@@ -1,11 +1,6 @@
 ﻿using NUnit.Framework;
 using Phaxio.Tests.Fixtures;
-using RestSharp;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Phaxio.Tests.UnitTests
 {

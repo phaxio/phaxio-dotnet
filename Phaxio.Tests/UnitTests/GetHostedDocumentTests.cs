@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Linq;
 using NUnit.Framework;
-using Phaxio.Tests.Fixtures;
-using RestSharp;
-using Phaxio.Entities;
+using Phaxio.ThinRestClient;
 using Phaxio.Tests.Helpers;
-using Phaxio.Entities.Internal;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Phaxio.Tests
 {

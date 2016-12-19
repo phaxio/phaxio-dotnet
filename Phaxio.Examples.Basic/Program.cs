@@ -2,11 +2,7 @@
 using IniParser.Model;
 using Phaxio.Entities;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Phaxio.Examples.Basic
 {
@@ -32,9 +28,15 @@ namespace Phaxio.Examples.Basic
 
             var phaxio = new PhaxioClient(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
 
+            //var account = phaxio.GetAccountStatus();
+
+            //Console.WriteLine(account.Balance);
+
             var pdf = new FileInfo("C:\\temp\\test.pdf");
 
             var faxId = phaxio.SendFax(testToNumber, pdf, testOptions);
+
+            Console.WriteLine(faxId);
         }
     }
 }

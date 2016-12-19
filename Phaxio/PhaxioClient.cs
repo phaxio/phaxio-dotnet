@@ -1,7 +1,5 @@
 ﻿using Phaxio.Entities;
 using Phaxio.Entities.Internal;
-using RestSharp;
-using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -10,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Phaxio.ThinRestClient;
 
 namespace Phaxio
 {

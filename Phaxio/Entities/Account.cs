@@ -1,9 +1,4 @@
-﻿using RestSharp.Deserializers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace Phaxio.Entities
 {
@@ -12,13 +7,13 @@ namespace Phaxio.Entities
     /// </summary>
     public class Account
     {
-        [DeserializeAs(Name = "faxes_sent_this_month")]
+        [JsonProperty(PropertyName = "faxes_sent_this_month")]
         public int FaxesSentThisMonth { get; set; }
 
-        [DeserializeAs(Name = "faxes_sent_today")]
+        [JsonProperty(PropertyName = "faxes_sent_today")]
         public int FaxesSentToday { get; set; }
 
-        [DeserializeAs(Name = "balance")]
+        [JsonProperty(PropertyName = "balance")]
         public int Balance { get; set; }
     }
 }

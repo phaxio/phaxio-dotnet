@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Phaxio.Examples.ReceiveCallback.Models
+﻿namespace Phaxio.Examples.ReceiveCallback.Models
 {
     public class FaxReceipt
     {

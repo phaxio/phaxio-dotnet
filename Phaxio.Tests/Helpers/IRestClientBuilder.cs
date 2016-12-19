@@ -2,14 +2,10 @@
 using Phaxio.Entities;
 using Phaxio.Entities.Internal;
 using Phaxio.Tests.Helpers;
-using RestSharp;
-using RestSharp.Deserializers;
+using Phaxio.ThinRestClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Phaxio.Tests
 {
@@ -264,10 +260,7 @@ namespace Phaxio.Tests
                 }
             }
 
-            if (RequestAsserts != null)
-            {
-                RequestAsserts(request);
-            }
+            RequestAsserts?.Invoke(request);
         }
     }
 }
