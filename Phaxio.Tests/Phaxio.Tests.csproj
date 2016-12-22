@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="Fixtures\BinaryFixtures.cs" />
     <Compile Include="Fixtures\PocoFixtures.cs" />
+    <Compile Include="Helpers\RequestAsserts.cs" />
     <Compile Include="Helpers\IniConfigurationManager.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
+    <Compile Include="Helpers\RestClientBuilder.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="IntegrationTests\GetHostedDocumentTest.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="IntegrationTests\SupportedCountriesTests.cs" />
     <Compile Include="IntegrationTests\NumbersTests.cs" />
     <Compile Include="IntegrationTests\FaxClassTests.cs" />
+    <Compile Include="UnitTests\FaxListTests.cs" />
     <Compile Include="UnitTests\GetHostedDocumentTests.cs" />
     <Compile Include="UnitTests\TestRecieveCallbackTests.cs" />
     <Compile Include="UnitTests\PhaxCodeTests.cs" />
@@ -79,6 +82,42 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
+    <Content Include="Fixtures\Json\V2\account_status.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_cancel.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_resend.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\generic_success.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_info.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_list.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\supported_countries.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\provision_number.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\list_numbers.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\list_area_codes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\phax_code.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_send.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="keys.ini.sample" />
     <None Include="packages.config" />
     <None Include="README.md" />

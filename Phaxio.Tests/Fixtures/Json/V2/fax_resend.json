@@ -1,0 +1,7 @@
+﻿{
+    "success":true,
+    "message":"Fax queued for resending",
+    "data":{
+        "id":123457
+    }
+}

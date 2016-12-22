@@ -1,0 +1,32 @@
+﻿{
+    "success":true,
+    "message":"Metadata for fax",
+    "data":{
+        "id":123456,
+        "direction":"sent",
+        "num_pages":3,
+        "status":"success",
+        "is_test":true,
+        "created_at":"2015-09-02T11:28:02.000-05:00",
+        "from_number":"123",
+        "completed_at":"2015-09-02T11:28:54.000-05:00",
+        "cost":21,
+        "tags":{
+            "order_id":"1234"
+        },
+        "recipients":[
+            {
+                "phone_number":"+14141234567",
+                "status":"success",
+                "completed_at":"2015-09-02T11:28:54.000-05:00",
+                "error_type":"recipient_error_type",
+                "error_id": 41,
+                "error_message":"recipient_error_message"
+            }
+        ],
+        "to_number":"321",
+        "error_id":42,
+        "error_type":"error_type",
+        "error_message":"error_message"
+    }
+}

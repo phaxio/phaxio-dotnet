@@ -1,0 +1,35 @@
+﻿{
+    "success":true,
+    "message":"Data contains found available area codes",
+    "data":[
+        {
+            "country_code":1,
+            "area_code":201,
+            "city":"Bayonne, Jersey City, Union City",
+            "state":"New Jersey",
+            "country":"United States",
+            "toll_free":false
+        },
+        {
+            "country_code":1,
+            "area_code":202,
+            "city":"Washington",
+            "state":"District of Columbia",
+            "country":"United States",
+            "toll_free":false
+        },
+        {
+            "country_code":1,
+            "area_code":203,
+            "city":"Bridgeport, Danbury, Meriden",
+            "state":"Connecticut",
+            "country":"United States",
+            "toll_free":false
+        }
+    ],
+    "paging":{
+        "total":270,
+        "per_page":3,
+        "page":1
+    }
+}

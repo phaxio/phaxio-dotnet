@@ -46,6 +46,10 @@ namespace Phaxio.ThinRestClient
             {
                 response = performPost(client, request);
             }
+            else if (request.Method == Method.DELETE)
+            {
+                response = performDelete(client, request);
+            }
             else
             {
                 throw new NotImplementedException();
@@ -57,6 +61,11 @@ namespace Phaxio.ThinRestClient
         private HttpResponseMessage performGet(HttpClient client, IRestRequest request)
         {
             return client.GetAsync(request.Resource + getParametersAsQuery(request)).Result;
+        }
+
+        private HttpResponseMessage performDelete(HttpClient client, IRestRequest request)
+        {
+            return client.DeleteAsync(request.Resource + getParametersAsQuery(request)).Result;
         }
 
         private HttpResponseMessage performPost(HttpClient client, IRestRequest request)

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Phaxio.Entities.Internal
 {
@@ -12,6 +13,9 @@ namespace Phaxio.Entities.Internal
 
         [JsonProperty(PropertyName = "data")]
         public T Data { get; set; }
+
+        [JsonProperty(PropertyName = "paging")]
+        public PagingInfo PagingInfo { get; set; }
 
         public Result ToResult()
         {

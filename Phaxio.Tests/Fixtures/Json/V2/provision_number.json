@@ -1,0 +1,14 @@
+﻿{
+    "success":true,
+    "message":"Number provisioned successfully!",
+    "data":{
+        "phone_number":"+18475551234",
+        "city":"Northbrook",
+        "state":"Illinois",
+        "country":"United States",
+        "cost":200,
+        "last_billed_at":"2016-06-16T15:45:32.000-06:00",
+        "provisioned_at":"2016-06-16T15:45:32.000-06:00",
+        "callback_url":"http://example.com"
+    }
+}

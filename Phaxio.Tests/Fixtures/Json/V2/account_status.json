@@ -1,0 +1,15 @@
+﻿{
+    "success":true,
+    "message":"Account status retrieved successfully",
+    "data":{
+        "balance":5050,
+        "faxes_today": {
+            "sent": 1,
+            "received": 2
+        },
+        "faxes_this_month": {
+            "sent": 15,
+            "received": 7
+        }
+    }
+}

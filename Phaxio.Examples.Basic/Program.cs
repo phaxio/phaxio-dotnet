@@ -1,5 +1,6 @@
 ﻿using IniParser;
 using IniParser.Model;
+using Phaxio.V2;
 using Phaxio.Entities;
 using System;
 using System.IO;
@@ -26,17 +27,19 @@ namespace Phaxio.Examples.Basic
                 CancelTimeoutAfter = 20
             };
 
-            var phaxio = new PhaxioClient(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
+            var phaxio = new PhaxioV2Client(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
 
-            //var account = phaxio.GetAccountStatus();
+            var account = phaxio.GetAccountStatus();
 
-            //Console.WriteLine(account.Balance);
+            Console.WriteLine(account.Balance);
 
-            var pdf = new FileInfo("C:\\temp\\test.pdf");
+            //var pdf = new FileInfo("C:\\temp\\test.pdf");
 
-            var faxId = phaxio.SendFax(testToNumber, pdf, testOptions);
+            //var faxId = phaxio.SendFax(testToNumber, pdf, testOptions);
 
-            Console.WriteLine(faxId);
+            //Console.WriteLine(faxId);
+
+            Console.ReadKey();
         }
     }
 }

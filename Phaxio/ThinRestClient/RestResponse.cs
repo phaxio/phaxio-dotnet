@@ -97,7 +97,7 @@ namespace Phaxio.ThinRestClient
         {
             get
             {
-                if (_data == null && httpResponse != null)
+                if (_data == null && Content != null)
                 {
                     JsonDeserializer deserializer = new JsonDeserializer();
                     _data = deserializer.Deserialize<T>(this);

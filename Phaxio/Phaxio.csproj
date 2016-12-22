@@ -52,15 +52,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasePhaxioClient.cs" />
     <Compile Include="Entities\Account.cs" />
+    <Compile Include="Entities\AccountStatus.cs" />
+    <Compile Include="Entities\AreaCode.cs" />
     <Compile Include="Entities\CityState.cs" />
+    <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\Fax.cs" />
+    <Compile Include="Entities\FaxCount.cs" />
+    <Compile Include="Entities\FaxInfo.cs" />
     <Compile Include="Entities\FaxOptions.cs" />
+    <Compile Include="Entities\FaxRequest.cs" />
     <Compile Include="Entities\Internal\PhaxioConstants.cs" />
     <Compile Include="Entities\Internal\SerializeAsAttribute.cs" />
+    <Compile Include="Entities\PhaxCode.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\Pricing.cs" />
-    <Compile Include="Entities\Result.cs" />
+    <Compile Include="Entities\Recipient.cs" />
+    <Compile Include="Entities\ResultEntities.cs" />
     <Compile Include="Entities\Internal\Url.cs" />
     <Compile Include="PhaxioClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +84,7 @@
     <Compile Include="ThinRestClient\RestClient.cs" />
     <Compile Include="ThinRestClient\RestRequest.cs" />
     <Compile Include="ThinRestClient\RestResponse.cs" />
+    <Compile Include="V2\PhaxioV2Client.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

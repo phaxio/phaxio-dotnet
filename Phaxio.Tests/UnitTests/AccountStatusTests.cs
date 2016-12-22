@@ -1,5 +1,9 @@
 ﻿using NUnit.Framework;
+using Phaxio.Entities;
+using Phaxio.Entities.Internal;
 using Phaxio.Tests.Fixtures;
+using Phaxio.Tests.Helpers;
+using Phaxio.V2;
 
 namespace Phaxio.Tests
 {
@@ -19,6 +23,31 @@ namespace Phaxio.Tests
             Assert.AreEqual(expectedAccount.FaxesSentThisMonth, account.FaxesSentThisMonth, "FaxesSentThisMonth should be the same.");
             Assert.AreEqual(expectedAccount.FaxesSentToday, account.FaxesSentToday, "FaxesSentThisWeek should be the same.");
             Assert.AreEqual(expectedAccount.Balance, account.Balance, "Balance should be the same.");
+        }
+
+        [Test]
+        public void UnitTests_V2_AccountStatus()
+        {
+            var requestAsserts = new RequestAsserts()
+                .Auth()
+                .Get()
+                .Resource("account/status")
+                .Build();
+
+            var restClient = new RestClientBuilder()
+                .WithRequestAsserts(requestAsserts)
+                .AsJson()
+                .Content(JsonResponseFixtures.FromFile("V2/account_status"))
+                .Ok()
+                .Build<Response<AccountStatus>>();
+
+            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+
+            var account = phaxio.GetAccountStatus();
+
+            Assert.AreEqual(15, account.FaxesThisMonth.Sent, "FaxesThisMonth.Sent should be the same.");
+            Assert.AreEqual(2, account.FaxesToday.Received, "FaxesToday.Received should be the same.");
+            Assert.AreEqual(5050, account.Balance, "Balance should be the same.");
         }
     }
 }
