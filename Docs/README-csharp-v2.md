@@ -2,10 +2,15 @@
 
 ## Basics
 
-The PhaxioClient class is the entry point for any Phaxio operation. 
+The PhaxioClient class is the entry point for any Phaxio operation (you'll also need to add ```using Phaxio.V2```).
 
-    var phaxio = new PhaxioClient(key, secret);
+    var phaxio = new PhaxioV2Client(key, secret);
 
+### PagedResult
+
+Those methods that return paged results also accept two parameters ```perPage```, which controls how many
+items show per page and ```page``` which controls which page to fetch.
+	
 ### Getting your account status
 
     var account = phaxio.GetAccountStatus();
@@ -18,55 +23,70 @@ The PhaxioClient class is the entry point for any Phaxio operation.
 At the heart of the Phaxio API is the ability to send a fax:
 
     var pdf = new FileInfo("form1234.pdf");
-    var fax = phaxio.CreateFax();
-    fax.Send("8088675309", pdf);
+	var faxRequest = new FaxRequest { ToNumber = "8088675309", File = pdf };
+    var faxId = phaxio.SendFax(faxRequest);
 
-The Fax object now has its Id property set that you can use to reference your fax later. Well, now, wasn't that simple?
+The faxId can be used to reference your fax later. Well, now, wasn't that simple?
 
 You can customize how this sends by passing in a FaxOptions object:
 
-    var options = new FaxOptions { CallerId = "2125552368" };
-    phaxio.Send("8088675309", pdf, options);
+    var faxRequest = new FaxRequest { ToNumber = "8088675309", File = pdf, CallerId = "2125552368" };
+    var faxId = phaxio.SendFax(faxRequest);
     
 If you have more than one file, you can pass in a list and Phaxio will concatenate them into one fax:
 
     var pdf1 = new FileInfo("form1234.pdf");
     var pdf2 = new FileInfo("form4321.pdf");
-    fax.Send("8088675309", new List<FileInfo> { pdf1, pdf2 });
+	var faxRequest = new FaxRequest
+	{
+		ToNumber = "8088675309",
+		Files = new List<FileInfo> { pdf1, pdf2 },
+		CallerId = "2125552368"
+	};
+    phaxio.SendFax(faxRequest);
 
 If you have a bunch of faxes going to one number, you might want to check out [batching](https://www.phaxio.com/docs/api/send/batching/).
 You first specify a batch delay in the FaxOptions. Then, you send as many faxes as you'd like to the number in question, 
 and when you're finished and the batch delay is expired, Phaxio will send them all as one long fax. Here's what a
 batching FaxOptions would look like:
     
-    var options = new FaxOptions { IsBatch = true, BatchDelaySeconds = 30 };
-    fax1.Send("8088675309", pdf1, options);
-    fax2.Send("8088675309", pdf2, options);
+	var faxRequest1 = new FaxRequest
+	{
+		ToNumber = "8088675309",
+		File = pdf1,
+		BatchDelaySeconds = 30
+	};
+	var faxRequest2 = new FaxRequest
+	{
+		ToNumber = "8088675309",
+		File = pdf2,
+		BatchDelaySeconds = 30
+	};
+    phaxio.SendFax("8088675309", faxRequest1);
+    phaxio.SendFax("8088675309", faxRequest2);
 
 The machine at 808-867-5309 will see pdf1 and pdf2 as one long fax.
 
-### Get a fax later on
+### Querying sent faxes
 
-If you need to operate on a fax after you've sent it and you no longer have the original Fax object,
-you can create a new Fax object by its id, and then you can resend it, delete it, etc.
+To see your sent faxes after you've sent it, call ListFaxes:
 
-    var fax = phaxio.CreateFax("1234");
-    
-This does not work:
+    var faxes = phaxio.ListFaxes("1234");
+	
+This returns a PagedResult of FaxInfo objects. You can also add filters:
 
-    var fax = phaxio.CreateFax()
-    fax.Download();
+    var faxes = phaxio.ListFaxes("1234", createdBefore: DateTime.Now);
 
 ### Downloading a fax
 
-To retrieve a fax after you've sent it, call Download:
+To retrieve a fax after you've sent it, call DownloadFax:
 
-    var file = fax.Download();
+    var file = phaxio.DownloadFax("1234");
     
 File is a byte array representing your fax in PDF form that you can write to disk or store in a database.
 You can also specify which format you'd like:
 
-    var file = fax.Download("s");
+    var file = fax.Download("1234", "s");
     
 Specify "s" for a small JPEG, "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF.
 
@@ -74,7 +94,7 @@ Specify "s" for a small JPEG, "l" for a large JPEG, or "p" for PDF. If you don't
 
 You can resend a fax:
 
-    Result result = fax.Resend();
+    Result result = phaxio.ResendFax("1234");
     if (result.Success)
     {
         Console.WriteLine("Yes!");
@@ -91,21 +111,26 @@ field called Message with the error message.
 
 You can cancel a fax:
 
-    var result = fax.Cancel();
+    var result = phaxio.CancelFax("1234");
 
 It returns a Result object saying whether the operation was successful or not. If the fax has already sent, you cannot cancel
 it and this operation will return a failure.
+
+### Deleting a fax's files
+
+You can delete a fax:
+
+    var result = phaxio.DeleteFaxFiles("1234");
+
+It returns a Result object saying whether the operation was successful or not.
 
 ### Deleting a fax
 
 You can delete a fax:
 
-    var result = fax.Delete();
+    var result = phaxio.DeleteFax("1234");
 
 It returns a Result object saying whether the operation was successful or not.
-You can also specify whether to only delete the files (default is false):
-
-    var result = fax.Delete(true);
 
 ## Numbers
 
@@ -113,28 +138,27 @@ You can also specify whether to only delete the files (default is false):
 
 If you want to know what area codes are available for purchase, you can call this method:
 
-    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes();
+    PagedResult<AreaCode> areaCodes = phaxio.ListAreaCodes();
     
-This returns a Dictionary with the area codes as keys, and a CityState object that has the city and state of
-the area code. You can also optionally request tollfree numbers:
+This returns a PagedResult of AreaCode objects. You can also optionally request tollfree numbers:
 
-    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes(tollFree:true);
+    PagedResult<AreaCode> areaCodes = phaxio.ListAreaCodes(tollFree:true);
 
-You can specifiy the state:
+You can specify the state (and you must specify either the country code or the country if you do):
 
-    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes(state:"MA");
+    PagedResult<AreaCode> areaCodes = phaxio.ListAreaCodes(state:"MA", country:"US");
 
 Or both:
 
-    Dictionary<string, CityState> areaCodes = phaxio.ListAreaCodes(tollFree:true, state:"MA");
+    PagedResult<AreaCode> areaCodes = phaxio.ListAreaCodes(tollFree:true, state:"MA", country:"US");
 
 ### Provisioning a number
 
-You can ask Phaxio to get you a new number (you must specify an area code):
+You can ask Phaxio to get you a new number (you must specify an area code and country code):
 
-    var newNumber = phaxio.ProvisionNumber("808");
+    var newNumber = phaxio.ProvisionNumber("808", "1");
 
-The call returns a PhoneNumber object representing your new number.
+The call returns a PhoneNumberV2 object representing your new number.
 
 You can also specify a callback URL that will be called when a fax is recieved
 at the new number (this will override the default callback URL).
@@ -145,17 +169,21 @@ at the new number (this will override the default callback URL).
 
 To get a list of your numbers, you can run this method:
 
-    var numbers = phaxio.ListNumbers();
+    var numbers = phaxio.ListAccountNumbers();
 
-which will return a List<PhoneNumber> with all of your numbers.
+which will return a List<PhoneNumberV2> with all of your numbers.
 
-You can specify an area code to search in:
+You can specify an country code to search in:
 
-    var numbers = phaxio.ListNumbers("808");
+    var numbers = phaxio.ListNumbers(countryCode: "1");
+
+You can specify an area code to search in (you must also specify the country code):
+
+    var numbers = phaxio.ListNumbers(areaCode: "808", countryCode: "1");
 
 or you can search for a specific number:
     
-    var numbers = phaxio.ListNumbers(number: "8088675309");
+    var numbers = phaxio.GetNumberInfo("8088675309");
     
 ### Release number
 
@@ -171,39 +199,32 @@ It returns a Result saying whether the operation was successful or not.
 
 Creating a PhaxCode is simple:
 
-    var code = phaxio.CreatePhaxCode();
+    var codeId = phaxio.GeneratePhaxCode();
     
-Code is a Uri object where you can download the barcode.
+The variable codeId is a identifier so you can reference it later.
 
 You can also attach metadata to the code so you can reference it later:
 
-    var code = phaxio.CreatePhaxCode("code-for-form1234");
+    var codeId = phaxio.GeneratePhaxCode("code-for-form1234");
 
+To download the PNG of this newly generated code:
+
+    var codeBytes = phaxio.DownloadPhaxCode(codeId);
+
+To get the properties of the newly generated code:
+
+    var codeBytes = phaxio.GetPhaxCode(codeId);
+	
 You can also get the image directly:
 
-    var code = phaxio.DownloadPhaxCodePng();
+    var codeBytes = phaxio.GeneratePhaxCodeAndDownload();
     
     File.WriteAllBytes(@"C:\temp\phaxCode.png", code);
     
 This returns a byte array representing the barcode. You can attach metadata to the code, same as above:
 
-    var code = phaxio.DownloadPhaxCodePng("{'key':'value'}");
-
-## Attaching a PhaxCode to a PDF
-
-If you have a PDF you'd like to attach a PhaxCode to, it's easy:
-
-    var pdf = new FileInfo("form1234.pdf");
-    var pdfBytes = phaxio.AttachPhaxCodeToPdf(10, 10, pdf);
-    
-The first two parameters are the x,y coordinates in PDF points. This will use the default PhaxCode for your account.
-You can also specify a PhaxCode to use by passing in its metadata:
-
-    var pdfBytes = phaxio.AttachPhaxCodeToPdf(10, 10, pdf, metadata:"code-for-form1234");
-
-If you'd like it to attach it on a specific page:
-    
-    var pdfBytes = phaxio.AttachPhaxCodeToPdf(10, 10, pdf, pageNumber:3);
+    var codeBytes = phaxio.GeneratePhaxCodeAndDownload("{'key':'value'}");
+	
 
 ## Misc
 
@@ -211,9 +232,9 @@ If you'd like it to attach it on a specific page:
 
 If you want to know what countries are supported by Phaxio, you can call this method:
 
-    Dictionary<string, Pricing> supportedCountries = phaxio.ListSupportedCountries();
+    PagedResult<Country> supportedCountries = phaxio.ListSupportedCountries();
     
-This returns a Dictionary with the country names as keys, and a Pricing object that has the price per page.
+This returns a PagedResult with the country names as keys, and a Pricing object that has the price per page.
  
 ### Testing callbacks (web hooks)
 
@@ -230,16 +251,5 @@ for an individual number and you'd like to test that callback, you can specify i
 You can also fake who the fax is from:
 
     var success = phaxio.TestRecieveCallback(testFax, fromNumber:"2125552368");
-
-### Download a hosted document (deprecated)
-
-Although it's deprecated, you can still get a hosted document:
-
-    var file = phaxio.GetHostedDocument("form1234.pdf");
-    
-File is a byte array representing your document in PDF form that you can write to disk or store in a database.
-You can also specify the metadata of the PhaxCode you'd like:
-
-    var file = phaxio.GetHostedDocument("1234", metadata:"key");
 
 &copy; 2016-2017 Phaxio

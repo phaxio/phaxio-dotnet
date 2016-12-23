@@ -347,7 +347,7 @@ namespace Phaxio.V2
         /// </summary>
         /// <param name="metadata">Metadata to associate with this code.</param>
         /// <returns>a byte array of barcode image.</returns>
-        public byte[] GeneratePhaxCodeAndDownloadPng(string metadata = null)
+        public byte[] GeneratePhaxCodeAndDownload(string metadata = null)
         {
             Action<IRestRequest> addParameters = req =>
             {

@@ -27,7 +27,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
 
             var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
 
-            var png = phaxio.GeneratePhaxCodeAndDownloadPng();
+            var png = phaxio.GeneratePhaxCodeAndDownload();
 
             Assert.IsNotEmpty(png);
         }

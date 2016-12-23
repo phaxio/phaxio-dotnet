@@ -237,4 +237,4 @@ You can also specify the metadata of the PhaxCode you'd like:
 
     Dim file = phaxio.GetHostedDocument("1234", metadata:="key")
 
-&copy; 2016 Noel Herrick
+&copy; 2016-2017 Phaxio

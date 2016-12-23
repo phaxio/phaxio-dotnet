@@ -60,7 +60,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
             // Create a phax code
             var metadata = StringHelpers.Random(10);
 
-            var phaxCodePng = phaxio.GeneratePhaxCodeAndDownloadPng(metadata);
+            var phaxCodePng = phaxio.GeneratePhaxCodeAndDownload(metadata);
 
             var phaxCodeFilename = pwd() + metadata + ".png";
 

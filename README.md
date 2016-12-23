@@ -17,8 +17,30 @@ Third, install this client with Nuget:
 
     Install-Package Phaxio
 
-For basic usage, use [this guide](Docs/README-csharp.md) if you're a C# developer or
+For basic usage, use [this guide](Docs/README-csharp-v2.md) if you're a C# developer or
+[this guide](Docs/README-vb-v2.md) if you're a VB.NET developer.
+
+If you're looking for version 1, use [this guide](Docs/README-csharp.md) if you're a C# developer or
 [this guide](Docs/README-vb.md) if you're a VB.NET developer.
+
+## Migration from library version 1.0.0 to 2.0.0
+
+PhaxioClient no longer has a constructor that accepts RestSharp.RestClient.
+
+## Migration from API V1 to V2
+
+PhaxioV2Client is not a drop-in replacement for PhaxioClient. Several methods have been removed.
+
+- AttachPhaxCodeToPdf was removed
+- CreatePhaxCode is now GeneratePhaxCode
+- DownloadPhaxCodePng is now DownloadPhaxCode
+- GetHostedDocument was removed
+
+Faxes are now sent by creating a FaxRequest object and then passing it to PhaxioV2Client#SendFax. The fields
+of FaxOptions have been moved to FaxRequest except for the following:
+
+- StringData and StringDataType are no longer supported
+- Batch is no longer necessary
 
 ## Errors
 

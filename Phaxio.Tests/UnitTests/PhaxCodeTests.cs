@@ -194,7 +194,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
-            var image = phaxio.GeneratePhaxCodeAndDownloadPng("stuff");
+            var image = phaxio.GeneratePhaxCodeAndDownload("stuff");
 
             Assert.AreEqual(pngBytes, image);
         }
