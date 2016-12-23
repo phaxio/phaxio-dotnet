@@ -8,9 +8,12 @@ The PhaxioClient class is the entry point for any Phaxio operation (you'll also 
 
 ### PagedResult
 
-Those methods that return paged results also accept two parameters ```perPage```, which controls how many
-items show per page and ```page``` which controls which page to fetch.
-	
+Several methods return a PagedResult object that has a field Data with the list,
+as well as Page indicating the current page, Total which indicates how many items are available,
+and PerPage which indicates how many items are retrieved per page.
+Those methods that return paged results also accept two parameters ```perPage```,
+which controls how many items show per page and ```page``` which controls which page to fetch.
+    
 ### Getting your account status
 
     var account = phaxio.GetAccountStatus();
@@ -23,7 +26,7 @@ items show per page and ```page``` which controls which page to fetch.
 At the heart of the Phaxio API is the ability to send a fax:
 
     var pdf = new FileInfo("form1234.pdf");
-	var faxRequest = new FaxRequest { ToNumber = "8088675309", File = pdf };
+    var faxRequest = new FaxRequest { ToNumber = "8088675309", File = pdf };
     var faxId = phaxio.SendFax(faxRequest);
 
 The faxId can be used to reference your fax later. Well, now, wasn't that simple?
@@ -37,12 +40,12 @@ If you have more than one file, you can pass in a list and Phaxio will concatena
 
     var pdf1 = new FileInfo("form1234.pdf");
     var pdf2 = new FileInfo("form4321.pdf");
-	var faxRequest = new FaxRequest
-	{
-		ToNumber = "8088675309",
-		Files = new List<FileInfo> { pdf1, pdf2 },
-		CallerId = "2125552368"
-	};
+    var faxRequest = new FaxRequest
+    {
+        ToNumber = "8088675309",
+        Files = new List<FileInfo> { pdf1, pdf2 },
+        CallerId = "2125552368"
+    };
     phaxio.SendFax(faxRequest);
 
 If you have a bunch of faxes going to one number, you might want to check out [batching](https://www.phaxio.com/docs/api/send/batching/).
@@ -50,18 +53,18 @@ You first specify a batch delay in the FaxOptions. Then, you send as many faxes 
 and when you're finished and the batch delay is expired, Phaxio will send them all as one long fax. Here's what a
 batching FaxOptions would look like:
     
-	var faxRequest1 = new FaxRequest
-	{
-		ToNumber = "8088675309",
-		File = pdf1,
-		BatchDelaySeconds = 30
-	};
-	var faxRequest2 = new FaxRequest
-	{
-		ToNumber = "8088675309",
-		File = pdf2,
-		BatchDelaySeconds = 30
-	};
+    var faxRequest1 = new FaxRequest
+    {
+        ToNumber = "8088675309",
+        File = pdf1,
+        BatchDelaySeconds = 30
+    };
+    var faxRequest2 = new FaxRequest
+    {
+        ToNumber = "8088675309",
+        File = pdf2,
+        BatchDelaySeconds = 30
+    };
     phaxio.SendFax("8088675309", faxRequest1);
     phaxio.SendFax("8088675309", faxRequest2);
 
@@ -72,7 +75,7 @@ The machine at 808-867-5309 will see pdf1 and pdf2 as one long fax.
 To see your sent faxes after you've sent it, call ListFaxes:
 
     var faxes = phaxio.ListFaxes("1234");
-	
+    
 This returns a PagedResult of FaxInfo objects. You can also add filters:
 
     var faxes = phaxio.ListFaxes("1234", createdBefore: DateTime.Now);
@@ -86,7 +89,7 @@ To retrieve a fax after you've sent it, call DownloadFax:
 File is a byte array representing your fax in PDF form that you can write to disk or store in a database.
 You can also specify which format you'd like:
 
-    var file = fax.Download("1234", "s");
+    var file = phaxio.DownloadFax("1234", "s");
     
 Specify "s" for a small JPEG, "l" for a large JPEG, or "p" for PDF. If you don't specify this, it will be a PDF.
 
@@ -214,7 +217,7 @@ To download the PNG of this newly generated code:
 To get the properties of the newly generated code:
 
     var codeBytes = phaxio.GetPhaxCode(codeId);
-	
+    
 You can also get the image directly:
 
     var codeBytes = phaxio.GeneratePhaxCodeAndDownload();
@@ -224,7 +227,7 @@ You can also get the image directly:
 This returns a byte array representing the barcode. You can attach metadata to the code, same as above:
 
     var codeBytes = phaxio.GeneratePhaxCodeAndDownload("{'key':'value'}");
-	
+    
 
 ## Misc
 
@@ -234,7 +237,7 @@ If you want to know what countries are supported by Phaxio, you can call this me
 
     PagedResult<Country> supportedCountries = phaxio.ListSupportedCountries();
     
-This returns a PagedResult with the country names as keys, and a Pricing object that has the price per page.
+This returns a PagedResult of Country objects that have pricing and the services available.
  
 ### Testing callbacks (web hooks)
 

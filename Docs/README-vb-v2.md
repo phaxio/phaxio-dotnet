@@ -8,9 +8,12 @@ The PhaxioClient class is the entry point for any Phaxio operation (be sure to u
 
 ### PagedResult
 
-Those methods that return paged results also accept two parameters ```perPage```, which controls how many
-items show per page and ```page``` which controls which page to fetch.
-	
+Several methods return a PagedResult object that has a field Data with the list,
+as well as Page indicating the current page, Total which indicates how many items are available,
+and PerPage which indicates how many items are retrieved per page.
+Those methods that return paged results also accept two parameters ```perPage```,
+which controls how many items show per page and ```page``` which controls which page to fetch.
+    
 ### Getting your account status
 
     Dim account As Account = phaxio.GetAccountStatus()
@@ -36,11 +39,11 @@ If you have more than one file, you can pass in a list and Phaxio will concatena
 
     Dim pdf1 = New FileInfo("form1234.pdf")
     Dim pdf2 = New FileInfo("form4321.pdf")
-	Dim faxRequest = New FaxRequest With
-	{
-		.ToNumber = "8088675309",
-		.Files = New List(Of FileInfo) From {pdf1, pdf2}
-	};
+    Dim faxRequest = New FaxRequest With
+    {
+        .ToNumber = "8088675309",
+        .Files = New List(Of FileInfo) From {pdf1, pdf2}
+    };
     phaxio.SendFax(faxRequest)
 
 If you have a bunch of faxes going to one number, you might want to check out [batching](https://www.phaxio.com/docs/api/send/batching/).
@@ -49,18 +52,18 @@ and when you're finished and the batch delay is expired, Phaxio will send them a
 batching FaxOptions would look like:
     
     Dim faxRequest1 = New FaxRequest With
-	{
-		.ToNumber = "8088675309",
-		.File = pdf1
-		.BatchDelaySeconds = 30
-	};
-	
-	Dim faxRequest2 = New FaxRequest With
-	{
-		.ToNumber = "8088675309",
-		.File = pdf2
-		.BatchDelaySeconds = 30
-	};
+    {
+        .ToNumber = "8088675309",
+        .File = pdf1
+        .BatchDelaySeconds = 30
+    };
+    
+    Dim faxRequest2 = New FaxRequest With
+    {
+        .ToNumber = "8088675309",
+        .File = pdf2
+        .BatchDelaySeconds = 30
+    };
     fax1.SendFax(faxRequest1)
     fax2.SendFax(faxRequest2)
 
@@ -71,7 +74,7 @@ The machine at 808-867-5309 will see pdf1 and pdf2 as one long fax.
 To see your sent faxes after you've sent it, call ListFaxes:
 
     Dim faxes = phaxio.ListFaxes("1234");
-	
+    
 This returns a PagedResult of FaxInfo objects. You can also add filters:
 
     Dim faxes = phaxio.ListFaxes("1234", createdBefore:=DateTime.Now);
@@ -204,7 +207,7 @@ To download the PNG of this newly generated code:
 To get the properties of the newly generated code:
 
     Dim codeBytes = phaxio.GetPhaxCode(codeId)
-	
+    
 You can also get the image directly:
 
     Dim codeBytes = phaxio.GeneratePhaxCodeAndDownload();
