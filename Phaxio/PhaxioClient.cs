@@ -442,6 +442,65 @@ namespace Phaxio
             return longId.ToString();
         }
 
+        private void AddFiles( IRestRequest request, IList<Tuple<string, byte[]>> files)
+        {
+            foreach (var file in files)
+            {
+                request.AddFile("filename[]", file.Item2, file.Item1, "application/octet");
+            }
+        }
+
+        private void AddOptions( IRestRequest request,FaxOptions options)
+        {
+            // Add all the scalar properties
+            var props = typeof(FaxOptions).GetProperties();
+            foreach (var prop in props)
+            {
+                var serializeAs = prop.GetCustomAttributes(false)
+                    .OfType<SerializeAsAttribute>()
+                    .FirstOrDefault();
+
+                if (serializeAs != null)
+                {
+                    object value = prop.GetValue(options, null);
+
+                    if (value != null)
+                    {
+                        request.AddParameter(serializeAs.Value, value);
+                    }
+                }
+            }
+
+            // Add the tags
+            foreach (var pair in options.Tags)
+            {
+                request.AddParameter("tag[" + pair.Key + "]", pair.Value);
+            }
+        }
+
+        public string SendFax(IEnumerable<string> toNumbers, IList<Tuple<string,byte[]>>files , FaxOptions options = null)
+        {
+            Action<IRestRequest> requestModifier = req =>
+            {
+                AddFiles(req,files);
+
+                foreach (var number in toNumbers)
+                {
+                    req.AddParameter("to[]", number);
+                }
+
+                if (options != null)
+                {
+                    AddOptions(req, options);
+                }
+            };
+
+            var response=request<dynamic>("send", Method.POST, true, requestModifier);
+            var longId = response.Data["faxId"];
+
+            return longId.ToString();
+        }
+
         /// <summary>
         ///  Sends a request to Phaxio to test a callback (web hook).
         /// </summary>
