@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePhaxioClient.cs" />
+    <Compile Include="Clients\Internal\BasePhaxioClient.cs" />
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Entities\AccountStatus.cs" />
     <Compile Include="Entities\AreaCode.cs" />
@@ -71,21 +71,21 @@
     <Compile Include="Entities\Recipient.cs" />
     <Compile Include="Entities\ResultEntities.cs" />
     <Compile Include="Entities\Internal\Url.cs" />
-    <Compile Include="PhaxioClient.cs" />
+    <Compile Include="Clients\PhaxioClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Internal\Response.cs" />
-    <Compile Include="ThinRestClient\HttpClientExtensions.cs" />
-    <Compile Include="ThinRestClient\IRestClient.cs" />
-    <Compile Include="ThinRestClient\IRestRequest.cs" />
-    <Compile Include="ThinRestClient\IRestResponse.cs" />
-    <Compile Include="ThinRestClient\JsonDeserializer.cs" />
-    <Compile Include="ThinRestClient\LoggingMiddleware.cs" />
-    <Compile Include="ThinRestClient\Method.cs" />
-    <Compile Include="ThinRestClient\Parameter.cs" />
+    <Compile Include="ThinRestClient\Helpers\HttpClientExtensions.cs" />
+    <Compile Include="ThinRestClient\Entities\Interfaces\IRestClient.cs" />
+    <Compile Include="ThinRestClient\Entities\Interfaces\IRestRequest.cs" />
+    <Compile Include="ThinRestClient\Entities\Interfaces\IRestResponse.cs" />
+    <Compile Include="ThinRestClient\Helpers\JsonDeserializer.cs" />
+    <Compile Include="ThinRestClient\Middleware\LoggingMiddleware.cs" />
+    <Compile Include="ThinRestClient\Entities\Method.cs" />
+    <Compile Include="ThinRestClient\Entities\Parameter.cs" />
     <Compile Include="ThinRestClient\RestClient.cs" />
-    <Compile Include="ThinRestClient\RestRequest.cs" />
-    <Compile Include="ThinRestClient\RestResponse.cs" />
-    <Compile Include="V2\PhaxioV2Client.cs" />
+    <Compile Include="ThinRestClient\Entities\RestRequest.cs" />
+    <Compile Include="ThinRestClient\Entities\RestResponse.cs" />
+    <Compile Include="Clients\V2\PhaxioV2Client.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

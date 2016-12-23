@@ -1,5 +1,6 @@
 ﻿using Phaxio.Entities.Internal;
 using Phaxio.ThinRestClient;
+using Phaxio.ThinRestClient.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phaxio
+namespace Phaxio.Clients.Internal
 {
     public abstract class BasePhaxioClient
     {

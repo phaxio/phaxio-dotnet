@@ -3,6 +3,7 @@ using Phaxio.Entities;
 using Phaxio.Entities.Internal;
 using Phaxio.Tests.Helpers;
 using Phaxio.ThinRestClient;
+using Phaxio.ThinRestClient.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Net;

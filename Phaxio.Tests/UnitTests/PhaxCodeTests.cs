@@ -194,7 +194,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
-            var image = phaxio.GeneratePhaxCodePng("stuff");
+            var image = phaxio.GeneratePhaxCodeAndDownloadPng("stuff");
 
             Assert.AreEqual(pngBytes, image);
         }
@@ -217,7 +217,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
-            var code = phaxio.RetrievePhaxCodeProperties();
+            var code = phaxio.GetPhaxCode();
 
             Assert.AreEqual("1234", code.Identifier);
         }
@@ -240,7 +240,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
-            var code = phaxio.RetrievePhaxCodeProperties("1234");
+            var code = phaxio.GetPhaxCode("1234");
 
             Assert.AreEqual("1234", code.Identifier);
         }
@@ -265,7 +265,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
-            var image = phaxio.RetrievePhaxCodePng();
+            var image = phaxio.DownloadPhaxCode();
 
             Assert.AreEqual(pngBytes, image);
         }
@@ -290,7 +290,7 @@ namespace Phaxio.Tests.UnitTests
 
             var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
-            var image = phaxio.RetrievePhaxCodePng("1234");
+            var image = phaxio.DownloadPhaxCode("1234");
 
             Assert.AreEqual(pngBytes, image);
         }

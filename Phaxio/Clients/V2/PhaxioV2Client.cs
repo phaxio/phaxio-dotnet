@@ -4,11 +4,10 @@ using Phaxio.Entities.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using System.Globalization;
+using Phaxio.Clients.Internal;
 
 namespace Phaxio.V2
 {
@@ -138,7 +137,7 @@ namespace Phaxio.V2
         }
 
         /// <summary>
-        ///  Downloads a fax
+        ///  Downloads a fax, either as PDF or a JPEG (if thumbnails are requested).
         /// </summary>
         /// <param name="faxId">The id of the fax to download.</param>
         /// <param name="thumbnail">Either 's' (small - 129x167px) or 'l' (large - 300x388px). If specified,
@@ -348,7 +347,7 @@ namespace Phaxio.V2
         /// </summary>
         /// <param name="metadata">Metadata to associate with this code.</param>
         /// <returns>a byte array of barcode image.</returns>
-        public byte[] GeneratePhaxCodePng(string metadata = null)
+        public byte[] GeneratePhaxCodeAndDownloadPng(string metadata = null)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -537,7 +536,7 @@ namespace Phaxio.V2
         /// </summary>
         /// <param name="identifier">The identifier of the PhaxCode. If none is passed in, the default PhaxCode is downloaded.</param>
         /// <returns>a PhaxCode object.</returns>
-        public PhaxCode RetrievePhaxCodeProperties(string identifier = null)
+        public PhaxCode GetPhaxCode(string identifier = null)
         {
             var resource = "phax_code";
 
@@ -554,7 +553,7 @@ namespace Phaxio.V2
         /// </summary>
         /// <param name="identifier">The identifier of the PhaxCode. If none is passed in, the default PhaxCode is downloaded.</param>
         /// <returns>a byte array of barcode image.</returns>
-        public byte[] RetrievePhaxCodePng(string identifier = null)
+        public byte[] DownloadPhaxCode(string identifier = null)
         {
             var resource = "phax_code";
 

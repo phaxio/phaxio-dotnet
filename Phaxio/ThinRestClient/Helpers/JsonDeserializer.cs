@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Phaxio.ThinRestClient
+namespace Phaxio.ThinRestClient.Helpers
 {
     public class JsonDeserializer
     {

@@ -27,7 +27,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
 
             var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
 
-            var png = phaxio.GeneratePhaxCodePng();
+            var png = phaxio.GeneratePhaxCodeAndDownloadPng();
 
             Assert.IsNotEmpty(png);
         }
@@ -43,13 +43,13 @@ namespace Phaxio.Tests.IntegrationTests.V2
 
             Thread.Sleep(1000);
 
-            var properties = phaxio.RetrievePhaxCodeProperties(codeId);
+            var properties = phaxio.GetPhaxCode(codeId);
 
             Assert.AreEqual("phil", properties.Metadata);
 
             Thread.Sleep(1000);
 
-            var png = phaxio.RetrievePhaxCodePng(codeId);
+            var png = phaxio.DownloadPhaxCode(codeId);
 
             Assert.IsNotEmpty(png);
         }

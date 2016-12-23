@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Phaxio.ThinRestClient
+namespace Phaxio.ThinRestClient.Middleware
 {
     /* Author: Kiran Challa
      * Taken from: https://stackoverflow.com/questions/18924996/logging-request-response-messages-when-using-httpclient

@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Phaxio.ThinRestClient;
+using Phaxio.Clients.Internal;
 
 namespace Phaxio
 {
@@ -25,7 +26,7 @@ namespace Phaxio
         }
 
         public PhaxioClient (string key, string secret, IRestClient restClient)
-            : base(key, secret, new RestClient())
+            : base(key, secret, restClient)
         {
             client.BaseUrl = new Uri(phaxioApiEndpoint);
         }
