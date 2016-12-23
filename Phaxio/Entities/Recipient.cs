@@ -12,7 +12,7 @@ namespace Phaxio.Entities
         public string Status { get; set; }
 
         [JsonProperty(PropertyName = "completed_at")]
-        public DateTime CompletedAt { get; set; }
+        public DateTime? CompletedAt { get; set; }
 
         [JsonProperty(PropertyName = "error_type")]
         public string ErrorType { get; set; }

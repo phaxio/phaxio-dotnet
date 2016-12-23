@@ -79,6 +79,7 @@
     <Compile Include="ThinRestClient\IRestRequest.cs" />
     <Compile Include="ThinRestClient\IRestResponse.cs" />
     <Compile Include="ThinRestClient\JsonDeserializer.cs" />
+    <Compile Include="ThinRestClient\LoggingMiddleware.cs" />
     <Compile Include="ThinRestClient\Method.cs" />
     <Compile Include="ThinRestClient\Parameter.cs" />
     <Compile Include="ThinRestClient\RestClient.cs" />

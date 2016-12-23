@@ -12,32 +12,22 @@ namespace Phaxio.Examples.Basic
         static void Main(string[] args)
         {
             var parser = new FileIniDataParser();
-            IniData config = parser.ReadFile(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "keys.ini");
 
-            var testToNumber = "8088675309";
-            var testOptions = new FaxOptions
-            {
-                HeaderText = "headertext",
-                StringData = "somedata",
-                StringDataType = "html",
-                IsBatch = true,
-                BatchDelaySeconds = 10,
-                AvoidBatchCollision = true,
-                CallbackUrl = "https://example.com/callback",
-                CancelTimeoutAfter = 20
-            };
+            IniData config = parser.ReadFile(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "keys.ini");
 
             var phaxio = new PhaxioV2Client(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
 
-            var account = phaxio.GetAccountStatus();
+            //var account = phaxio.GetAccountStatus();
 
-            Console.WriteLine(account.Balance);
+            //Console.WriteLine(account.Balance);
 
-            //var pdf = new FileInfo("C:\\temp\\test.pdf");
+            var pdf = new FileInfo("C:\\temp\\test.pdf");
 
-            //var faxId = phaxio.SendFax(testToNumber, pdf, testOptions);
+            var request = new FaxRequest { ToNumber = "+18088675309", File = pdf };
 
-            //Console.WriteLine(faxId);
+            var faxId = phaxio.SendFax(request);
+
+            Console.WriteLine(faxId);
 
             Console.ReadKey();
         }

@@ -416,7 +416,7 @@ namespace Phaxio.Tests
             Assert.AreEqual(3, faxInfo.PageCount, "");
             Assert.AreEqual("success", faxInfo.Status, "");
             Assert.IsTrue(faxInfo.IsTest, "");
-            Assert.AreEqual(completedAt, faxInfo.CompletedAt, "");
+            Assert.AreEqual(completedAt, faxInfo.CompletedAt.Value, "");
             Assert.AreEqual(21, faxInfo.CostInCents, "");
             Assert.AreEqual("123", faxInfo.FromNumber, "");
             Assert.AreEqual("order_id", faxInfo.Tags.First().Key, "");
@@ -429,7 +429,7 @@ namespace Phaxio.Tests
             var recipient = faxInfo.Recipients.First();
 
             Assert.AreEqual("+14141234567", recipient.PhoneNumber);
-            Assert.AreEqual(completedAt, recipient.CompletedAt, "");
+            Assert.AreEqual(completedAt, recipient.CompletedAt.Value, "");
             Assert.AreEqual("success", recipient.Status, "");
             Assert.AreEqual(41, recipient.ErrorId.Value, "");
             Assert.AreEqual("recipient_error_type", recipient.ErrorType, "");

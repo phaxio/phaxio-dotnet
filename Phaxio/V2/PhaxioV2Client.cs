@@ -568,7 +568,7 @@ namespace Phaxio.V2
 
         private IEnumerable<T> combine<T>(T scalar, IEnumerable<T> array)
         {
-            return array.Concat(new[] { scalar });
+            return scalar != null ? array.Concat(new[] { scalar }) : array;
         }
 
         private string rfc3339(DateTime time)

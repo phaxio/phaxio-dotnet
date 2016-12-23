@@ -64,6 +64,12 @@
     <Compile Include="IntegrationTests\SupportedCountriesTests.cs" />
     <Compile Include="IntegrationTests\NumbersTests.cs" />
     <Compile Include="IntegrationTests\FaxClassTests.cs" />
+    <Compile Include="IntegrationTests\V2\AccountStatusTests.cs" />
+    <Compile Include="IntegrationTests\V2\FaxQueryTests.cs" />
+    <Compile Include="IntegrationTests\V2\FaxTests.cs" />
+    <Compile Include="IntegrationTests\V2\NumbersTests.cs" />
+    <Compile Include="IntegrationTests\V2\PhaxCodeTests.cs" />
+    <Compile Include="IntegrationTests\V2\SupportedCountriesTests.cs" />
     <Compile Include="UnitTests\FaxListTests.cs" />
     <Compile Include="UnitTests\GetHostedDocumentTests.cs" />
     <Compile Include="UnitTests\TestRecieveCallbackTests.cs" />
@@ -131,8 +137,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if exist "$(ProjectDir)\keys.ini" copy "$(ProjectDir)\keys.ini" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

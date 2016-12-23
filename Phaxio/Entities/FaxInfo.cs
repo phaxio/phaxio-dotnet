@@ -52,6 +52,6 @@ namespace Phaxio.Entities
         public string ErrorMessage { get; set; }
 
         [JsonProperty(PropertyName = "completed_at")]
-        public DateTime CompletedAt { get; set; }
+        public DateTime? CompletedAt { get; set; }
     }
 }

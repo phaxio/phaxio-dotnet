@@ -35,7 +35,7 @@ namespace Phaxio.ThinRestClient
             var client = new HttpClient();
 
             client.BaseAddress = BaseUrl;
-
+            
             HttpResponseMessage response;
 
             if (request.Method == Method.GET)
@@ -74,12 +74,18 @@ namespace Phaxio.ThinRestClient
 
             if (request.Files.Any())
             {
-                var boundary = "--------------------------------" + DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                var boundary = "--------------------------------" + DateTime.Now.Ticks.ToString();
                 var multipartContent = new MultipartFormDataContent(boundary);
 
                 foreach (var param in request.Parameters)
                 {
-                    multipartContent.Add(new StringContent(param.Value.ToString()), param.Name);
+                    var name = param.Name;
+                    if (!name.StartsWith("\"") && !name.EndsWith("\""))
+                    {
+                        name = "\"" + name + "\"";
+                    }
+
+                    multipartContent.Add(new StringContent(param.Value.ToString()), name);
                 }
                 
                 foreach (var file in request.Files)
