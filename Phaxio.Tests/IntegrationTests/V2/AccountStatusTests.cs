@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Phaxio.V2;
 using Phaxio.Tests.Helpers;
 
 namespace Phaxio.Tests.IntegrationTests.V2
@@ -12,7 +11,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             var account = phaxio.GetAccountStatus();
         }

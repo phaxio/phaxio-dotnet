@@ -5,7 +5,6 @@ using Phaxio.Entities;
 using Phaxio.Tests.Helpers;
 using Phaxio.Entities.Internal;
 using System.Collections.Generic;
-using Phaxio.V2;
 
 namespace Phaxio.Tests
 {
@@ -49,7 +48,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<List<FaxInfo>>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var list = phaxio.ListFaxes(
                 createdBefore: createdBefore,

@@ -9,21 +9,21 @@ using System.IO;
 using System.Globalization;
 using Phaxio.Clients.Internal;
 
-namespace Phaxio.V2
+namespace Phaxio
 {
     /// <summary>
     ///  This is the main class and starting point for interacting with Phaxio using the V2 API.
     /// </summary>
-    public class PhaxioV2Client : BasePhaxioClient
+    public class Phaxio : BasePhaxioClient
     {
         private const string phaxioApiEndpoint = "https://api.phaxio.com/v2/";
 
-        public PhaxioV2Client(string key, string secret)
+        public Phaxio(string key, string secret)
             : this(key, secret, new RestClient())
         {
         }
 
-        public PhaxioV2Client(string key, string secret, IRestClient restClient)
+        public Phaxio(string key, string secret, IRestClient restClient)
             : base(key, secret, new RestClient())
         {
             // Initialize the rest client

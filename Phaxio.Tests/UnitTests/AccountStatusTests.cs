@@ -3,7 +3,6 @@ using Phaxio.Entities;
 using Phaxio.Entities.Internal;
 using Phaxio.Tests.Fixtures;
 using Phaxio.Tests.Helpers;
-using Phaxio.V2;
 
 namespace Phaxio.Tests
 {
@@ -41,7 +40,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<AccountStatus>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var account = phaxio.GetAccountStatus();
 

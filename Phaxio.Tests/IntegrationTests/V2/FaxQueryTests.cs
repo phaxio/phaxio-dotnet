@@ -1,10 +1,6 @@
 ﻿using NUnit.Framework;
 using Phaxio.Entities;
 using Phaxio.Tests.Helpers;
-using Phaxio.V2;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 
 namespace Phaxio.Tests.IntegrationTests.V2
@@ -17,7 +13,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 

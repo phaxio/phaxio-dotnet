@@ -4,7 +4,6 @@ using Phaxio.Entities.Internal;
 using Phaxio.Tests.Fixtures;
 using Phaxio.Tests.Helpers;
 using Phaxio.ThinRestClient;
-using Phaxio.V2;
 using System;
 
 namespace Phaxio.Tests.UnitTests
@@ -159,7 +158,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build<Response<dynamic>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var identifier = phaxio.GeneratePhaxCode("stuff");
 
@@ -192,7 +191,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var image = phaxio.GeneratePhaxCodeAndDownload("stuff");
 
@@ -215,7 +214,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build<Response<PhaxCode>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var code = phaxio.GetPhaxCode();
 
@@ -238,7 +237,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build<Response<PhaxCode>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var code = phaxio.GetPhaxCode("1234");
 
@@ -263,7 +262,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var image = phaxio.DownloadPhaxCode();
 
@@ -288,7 +287,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var image = phaxio.DownloadPhaxCode("1234");
 

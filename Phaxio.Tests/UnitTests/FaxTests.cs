@@ -7,7 +7,6 @@ using Phaxio.Tests.Helpers;
 using Phaxio.Entities.Internal;
 using System.Collections.Generic;
 using System.IO;
-using Phaxio.V2;
 
 namespace Phaxio.Tests
 {
@@ -66,7 +65,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<dynamic>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var id = phaxio.SendFax(request);
 
@@ -283,7 +282,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<Object>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var success = phaxio.CancelFax("123456").Success;
 
@@ -322,7 +321,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<Object>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var result = phaxio.ResendFax("123456");
 
@@ -404,7 +403,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<FaxInfo>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var faxInfo = phaxio.GetFaxInfo("123456");
 
@@ -462,7 +461,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var faxBytes = phaxio.DownloadFax("123456", thumbnail: "l");
 
@@ -485,7 +484,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<Object>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var result = phaxio.DeleteFax("123456");
 
@@ -508,7 +507,7 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<Object>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var result = phaxio.DeleteFaxFiles("123456");
 

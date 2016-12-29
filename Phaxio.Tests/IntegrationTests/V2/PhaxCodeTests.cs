@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Phaxio.Tests.Helpers;
-using Phaxio.V2;
 using System.Threading;
 
 namespace Phaxio.Tests.IntegrationTests.V2
@@ -13,7 +12,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             var codeId = phaxio.GeneratePhaxCode("stuff");
 
@@ -25,7 +24,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             var png = phaxio.GeneratePhaxCodeAndDownload();
 
@@ -37,7 +36,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             var codeId = phaxio.GeneratePhaxCode("phil");
 

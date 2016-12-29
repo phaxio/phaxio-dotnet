@@ -4,7 +4,6 @@ using Phaxio.Entities.Internal;
 using Phaxio.Tests.Fixtures;
 using Phaxio.Tests.Helpers;
 using Phaxio.ThinRestClient;
-using Phaxio.V2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +52,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build<Response<List<Country>>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var list = phaxio.ListSupportedCountries(
                 page: 400,

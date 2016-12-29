@@ -2,7 +2,6 @@
 using Phaxio.ThinRestClient;
 using Phaxio.Tests.Helpers;
 using System;
-using Phaxio.V2;
 using Phaxio.Entities.Internal;
 
 namespace Phaxio.Tests.UnitTests
@@ -88,7 +87,7 @@ namespace Phaxio.Tests.UnitTests
                 .Ok()
                 .Build<Response<Object>>();
 
-            var phaxio = new PhaxioV2Client(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
 
             var result = phaxio.TestRecieveCallback(testPdf, fromNumber: "1", toNumber: "2");
 

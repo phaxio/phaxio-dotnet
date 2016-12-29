@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Phaxio.Tests.Helpers;
-using Phaxio.V2;
 using System.Linq;
 using System.Threading;
 
@@ -14,7 +13,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             var areaCodes = phaxio.ListAreaCodes(state: "HI", country: "US");
 
@@ -26,7 +25,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioV2Client(config["api_key"], config["api_secret"]);
+            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
 
             // Find area codes to provision a number in
             var areaCodes = phaxio.ListAreaCodes(country: "US", state: "DE");

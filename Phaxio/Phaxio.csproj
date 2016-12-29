@@ -85,7 +85,7 @@
     <Compile Include="ThinRestClient\RestClient.cs" />
     <Compile Include="ThinRestClient\Entities\RestRequest.cs" />
     <Compile Include="ThinRestClient\Entities\RestResponse.cs" />
-    <Compile Include="Clients\V2\PhaxioV2Client.cs" />
+    <Compile Include="Clients\Phaxio.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

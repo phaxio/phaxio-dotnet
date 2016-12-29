@@ -1,6 +1,5 @@
 ﻿using IniParser;
 using IniParser.Model;
-using Phaxio.V2;
 using Phaxio.Entities;
 using System;
 using System.IO;
@@ -15,7 +14,7 @@ namespace Phaxio.Examples.Basic
 
             IniData config = parser.ReadFile(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "keys.ini");
 
-            var phaxio = new PhaxioV2Client(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
+            var phaxio = new Phaxio(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
 
             //var account = phaxio.GetAccountStatus();
 

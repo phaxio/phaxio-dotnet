@@ -29,7 +29,7 @@ PhaxioClient no longer has a constructor that accepts RestSharp.RestClient.
 
 ## Migration from API V1 to V2
 
-PhaxioV2Client is not a drop-in replacement for PhaxioClient. Several methods have been removed.
+Phaxio is not a drop-in replacement for PhaxioClient. Several methods have been removed.
 
 - AttachPhaxCodeToPdf was removed
 - CreatePhaxCode is now GeneratePhaxCode

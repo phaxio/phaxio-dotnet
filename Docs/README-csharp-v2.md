@@ -2,9 +2,9 @@
 
 ## Basics
 
-The PhaxioClient class is the entry point for any Phaxio operation (you'll also need to add ```using Phaxio.V2```).
+The PhaxioClient class is the entry point for any Phaxio operation.
 
-    var phaxio = new PhaxioV2Client(key, secret);
+    var phaxio = new Phaxio(key, secret);
 
 ### PagedResult
 

@@ -2,9 +2,9 @@
 
 ## Basics
 
-The PhaxioClient class is the entry point for any Phaxio operation (be sure to use `Imports Phaxio.V2`)
+The PhaxioClient class is the entry point for any Phaxio operation.
 
-    Dim phaxio As PhaxioV2Client = New PhaxioClient("secret", "key")
+    Dim phaxio As Phaxio = New Phaxio("secret", "key")
 
 ### PagedResult
 
