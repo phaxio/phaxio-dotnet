@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Phaxio.Tests
 {
     public class JsonResponseFixtures
     {
+        public static string FromFile(string fixtureName)
+        {
+            return File.ReadAllText(getQualifiedPath(fixtureName + ".json"));
+        }
+
+        private static string getQualifiedPath(string filename)
+        {
+            var fullPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "Fixtures/Json/" + filename;
+            return fullPath.Replace('/', Path.DirectorySeparatorChar);
+        }
+
         public static Dictionary<string, string> Fixtures = new Dictionary<string, string>
         {
             {

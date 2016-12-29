@@ -30,20 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="INIFileParser, Version=2.2.4.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
-      <HintPath>..\packages\ini-parser.2.2.4\lib\net20\INIFileParser.dll</HintPath>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+    <Reference Include="INIFileParser, Version=2.3.0.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.3.0\lib\net20\INIFileParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="Moq, Version=4.5.29.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.5.29\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="Fixtures\BinaryFixtures.cs" />
     <Compile Include="Fixtures\PocoFixtures.cs" />
+    <Compile Include="Helpers\RequestAsserts.cs" />
     <Compile Include="Helpers\IniConfigurationManager.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
+    <Compile Include="Helpers\RestClientBuilder.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="IntegrationTests\GetHostedDocumentTest.cs" />
     <Compile Include="IntegrationTests\AccountStatusTests.cs" />
@@ -62,6 +64,13 @@
     <Compile Include="IntegrationTests\SupportedCountriesTests.cs" />
     <Compile Include="IntegrationTests\NumbersTests.cs" />
     <Compile Include="IntegrationTests\FaxClassTests.cs" />
+    <Compile Include="IntegrationTests\V2\AccountStatusTests.cs" />
+    <Compile Include="IntegrationTests\V2\FaxQueryTests.cs" />
+    <Compile Include="IntegrationTests\V2\FaxTests.cs" />
+    <Compile Include="IntegrationTests\V2\NumbersTests.cs" />
+    <Compile Include="IntegrationTests\V2\PhaxCodeTests.cs" />
+    <Compile Include="IntegrationTests\V2\SupportedCountriesTests.cs" />
+    <Compile Include="UnitTests\FaxListTests.cs" />
     <Compile Include="UnitTests\GetHostedDocumentTests.cs" />
     <Compile Include="UnitTests\TestRecieveCallbackTests.cs" />
     <Compile Include="UnitTests\PhaxCodeTests.cs" />
@@ -76,6 +85,43 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fixtures\test.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.config" />
+    <Content Include="Fixtures\Json\V2\account_status.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_cancel.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_resend.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\generic_success.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_info.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_list.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\supported_countries.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\provision_number.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\list_numbers.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\list_area_codes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\phax_code.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\fax_send.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="keys.ini.sample" />

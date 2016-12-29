@@ -1,22 +1,21 @@
-﻿using RestSharp.Deserializers;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Phaxio.Entities.Internal
 {
     public class Response<T>
     {
-        [DeserializeAs(Name = "success")]
+        [JsonProperty(PropertyName = "success")]
         public bool Success { get; set; }
 
-        [DeserializeAs(Name = "message")]
+        [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
 
-        [DeserializeAs(Name = "data")]
+        [JsonProperty(PropertyName = "data")]
         public T Data { get; set; }
+
+        [JsonProperty(PropertyName = "paging")]
+        public PagingInfo PagingInfo { get; set; }
 
         public Result ToResult()
         {

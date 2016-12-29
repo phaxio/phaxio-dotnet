@@ -1,7 +1,5 @@
 ﻿using Phaxio.Entities;
 using Phaxio.Entities.Internal;
-using RestSharp;
-using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -10,33 +8,26 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Phaxio.ThinRestClient;
+using Phaxio.Clients.Internal;
 
 namespace Phaxio
 {
-
     /// <summary>
     ///  This is the main class and starting point for interacting with Phaxio.
     /// </summary>
-    public class PhaxioClient
+    public class PhaxioClient : BasePhaxioClient
     {
         private const string phaxioApiEndpoint = "https://api.phaxio.com/v1/";
-        private readonly string key;
-        private readonly string secret;
-        private IRestClient client;
 
         public PhaxioClient (string key, string secret)
             : this(key, secret, new RestClient())
         {
-
         }
 
         public PhaxioClient (string key, string secret, IRestClient restClient)
+            : base(key, secret, restClient)
         {
-            this.key = key;
-            this.secret = secret;
-
-            // Initialize the rest client
-            client = restClient;
             client.BaseUrl = new Uri(phaxioApiEndpoint);
         }
 
@@ -349,7 +340,7 @@ namespace Phaxio
         ///  Sends a fax
         /// </summary>
         /// <param name="toNumbers">The numbers to send the fax to</param>
-        /// <param name="file">The file to send. Supoorts doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
+        /// <param name="file">The file to send. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png</param>
         /// <param name="options">Additional fax options.</param>
         /// <param name="metadata">The metadata of the PhaxCode you'd like to use.
         /// If you leave this blank, the default account code will be used.</param>
@@ -469,87 +460,6 @@ namespace Phaxio
             };
 
             return request<Object>("testReceive", Method.POST, true, addParameters).ToResult();
-        }
-
-        private byte[] readAllBytes (Stream stream)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                stream.CopyTo(memoryStream);
-                return memoryStream.ToArray();
-            }
-        }
-
-        private byte[] download(string resource, Method method, Action<IRestRequest> requestModifier)
-        {
-            IRestResponse response = null;
-
-            runRequest(resource, method, true, requestModifier, (request) =>
-            {
-                response = client.Execute(request);
-                return response.ErrorException;
-            });
-
-            if (response.ContentType == "application/json")
-            {
-                var json = new JsonDeserializer();
-
-                var phaxioResponse = json.Deserialize<Response<Object>>(response);
-
-                throw new ApplicationException(phaxioResponse.Message);
-            }
-
-            return response.RawBytes;
-        }
-
-        private Response<T> request<T>(string resource, Method method)
-        {
-            return request<T>(resource, method, true, r => { });
-        }
-
-        private Response<T> request<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
-        {
-            IRestResponse<Response<T>> response = null;
-
-            runRequest(resource, method, auth, requestModifier, (request) =>
-            {
-                response = client.Execute<Response<T>>(request);
-                return response.ErrorException;
-            });
-
-            // If T is Object, it means that the method will return a
-            // bool indicating success or failure.
-            if (typeof(T) != typeof(Object) && !response.Data.Success)
-            {
-                throw new ApplicationException(response.Data.Message);
-            }
-
-            return response.Data;
-        }
-
-        private void runRequest(string resource, Method method, bool auth, Action<IRestRequest> requestModifier, Func<IRestRequest, Exception> executor)
-        {
-            var request = new RestRequest();
-
-            if (auth)
-            {
-                request.AddParameter(PhaxioConstants.KEY_NAME, key);
-                request.AddParameter(PhaxioConstants.SECRET_NAME, secret);
-            }
-
-            // Run any custom modifications
-            requestModifier(request);
-
-            request.Method = method;
-            request.Resource = resource;
-
-            var exception = executor(request);
-
-            if (exception != null)
-            {
-                const string message = "Error retrieving response. Check inner exception.";
-                throw new ApplicationException(message, exception);
-            }
         }
     }
 }

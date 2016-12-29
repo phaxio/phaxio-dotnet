@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Phaxio.Examples.ReceiveCallback.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -11,7 +10,6 @@ using System.Net.Http.Headers;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Hosting;
 using System.Web.Http;
 
 namespace Phaxio.Examples.ReceiveCallback.Controllers

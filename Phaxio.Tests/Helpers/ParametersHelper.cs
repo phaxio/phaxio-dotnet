@@ -1,4 +1,4 @@
-﻿using RestSharp;
+﻿using Phaxio.ThinRestClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
