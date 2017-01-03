@@ -65,10 +65,34 @@ batching FaxOptions would look like:
         File = pdf2,
         BatchDelaySeconds = 30
     };
-    phaxio.SendFax("8088675309", faxRequest1);
-    phaxio.SendFax("8088675309", faxRequest2);
+    phaxio.SendFax(faxRequest1);
+    phaxio.SendFax(faxRequest2);
 
 The machine at 808-867-5309 will see pdf1 and pdf2 as one long fax.
+
+### Using content URLs
+
+You can also specify a URL to pull the content of your fax from:
+
+    var faxRequest = new FaxRequest
+    {
+        ToNumber = "8088675309",
+        ContentUrl = "http://example.com/invoice/1234"
+    };
+    phaxio.SendFax(faxRequest);
+
+If you have multiple URLs to specify, you can set ContentUrls to an IEnumerable<string> to pass multiple URLs
+
+    var faxRequest = new FaxRequest
+    {
+        ToNumber = "8088675309",
+        ContentUrls = new List<string>
+        {
+            "http://example.com/invoice/1234",
+            "http://example.com/invoice/5678"
+        }
+    };
+    phaxio.SendFax(faxRequest);
 
 ### Querying sent faxes
 

@@ -513,5 +513,34 @@ namespace Phaxio.Tests
 
             Assert.IsTrue(result.Success);
         }
+
+        [Test]
+        public void UnitTests_Fax_Send_OnlySpecifiedOptions()
+        {
+            var testToNumber = "8088675309";
+            var testOptions = new FaxOptions
+            {
+                StringData = "somedata",
+                StringDataType = "html"
+            };
+
+            Action<IRestRequest> requestAsserts = req =>
+            {
+                var parameters = ParametersHelper.ToDictionary(req.Parameters);
+
+                Assert.AreEqual(testToNumber, parameters["to[]"]);
+                Assert.False(parameters.ContainsKey("batch"));
+                Assert.False(parameters.ContainsKey("batch_delay"));
+                Assert.False(parameters.ContainsKey("batch_collision_avoidance"));
+                Assert.False(parameters.ContainsKey("cancel_timeout"));
+            };
+
+            var clientBuilder = new IRestClientBuilder { Op = "send", RequestAsserts = requestAsserts };
+            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
+
+            var testFile = BinaryFixtures.getTestPdfFile();
+
+            var faxId = phaxio.SendFax(testToNumber, testFile, testOptions);
+        }
     }
 }

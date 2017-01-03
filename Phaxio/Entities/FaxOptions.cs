@@ -32,19 +32,19 @@ namespace Phaxio.Entities
         /// If present and true, fax will be sent in batching mode. Requires BatchDelaySeconds to be specified. See batching for more info.
         /// </summary>
         [SerializeAsAttribute("batch")]
-        public bool IsBatch { get; set; }
+        public bool? IsBatch { get; set; }
         
         /// <summary>
         /// The amount of time, in seconds, before the batch is fired. Must be specified if IsBatch=true. Maximum delay is 3600 (1 hour).
         /// </summary>
         [SerializeAsAttribute("batch_delay")]
-        public int BatchDelaySeconds { get; set; }
+        public int? BatchDelaySeconds { get; set; }
         
         /// <summary>
         /// If true when batch=true, fax will be blocked until the receiving machine is no longer busy. See batching for more info.
         /// </summary>
         [SerializeAsAttribute("batch_collision_avoidance")]
-        public bool AvoidBatchCollision { get; set; }
+        public bool? AvoidBatchCollision { get; set; }
         
         /// <summary>
         /// You can specify a callback url that will override the one you have defined globally for your account.
@@ -57,7 +57,7 @@ namespace Phaxio.Entities
         /// Additionally, for faxes with a BatchDelaySeconds, the CancelTimeoutAfter must be at least 3 minutes after the batch_delay.
         /// </summary>
         [SerializeAsAttribute("cancel_timeout")]
-        public int CancelTimeoutAfter { get; set; }
+        public int? CancelTimeoutAfter { get; set; }
         
         /// <summary>
         /// Tags for your fax. You may specify a maximum of 10.
