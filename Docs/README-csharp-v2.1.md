@@ -80,16 +80,17 @@ This returns an IEnumerable<Fax>.
 
 ### Downloading a fax
 
-To retrieve the fax file after you've sent it, call the File property on the Fax instance:
+To retrieve the fax file after you've sent it, call the File method on the Fax instance:
 
     var file = phaxio.Fax.Retrieve("1234").File;
     
-File is a byte array representing your fax in PDF form that you can write to disk or store in a database.
-You can also specify which format you'd like using the File method on the Fax instance:
+File is a FaxFile object representing your fax. You can call the Bytes property which returns a byte array of the PDF  that you can write to disk or store in a database.
 
-    var file = phaxio.Fax.Retrieve("1234").File(FileFormats.SMALL_JPEG);
+You can also specify which format you'd like using the File property on the Fax instance:
+
+    var file = phaxio.Fax.Retrieve("1234").File.SmallJpeg;
     
-Specify FileFormats.SMALL_JPEG for a small JPEG, FileFormats.LARGE_JPEG for a large JPEG, or FileFormats.PDF for PDF. If you don't specify this, it will be a PDF.
+Specify SmallJpeg for a small JPEG, LargeJpeg for a large JPEG, or Pdf for PDF.
 
 ### Resending a fax
 
@@ -101,7 +102,7 @@ You can resend a fax:
 
 You can cancel a fax:
 
-    fax.Cancel("1234");
+    fax.Cancel();
 
 ### Deleting a fax's files
 
@@ -182,11 +183,11 @@ This operation will throw an exception if the number cannot be released.
 
 Creating a PhaxCode is simple:
 
-    var phaxCode = phaxio.PhaxCodes.Create();
+    var phaxCode = phaxio.PhaxCode.Create();
 
 You can also attach metadata to the code so you can reference it later:
 
-    var phaxCode = phaxio.PhaxCodes.Create("code-for-form1234");
+    var phaxCode = phaxio.PhaxCode.Create("code-for-form1234");
 
 You can also get the image directly:
 
@@ -206,7 +207,7 @@ To download the PNG of this newly generated code:
 
 If you want to know what countries are supported by Phaxio, you can call this method:
 
-    IEnumerable<Country> supportedCountries = phaxio.Public.SupportedCountry.List;
+    IEnumerable<Country> supportedCountries = phaxio.Public.SupportedCountry.List();
     
 This returns a IEnumerable of Country objects that have pricing and the services available.
  

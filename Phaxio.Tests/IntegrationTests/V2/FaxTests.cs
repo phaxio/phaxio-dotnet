@@ -31,19 +31,17 @@ namespace Phaxio.Tests.IntegrationTests.V2
         }
 
         [Test]
-        public void IntegrationTests_V2_Fax_Send()
+        public void IntegrationTests_V2_Fax_Create()
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 
-            var request = new FaxRequest { ToNumber = "+18088675309", File = testPdf };
+            var fax = phaxio.Fax.Create(to: "+18088675309", file: testPdf);
 
-            var faxId = phaxio.SendFax(request);
-
-            Assert.IsNotEmpty(faxId);
+            Assert.NotZero(fax.Id);
         }
 
         [Test]
@@ -52,20 +50,20 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
 
             var phaxioV1 = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             // Create a phax code
             var metadata = StringHelpers.Random(10);
 
-            var phaxCodePng = phaxio.GeneratePhaxCodeAndDownload(metadata);
+            var phaxCode = phaxio.PhaxCode.Create(metadata);
 
             var phaxCodeFilename = pwd() + metadata + ".png";
 
             filesToCleanup.Add(phaxCodeFilename);
 
-            File.WriteAllBytes(phaxCodeFilename, phaxCodePng);
+            File.WriteAllBytes(phaxCodeFilename, phaxCode.Png);
 
             // Attach phax code to pdf
             var testPdf = BinaryFixtures.getTestPdfFile();
@@ -84,8 +82,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
             Thread.Sleep(1000);
 
             // Send phax using pdf with phax code
-            var faxRequest = new FaxRequest { ToNumber = "8088675309", File = testPdfWithCode };
-            var faxId = phaxio.SendFax(faxRequest);
+            var fax = phaxio.Fax.Create(to: "8088675309", file: testPdfWithCode);
 
             // Phaxio rate limits, so we need to wait a second.
             Thread.Sleep(1000);
@@ -98,7 +95,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
             {
                 try
                 {
-                    var thumbnailBytes = phaxio.DownloadFax(faxId, "s");
+                    var thumbnailBytes = phaxio.Fax.Retrieve(fax.Id).File.SmallJpeg.Bytes;
                     var thumbnailFilename = pwd() + metadata + ".jpg";
 
                     filesToCleanup.Add(thumbnailFilename);
@@ -120,30 +117,22 @@ namespace Phaxio.Tests.IntegrationTests.V2
             Thread.Sleep(2000);
 
             // Resend fax
-            var resendResult = phaxio.ResendFax(faxId);
-
-            Assert.True(resendResult.Success, "ResendFax should return success.");
+            fax.Resend();
 
             Thread.Sleep(1000);
 
             // Cancel a fax
-            var cancelResult = phaxio.CancelFax(faxId);
-
-            Assert.IsFalse(cancelResult.Success, "CancelFax should not be successful.");
+            Assert.Throws<Exception>(() => fax.Cancel(), "CancelFax should throw exception.");
 
             Thread.Sleep(1000);
 
             // Delete a fax
-            var deleteFileResult = phaxio.DeleteFaxFiles(faxId);
-
-            Assert.True(deleteFileResult.Success, "DeleteFileResult should return success.");
+            fax.File.Delete();
 
             Thread.Sleep(1000);
 
             // Delete a fax
-            var deleteResult = phaxio.DeleteFax(faxId);
-
-            Assert.True(deleteResult.Success, "DeleteResult should return success.");
+            fax.Delete();
         }
     }
 }

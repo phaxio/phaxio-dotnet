@@ -8,25 +8,25 @@ namespace Phaxio.Tests.IntegrationTests.V2
     public class PhaxCodeTests
     {
         [Test]
-        public void IntegrationTests_V2_PhaxCode_GetId()
+        public void IntegrationTests_V2_PhaxCodeRepository_Create()
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
 
-            var codeId = phaxio.GeneratePhaxCode("stuff");
+            var phaxCode = phaxio.PhaxCode.Create("stuff");
 
-            Assert.IsNotEmpty(codeId);
+            Assert.IsNotEmpty(phaxCode.Identifier);
         }
 
         [Test]
-        public void IntegrationTests_V2_PhaxCode_GetCodeBytes()
+        public void IntegrationTests_V2_PhaxCode_Png()
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
 
-            var png = phaxio.GeneratePhaxCodeAndDownload();
+            var png = phaxio.PhaxCode.Create().Png;
 
             Assert.IsNotEmpty(png);
         }
@@ -36,21 +36,19 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
 
-            var codeId = phaxio.GeneratePhaxCode("phil");
-
-            Thread.Sleep(1000);
-
-            var properties = phaxio.GetPhaxCode(codeId);
-
-            Assert.AreEqual("phil", properties.Metadata);
+            var code1 = phaxio.PhaxCode.Create("phil");
 
             Thread.Sleep(1000);
 
-            var png = phaxio.DownloadPhaxCode(codeId);
+            var code2 = phaxio.PhaxCode.Retrieve(code1.Identifier);
 
-            Assert.IsNotEmpty(png);
+            Assert.AreEqual("phil", code2.Metadata);
+
+            Thread.Sleep(1000);
+
+            Assert.IsNotEmpty(code2.Png);
         }
     }
 }

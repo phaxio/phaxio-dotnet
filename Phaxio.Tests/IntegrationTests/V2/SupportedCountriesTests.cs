@@ -8,15 +8,15 @@ namespace Phaxio.Tests.IntegrationTests.V2
     public class SupportedCountriesTests
     {
         [Test]
-        public void IntegrationTests_V2_SupportedCountries()
+        public void IntegrationTests_V2_Public_SupportedCountry_List()
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
 
-            var countries = phaxio.ListSupportedCountries();
+            var countries = phaxio.Public.SupportedCountry.List();
 
-            Assert.Greater(countries.Data.Count(), 0, "There should be some countries");
+            Assert.Greater(countries.Count(), 0, "There should be some countries");
         }
     }
 }

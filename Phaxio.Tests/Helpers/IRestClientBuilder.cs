@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Phaxio.Entities;
 using Phaxio.Entities.Internal;
+using Phaxio.Entities.Internal.V1;
 using Phaxio.Tests.Helpers;
 using Phaxio.ThinRestClient;
 using Phaxio.ThinRestClient.Helpers;

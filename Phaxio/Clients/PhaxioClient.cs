@@ -1,5 +1,6 @@
 ﻿using Phaxio.Entities;
 using Phaxio.Entities.Internal;
+using Phaxio.Entities.Internal.V1;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Phaxio.ThinRestClient;
 using Phaxio.Clients.Internal;
+using Phaxio.ThinRestClient.Helpers;
 
 namespace Phaxio
 {
@@ -20,16 +22,40 @@ namespace Phaxio
     {
         private const string phaxioApiEndpoint = "https://api.phaxio.com/v1/";
 
-        public PhaxioClient (string key, string secret)
+        public PhaxioClient(string key, string secret)
             : this(key, secret, new RestClient())
         {
         }
 
-        public PhaxioClient (string key, string secret, IRestClient restClient)
+        public PhaxioClient(string key, string secret, IRestClient restClient)
             : base(key, secret, restClient)
         {
             client.BaseUrl = new Uri(phaxioApiEndpoint);
         }
+
+        protected override void checkException(IRestResponse response)
+        {
+            if (response.ContentType == "application/json")
+            {
+                var json = new JsonDeserializer();
+
+                var phaxioResponse = json.Deserialize<Response<Object>>(response);
+
+                throw new ApplicationException(phaxioResponse.Message);
+            }
+        }
+
+        protected override void checkException<T>(IRestResponse<Response<T>> response)
+        {
+            // If T is Object, it means that the method will return a
+            // bool indicating success or failure.
+            if (typeof(T) != typeof(Object) && !response.Data.Success)
+            {
+                throw new ApplicationException(response.Data.Message);
+            }
+        }
+
+        protected override void modifyDataItem<T>(T item) { }
 
         /// <summary>
         ///  Attaches a PhaxCode to the supplied File.

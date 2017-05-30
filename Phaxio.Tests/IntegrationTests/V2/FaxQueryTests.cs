@@ -2,6 +2,7 @@
 using Phaxio.Entities;
 using Phaxio.Tests.Helpers;
 using System.Threading;
+using System.Linq;
 
 namespace Phaxio.Tests.IntegrationTests.V2
 {
@@ -13,21 +14,19 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new Phaxio(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 
-            var request = new FaxRequest { ToNumber = "+18088675309", File = testPdf };
+            var fax = phaxio.Fax.Create(to: "+18088675309", file: testPdf);
 
-            var faxId = phaxio.SendFax(request);
-
-            Assert.IsNotEmpty(faxId);
+            Assert.NotZero(fax.Id);
 
             Thread.Sleep(1000);
 
-            var faxes = phaxio.ListFaxes();
+            var faxes = phaxio.Fax.List();
 
-            Assert.Greater(faxes.Data.Count, 0, "There should be some faxes.");
+            Assert.Greater(faxes.Count(), 0, "There should be some faxes.");
         }
     }
 }
