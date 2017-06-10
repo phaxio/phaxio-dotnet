@@ -14,7 +14,7 @@ namespace Phaxio.Examples.Basic
 
             IniData config = parser.ReadFile(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "keys.ini");
 
-            var phaxio = new PhaxioContext(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
+            var phaxio = new PhaxioClient(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
 
             //var account = phaxio.GetAccountStatus();
 

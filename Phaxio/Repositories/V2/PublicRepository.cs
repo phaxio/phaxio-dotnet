@@ -8,9 +8,9 @@ namespace Phaxio.Repositories.V2
 {
     public class PublicRepository
     {
-        private PhaxioContext client;
+        private PhaxioClient client;
 
-        public PublicRepository(PhaxioContext client)
+        public PublicRepository(PhaxioClient client)
         {
             this.client = client;
             AreaCode = new AreaCodeRepository(client);

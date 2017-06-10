@@ -12,7 +12,7 @@ namespace Phaxio.Examples.ReceiveCallback.Controllers
 
             var filepath = HostingEnvironment.MapPath("~/App_Data/test.pdf");
 
-            phaxio.TestRecieveCallback(new FileInfo(filepath));
+            phaxio.Fax.TestRecieveCallback(new FileInfo(filepath));
 
             return true;
         }

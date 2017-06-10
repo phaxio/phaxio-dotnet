@@ -14,7 +14,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             var testPdf = BinaryFixtures.getTestPdfFile();
 

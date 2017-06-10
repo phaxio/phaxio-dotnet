@@ -10,7 +10,7 @@ namespace Phaxio.Resources.V2
 {
     public class PhoneNumber
     {
-        public PhaxioContext PhaxioClient { private get; set; }
+        public PhaxioClient PhaxioClient { private get; set; }
 
         [JsonProperty(PropertyName = "phone_number")]
         public string Number { get; set; }

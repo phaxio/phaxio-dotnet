@@ -50,7 +50,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<List<Fax>>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var list = phaxio.Fax.List(
                 createdBefore: createdBefore,

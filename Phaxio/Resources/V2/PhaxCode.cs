@@ -11,7 +11,7 @@ namespace Phaxio.Resources.V2
 {
     public class PhaxCode
     {
-        public PhaxioContext PhaxioClient { get; set; }
+        public PhaxioClient PhaxioClient { get; set; }
 
         [JsonProperty(PropertyName = "identifier")]
         public string Identifier { get; set; }

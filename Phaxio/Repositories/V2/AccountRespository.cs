@@ -1,13 +1,13 @@
-﻿using Phaxio.Entities.V2;
+﻿using Phaxio.Entities;
 using Phaxio.ThinRestClient;
 
 namespace Phaxio.Repositories.V2
 {
     public class AccountRespository
     {
-        private PhaxioContext client;
+        private PhaxioClient client;
 
-        public AccountRespository(PhaxioContext client)
+        public AccountRespository(PhaxioClient client)
         {
             this.client = client;
         }

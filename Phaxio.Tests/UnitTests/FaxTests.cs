@@ -50,7 +50,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<Fax>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var fax = phaxio.Fax.Create(to: "123",
                 file: testPdf,
@@ -83,29 +83,13 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<object>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var fax = new Fax(123456);
 
             fax.PhaxioClient = phaxio;
 
             fax.Cancel();
-        }
-
-        [Test]
-        public void UnitTests_Fax_Resend()
-        {
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                Assert.AreEqual(req.Parameters[2].Value, "123");
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "resendFax", RequestAsserts = requestAsserts };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var result = phaxio.ResendFax("123");
-
-            Assert.True(result.Success, "Should be success.");
         }
 
         [Test]
@@ -124,72 +108,13 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<object>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var fax = new Fax(123456);
 
             fax.PhaxioClient = phaxio;
 
             fax.Resend();
-        }
-
-        [Test]
-        public void UnitTests_Fax_Delete()
-        {
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                Assert.AreEqual(req.Parameters[2].Value, "123");
-                Assert.AreEqual(req.Parameters[3].Value, false);
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "deleteFax", RequestAsserts = requestAsserts };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var result = phaxio.DeleteFax("123");
-
-            Assert.True(result.Success, "Should be success.");
-        }
-
-        [Test]
-        public void UnitTests_Fax_DeleteWithOptions()
-        {
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                Assert.AreEqual(req.Parameters[2].Value, "123");
-                Assert.AreEqual(req.Parameters[3].Value, true);
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "deleteFax", RequestAsserts = requestAsserts };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var result = phaxio.DeleteFax("123", true);
-
-            Assert.True(result.Success, "Should be success.");
-        }
-
-        [Test]
-        public void UnitTests_Fax_DownloadFax_NoOptions()
-        {
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                var parameters = ParametersHelper.ToDictionary(req.Parameters);
-
-                Assert.AreEqual(parameters["id"], "1234");
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "faxFile", RequestAsserts = requestAsserts };
-
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.BuildUntyped());
-
-            var testPdf = BinaryFixtures.getTestPdfFile();
-
-            var pdfBytes = phaxio.DownloadFax("1234");
-
-            Assert.IsNotEmpty(pdfBytes);
-
-            var expectedPdf = BinaryFixtures.GetTestPdf();
-
-            Assert.AreEqual(expectedPdf, pdfBytes, "PDFs should be the same.");
         }
 
         [Test]
@@ -208,7 +133,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<Fax>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var faxInfo = phaxio.Fax.Retrieve(123456);
 
@@ -266,7 +191,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var fax = new FaxFile(123456, thumbnail: "l");
             fax.PhaxioClient = phaxio;
@@ -292,7 +217,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<object>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var fax = new Fax(123456);
 
@@ -317,7 +242,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<object>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var file = new FaxFile(123456);
 

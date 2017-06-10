@@ -33,7 +33,7 @@ namespace Phaxio.Tests.UnitTests.UnitTests.V2
                 .Ok()
                 .Build<Response<PhaxCode>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var code = phaxio.PhaxCode.Create("stuff");
 
@@ -56,7 +56,7 @@ namespace Phaxio.Tests.UnitTests.UnitTests.V2
                 .Ok()
                 .Build<Response<PhaxCode>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var code = phaxio.PhaxCode.Retrieve();
 
@@ -79,7 +79,7 @@ namespace Phaxio.Tests.UnitTests.UnitTests.V2
                 .Ok()
                 .Build<Response<PhaxCode>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var code = phaxio.PhaxCode.Retrieve("1234");
 
@@ -104,7 +104,7 @@ namespace Phaxio.Tests.UnitTests.UnitTests.V2
                 .Ok()
                 .Build();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var phaxCode = new PhaxCode { Identifier = "1234", PhaxioClient = phaxio };
 

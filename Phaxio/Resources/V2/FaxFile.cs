@@ -11,7 +11,7 @@ namespace Phaxio.Resources.V2
 {
     public class FaxFile
     {
-        public PhaxioContext PhaxioClient { get; set; }
+        public PhaxioClient PhaxioClient { get; set; }
         private int faxId;
         private string thumbnail;
         public FaxFile(int faxId, string thumbnail = null)

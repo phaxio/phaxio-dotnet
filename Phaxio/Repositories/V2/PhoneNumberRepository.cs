@@ -7,9 +7,9 @@ namespace Phaxio.Repositories.V2
 {
     public class PhoneNumberRepository
     {
-        private PhaxioContext client;
+        private PhaxioClient client;
 
-        public PhoneNumberRepository(PhaxioContext client)
+        public PhoneNumberRepository(PhaxioClient client)
         {
             this.client = client;
         }

@@ -12,9 +12,9 @@ namespace Phaxio.Repositories.V2
 
     public class FaxRepository
     {
-        private PhaxioContext context;
+        private PhaxioClient context;
 
-        public FaxRepository(PhaxioContext context)
+        public FaxRepository(PhaxioClient context)
         {
             this.context = context;
         }

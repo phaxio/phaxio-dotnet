@@ -13,7 +13,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             var areaCodes = phaxio.Public.AreaCode.List(state: "HI", country: "US");
 
@@ -25,7 +25,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
         {
             var config = new KeyManager();
 
-            var phaxio = new PhaxioContext(config["api_key"], config["api_secret"]);
+            var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             // Find area codes to provision a number in
             var areaCodes = phaxio.Public.AreaCode.List(country: "US", state: "DE");

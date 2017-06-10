@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Phaxio.Entities.V2;
+using Phaxio.Entities;
 using Phaxio.Tests.Helpers;
 
 namespace Phaxio.Tests.UnitTests.V2
@@ -23,7 +23,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<AccountStatus>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var account = phaxio.Account.Status;
 

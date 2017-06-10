@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Phaxio.Entities.V2
+namespace Phaxio.Entities
 {
     /// <summary>
     ///  This represents a Phaxio account status in the V2 client

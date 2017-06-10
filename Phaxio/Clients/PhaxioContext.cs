@@ -10,16 +10,16 @@ using System.Reflection;
 
 namespace Phaxio
 {
-    public class PhaxioContext : BasePhaxioClient
+    public class PhaxioClient : BasePhaxioClient
     {
         private const string phaxioApiEndpoint = "https://api.phaxio.com/v2/";
 
-        public PhaxioContext(string key, string secret)
+        public PhaxioClient(string key, string secret)
             : this(key, secret, new RestClient())
         {
         }
 
-        public PhaxioContext(string key, string secret, IRestClient restClient)
+        public PhaxioClient(string key, string secret, IRestClient restClient)
             : base(key, secret, new RestClient())
         {
             // Initialize the rest client

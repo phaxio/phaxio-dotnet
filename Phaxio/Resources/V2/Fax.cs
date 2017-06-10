@@ -12,8 +12,8 @@ namespace Phaxio.Resources.V2
 {
     public class Fax
     {
-        private PhaxioContext _phaxioClient;
-        public PhaxioContext PhaxioClient {
+        private PhaxioClient _phaxioClient;
+        public PhaxioClient PhaxioClient {
             private get
             {
                 return _phaxioClient;

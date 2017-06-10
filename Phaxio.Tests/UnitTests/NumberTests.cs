@@ -40,7 +40,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<PhoneNumber>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var number = phaxio.PhoneNumber.Create(
                 countryCode: "1",
@@ -77,7 +77,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<PhoneNumber>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var number = phaxio.PhoneNumber.Retrieve("+18475551234");
 
@@ -121,7 +121,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<List<PhoneNumber>>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var list = phaxio.PhoneNumber.List(
                 countryCode: "1",
@@ -152,7 +152,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<Object>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var number = new PhoneNumber { Number = "+18475551234", PhaxioClient = phaxio };
 
@@ -187,7 +187,7 @@ namespace Phaxio.Tests.UnitTests.V2
                 .Ok()
                 .Build<Response<List<AreaCode>>>();
 
-            var phaxio = new PhaxioContext(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             var list = phaxio.Public.AreaCode.List(
                 countryCode: "1",

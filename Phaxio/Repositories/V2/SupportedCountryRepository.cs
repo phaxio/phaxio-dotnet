@@ -7,9 +7,9 @@ namespace Phaxio.Repositories.V2
 {
     public class SupportedCountryRepository
     {
-        private PhaxioContext client;
+        private PhaxioClient client;
 
-        public SupportedCountryRepository(PhaxioContext client)
+        public SupportedCountryRepository(PhaxioClient client)
         {
             this.client = client;
         }
