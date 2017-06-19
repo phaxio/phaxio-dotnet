@@ -31,7 +31,16 @@ namespace Phaxio.ThinRestClient
 
         public IRestRequest AddParameter(string name, object value)
         {
-            Parameters.Add(new Parameter { Name = name, Value = value });
+            var existingParameter = Parameters.Find(p => p.Name == name);
+
+            if (existingParameter != null)
+            {
+                existingParameter.Value = value;
+            }
+            else
+            {
+                Parameters.Add(new Parameter { Name = name, Value = value });
+            }
 
             return this;
         }

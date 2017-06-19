@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phaxio", "Phaxio\Phaxio.csproj", "{ADCCE4D2-A31D-43E3-A992-A5556C279C49}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phaxio.Examples.ReceiveCallback", "Phaxio.Examples.ReceiveCallback\Phaxio.Examples.ReceiveCallback.csproj", "{ECB853C8-356E-431B-86CA-4886B6F3D0FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phaxio.Examples.Basic", "Phaxio.Examples.Basic\Phaxio.Examples.Basic.csproj", "{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Phaxio.Examples.Basic.VbNet", "Phaxio.Examples.Basic.VbNet\Phaxio.Examples.Basic.VbNet.vbproj", "{C1C1264D-1AD8-422A-B2C2-CA529F6DD48A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,11 +30,12 @@ Global
 		{ECB853C8-356E-431B-86CA-4886B6F3D0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ECB853C8-356E-431B-86CA-4886B6F3D0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECB853C8-356E-431B-86CA-4886B6F3D0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECB853C8-356E-431B-86CA-4886B6F3D0FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0168A1FC-3CC2-4ABF-8AE8-0EA2D13ECA68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C1264D-1AD8-422A-B2C2-CA529F6DD48A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C1264D-1AD8-422A-B2C2-CA529F6DD48A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C1264D-1AD8-422A-B2C2-CA529F6DD48A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

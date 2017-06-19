@@ -3,42 +3,46 @@ using Phaxio.Tests.Helpers;
 using System.Linq;
 using System.Threading;
 
-namespace Phaxio.Tests.IntegrationTests
+namespace Phaxio.Tests.IntegrationTests.V2
 {
     [TestFixture, Explicit]
     public class NumbersTests
     {
         [Test]
-        public void IntegrationTests_Numbers_GetAreaCodes()
+        public void IntegrationTests_V2_Public_AreaCode_List()
         {
             var config = new KeyManager();
 
             var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
-            var areaCodes = phaxio.ListAreaCodes(state:"HI");
+            var areaCodes = phaxio.Public.AreaCode.List(state: "HI", country: "US");
 
             Assert.Greater(areaCodes.Count(), 0, "There should be some area codes");
         }
 
         [Test]
-        public void IntegrationTests_Numbers_BasicScenario()
+        public void IntegrationTests_V2_Numbers_BasicScenario()
         {
             var config = new KeyManager();
 
             var phaxio = new PhaxioClient(config["api_key"], config["api_secret"]);
 
             // Find area codes to provision a number in
-            var areaCodes = phaxio.ListAreaCodes(state: "DE");
+            var areaCodes = phaxio.Public.AreaCode.List(country: "US", state: "DE");
 
             Assert.Greater(areaCodes.Count(), 0, "There should be some area codes");
 
             var areaCode = areaCodes.First();
 
+            Thread.Sleep(1000);
+
             // Provision a number
-            var provisionedNumber = phaxio.ProvisionNumber(areaCode.Key);
+            var provisionedNumber = phaxio.PhoneNumber.Create(areaCode.AreaCodeNumber, areaCode.CountryCode);
+
+            Thread.Sleep(1000);
 
             // Check to see if the number's listed on the account
-            var accountNumbers = phaxio.ListNumbers();
+            var accountNumbers = phaxio.PhoneNumber.List();
 
             if (!accountNumbers.Any(n => n.Number == provisionedNumber.Number))
             {
@@ -48,12 +52,12 @@ namespace Phaxio.Tests.IntegrationTests
             Thread.Sleep(1000);
 
             // Release the number
-            phaxio.ReleaseNumber(provisionedNumber.Number);
+            provisionedNumber.Release();
 
             Thread.Sleep(1000);
 
             // Check to see if the number's still listed on the account
-            accountNumbers = phaxio.ListNumbers();
+            accountNumbers = phaxio.PhoneNumber.List();
 
             if (accountNumbers.Any(n => n.Number == provisionedNumber.Number))
             {

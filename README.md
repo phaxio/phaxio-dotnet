@@ -4,7 +4,6 @@
 
 [![Build Status](https://travis-ci.org/phaxio/phaxio-dotnet.svg?branch=master)](https://travis-ci.org/phaxio/phaxio-dotnet)
 
-
 Phaxio is the only cloud based fax API designed for developers. This is the .NET client library for Phaxio.
 
 ## Getting started
@@ -17,40 +16,32 @@ Third, install this client with Nuget:
 
     Install-Package Phaxio
 
-For basic usage, use [this guide](Docs/README-csharp-v2.md) if you're a C# developer or
-[this guide](Docs/README-vb-v2.md) if you're a VB.NET developer.
-
-If you're looking for version 1, use [this guide](Docs/README-csharp.md) if you're a C# developer or
+Use [this guide](Docs/README-csharp.md) if you're a C# developer or
 [this guide](Docs/README-vb.md) if you're a VB.NET developer.
 
 ## Migration from library version 1.0.0 to 2.0.0
 
-PhaxioClient no longer has a constructor that accepts RestSharp.RestClient.
+This is a complete re-write and starts from scratch in its design. Please see the above documentation about how to use the new library and its calls.
 
 ## Migration from API V1 to V2
 
-Phaxio is not a drop-in replacement for PhaxioClient. Several methods have been removed.
+This lbirary now uses Phaxio API V2, so these methods have been removed and have no equivalent:
 
 - AttachPhaxCodeToPdf was removed
 - CreatePhaxCode is now GeneratePhaxCode
 - DownloadPhaxCodePng is now DownloadPhaxCode
 - GetHostedDocument was removed
 
-Faxes are now sent by creating a FaxRequest object and then passing it to PhaxioV2Client#SendFax. The fields
-of FaxOptions have been moved to FaxRequest except for the following:
-
-- StringData and StringDataType are no longer supported
-- Batch is no longer necessary
-
 ## Errors
 
-Sometimes errors will occur, whether it's network timeouts or bad requests. All operations will throw an
-exception if a network or client error occurs. Some operations return data to you, such as a byte array
-representing a PDF. If those requests fail due to an authentication failure, a malformed number, insufficient
-funds, rate limiting, etc., they'll throw an ApplicationException with an error message describing the problem.
+Operations that connect to Phaxio will throw an exception if an error is encountered.
 
-For those requests returning a Result object, that will have a bool named Success and a string called
-Message that will tell you the result of the operation.
+RateLimitException happens if you have made too many requests per second.
+InvalidRequestException is throw if the data sent to Phaxio is not correct
+AuthenticationException gets thrown when your credentials are invalid
+NotFoundException is throw when you try to retrieve a resource by ID but it isn't found
+ApiConnectionException occurs when there is a network issue
+ServerException happens if the server is not working
 
 ### Rate limiting
 
@@ -61,4 +52,4 @@ Check the exception message, wait a second, and then try your request again.
 
 Writing a callback to get fax send or recieve events is simple. Read this [handy guide](Docs/README-callbacks.md) to get started.
 
-&copy; 2016 Phaxio
+&copy; 2016-2017 Phaxio

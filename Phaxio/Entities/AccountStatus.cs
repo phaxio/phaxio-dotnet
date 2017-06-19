@@ -3,7 +3,7 @@
 namespace Phaxio.Entities
 {
     /// <summary>
-    ///  This represents a Phaxio account in the V2 client
+    ///  This represents a Phaxio account status in the V2 client
     /// </summary>
     public class AccountStatus
     {

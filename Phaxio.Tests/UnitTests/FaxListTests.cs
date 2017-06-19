@@ -5,9 +5,11 @@ using Phaxio.Entities;
 using Phaxio.Tests.Helpers;
 using Phaxio.Entities.Internal;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Phaxio.Tests
+namespace Phaxio.Tests.UnitTests.V2
 {
+    using Fax = Phaxio.Resources.V2.Fax;
     [TestFixture]
     public class FaxListTests
     {
@@ -31,7 +33,7 @@ namespace Phaxio.Tests
                 Assert.AreEqual("1234", parameters["phone_number"]);
                 Assert.AreEqual("value", parameters["tag[key]"]);
                 Assert.AreEqual(25, parameters["per_page"]);
-                Assert.AreEqual(400, parameters["page"]);
+                Assert.AreEqual(1, parameters["page"]);
             };
        
             var requestAsserts = new RequestAsserts()
@@ -46,11 +48,11 @@ namespace Phaxio.Tests
                 .AsJson()
                 .Content(JsonResponseFixtures.FromFile("V2/fax_list"))
                 .Ok()
-                .Build<Response<List<FaxInfo>>>();
+                .Build<Response<List<Fax>>>();
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
-            var list = phaxio.ListFaxes(
+            var list = phaxio.Fax.List(
                 createdBefore: createdBefore,
                 createdAfter: createdAfter,
                 direction: "sent",
@@ -58,14 +60,11 @@ namespace Phaxio.Tests
                 phoneNumber: "1234",
                 tagName: "key",
                 tagValue: "value",
-                page: 400,
+                page: 1,
                 perPage: 25
             );
 
-            Assert.AreEqual(3, list.Data.Count);
-            Assert.AreEqual(1, list.PagingInfo.Page);
-            Assert.AreEqual(25, list.PagingInfo.PerPage);
-            Assert.AreEqual(3, list.PagingInfo.Total);
+            Assert.AreEqual(3, list.Count());
         }
     }
 }

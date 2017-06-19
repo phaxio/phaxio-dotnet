@@ -1,40 +1,21 @@
 ﻿using System;
 using NUnit.Framework;
-using Phaxio.Tests.Fixtures;
 using Phaxio.ThinRestClient;
 using Phaxio.Tests.Helpers;
-using Phaxio.Entities.Internal;
 using System.Collections.Generic;
-using Phaxio.Entities;
 using System.Linq;
+using Phaxio.Entities;
+using Phaxio.Resources.V2;
 
-namespace Phaxio.Tests
+namespace Phaxio.Tests.UnitTests.V2
 {
+    using PhoneNumber = Resources.V2.PhoneNumber;
+
     [TestFixture]
     public class NumberTests
     {
         [Test]
-        public void UnitTests_Numbers_Provision()
-        {
-            var areaCode = "808";
-
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                Assert.AreEqual(req.Parameters[2].Value, areaCode);
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "provisionNumber", RequestAsserts = requestAsserts };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var actualNumber = phaxio.ProvisionNumber(areaCode);
-
-            var expectedNumber = PocoFixtures.GetTestPhoneNumber();
-
-            Assert.AreEqual(expectedNumber.Number, actualNumber.Number, "Number should be the same");
-        }
-
-        [Test]
-        public void UnitTests_V2_Numbers_Provision()
+        public void UnitTests_V2_PhoneNumber_Create()
         {
             Action<IRestRequest> parameterAsserts = req =>
             {
@@ -57,11 +38,11 @@ namespace Phaxio.Tests
                 .AsJson()
                 .Content(JsonResponseFixtures.FromFile("V2/provision_number"))
                 .Ok()
-                .Build<Response<PhoneNumberV2>>();
+                .Build<Response<PhoneNumber>>();
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
-            var number = phaxio.ProvisionNumber(
+            var number = phaxio.PhoneNumber.Create(
                 countryCode: "1",
                 areaCode: "808",
                 callbackUrl: "http://example.com"
@@ -81,7 +62,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_V2_Numbers_Get()
+        public void UnitTests_V2_PhoneNumber_Retrieve()
         {
             var requestAsserts = new RequestAsserts()
                 .Auth()
@@ -94,11 +75,11 @@ namespace Phaxio.Tests
                 .AsJson()
                 .Content(JsonResponseFixtures.FromFile("V2/provision_number"))
                 .Ok()
-                .Build<Response<PhoneNumberV2>>();
+                .Build<Response<PhoneNumber>>();
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
-            var number = phaxio.GetNumberInfo("+18475551234");
+            var number = phaxio.PhoneNumber.Retrieve("+18475551234");
 
             var lastBilledAt = Convert.ToDateTime("2016-06-16T15:45:32.000-06:00");
             var provisionedAt = Convert.ToDateTime("2016-06-16T15:45:32.000-06:00");
@@ -114,7 +95,7 @@ namespace Phaxio.Tests
         }
 
         [Test]
-        public void UnitTests_V2_Numbers_List()
+        public void UnitTests_V2_PhoneNumber_List()
         {
             Action<IRestRequest> parameterAsserts = req =>
             {
@@ -123,7 +104,7 @@ namespace Phaxio.Tests
                 Assert.AreEqual("1", parameters["country_code"]);
                 Assert.AreEqual("808", parameters["area_code"]);
                 Assert.AreEqual(25, parameters["per_page"]);
-                Assert.AreEqual(400, parameters["page"]);
+                Assert.AreEqual(1, parameters["page"]);
             };
 
             var requestAsserts = new RequestAsserts()
@@ -138,23 +119,20 @@ namespace Phaxio.Tests
                 .AsJson()
                 .Content(JsonResponseFixtures.FromFile("V2/list_numbers"))
                 .Ok()
-                .Build<Response<List<PhoneNumberV2>>>();
+                .Build<Response<List<PhoneNumber>>>();
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
-            var list = phaxio.ListAccountNumbers(
+            var list = phaxio.PhoneNumber.List(
                 countryCode: "1",
                 areaCode: "808",
-                page: 400,
+                page: 1,
                 perPage: 25
             );
 
-            Assert.AreEqual(2, list.Data.Count);
-            Assert.AreEqual(1, list.PagingInfo.Page);
-            Assert.AreEqual(25, list.PagingInfo.PerPage);
-            Assert.AreEqual(2, list.PagingInfo.Total);
+            Assert.AreEqual(2, list.Count());
 
-            var number = list.Data.First();
+            var number = list.First();
             Assert.AreEqual("+18475551234", number.Number);
         }
 
@@ -174,11 +152,11 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<Object>>();
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
-            var result = phaxio.ReleaseNumber("+18475551234");
+            var number = new PhoneNumber { Number = "+18475551234", PhaxioClient = phaxio };
 
-            Assert.IsTrue(result.Success);
+            number.Release();
         }
 
         [Test]
@@ -193,7 +171,7 @@ namespace Phaxio.Tests
                 Assert.AreEqual("US", parameters["country"]);
                 Assert.AreEqual("WA", parameters["state"]);
                 Assert.AreEqual(25, parameters["per_page"]);
-                Assert.AreEqual(400, parameters["page"]);
+                Assert.AreEqual(1, parameters["page"]);
             };
 
             var requestAsserts = new RequestAsserts()
@@ -209,104 +187,26 @@ namespace Phaxio.Tests
                 .Ok()
                 .Build<Response<List<AreaCode>>>();
 
-            var phaxio = new Phaxio(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, restClient);
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
-            var list = phaxio.ListAreaCodes(
+            var list = phaxio.Public.AreaCode.List(
                 countryCode: "1",
                 tollFree: true,
                 country: "US",
                 state: "WA",
-                page: 400,
+                page: 1,
                 perPage: 25
             );
 
-            Assert.AreEqual(3, list.Data.Count);
-            Assert.AreEqual(1, list.PagingInfo.Page);
-            Assert.AreEqual(3, list.PagingInfo.PerPage);
-            Assert.AreEqual(270, list.PagingInfo.Total);
+            Assert.AreEqual(3, list.Count());
 
-            var areaCode = list.Data.First();
+            var areaCode = list.First();
             Assert.AreEqual("1", areaCode.CountryCode);
             Assert.AreEqual("201", areaCode.AreaCodeNumber);
             Assert.AreEqual("Bayonne, Jersey City, Union City", areaCode.City);
             Assert.AreEqual("New Jersey", areaCode.State);
             Assert.AreEqual("United States", areaCode.Country);
             Assert.IsFalse(areaCode.TollFree);
-        }
-
-        [Test]
-        public void UnitTests_Numbers_ProvisionWithCallBack()
-        {
-            var areaCode = "808";
-            var callback = "http://example.com/callback";
-
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                Assert.AreEqual(req.Parameters[2].Value, areaCode);
-                Assert.AreEqual(req.Parameters[3].Value, callback);
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "provisionNumber", RequestAsserts = requestAsserts };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var actualNumber = phaxio.ProvisionNumber(areaCode, callback);
-
-            var expectedNumber = PocoFixtures.GetTestPhoneNumber();
-
-            Assert.AreEqual(expectedNumber.Number, actualNumber.Number, "Number should be the same");
-        }
-
-        [Test]
-        public void UnitTests_Numbers_ListNumbers()
-        {
-            var clientBuilder = new IRestClientBuilder { Op = "numberList" };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var actualNumbers = phaxio.ListNumbers();
-
-            var expectedNumbers = PocoFixtures.GetTestPhoneNumbers();
-
-            Assert.AreEqual(expectedNumbers.Count, actualNumbers.Count, "Number should be the same");
-        }
-
-        [Test]
-        public void UnitTests_Numbers_ListNumbersWithOptions()
-        {
-            var areaCode = "808";
-            var number = "8088675309";
-
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                Assert.AreEqual(req.Parameters[2].Value, areaCode);
-                Assert.AreEqual(req.Parameters[3].Value, number);
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "numberList", RequestAsserts = requestAsserts };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var actualNumbers = phaxio.ListNumbers(areaCode, number);
-
-            var expectedNumbers = PocoFixtures.GetTestPhoneNumbers();
-
-            Assert.AreEqual(expectedNumbers.Count, actualNumbers.Count, "Number should be the same");
-        }
-
-        [Test]
-        public void UnitTests_Numbers_Release()
-        {
-            var number = "8088675309";
-
-            Action<IRestRequest> requestAsserts = req =>
-            {
-                Assert.AreEqual(req.Parameters[2].Value, number);
-            };
-
-            var clientBuilder = new IRestClientBuilder { Op = "releaseNumber", RequestAsserts = requestAsserts };
-            var phaxio = new PhaxioClient(IRestClientBuilder.TEST_KEY, IRestClientBuilder.TEST_SECRET, clientBuilder.Build());
-
-            var result = phaxio.ReleaseNumber(number);
-
-            Assert.True(result.Success, "Should be success.");
         }
     }
 }

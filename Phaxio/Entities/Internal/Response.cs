@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Phaxio.Entities;
 using System.Collections.Generic;
 
-namespace Phaxio.Entities.Internal
+namespace Phaxio
 {
     public class Response<T>
     {
@@ -21,5 +22,17 @@ namespace Phaxio.Entities.Internal
         {
             return new Result { Success = Success, Message = Message };
         }
+    }
+
+    public class PagingInfo
+    {
+        [JsonProperty(PropertyName = "total")]
+        public int Total { get; set; }
+
+        [JsonProperty(PropertyName = "per_page")]
+        public int PerPage { get; set; }
+
+        [JsonProperty(PropertyName = "page")]
+        public int Page { get; set; }
     }
 }

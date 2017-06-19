@@ -11,6 +11,9 @@ namespace Phaxio.Tests.Helpers
 {
     public class RestClientBuilder
     {
+        public const string TEST_KEY = "key";
+        public const string TEST_SECRET = "secret";
+
         private string content { get; set; }
         private string contentType { get; set; }
         private byte[] rawBytes { get; set; }

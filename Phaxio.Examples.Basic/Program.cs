@@ -14,7 +14,7 @@ namespace Phaxio.Examples.Basic
 
             IniData config = parser.ReadFile(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "keys.ini");
 
-            var phaxio = new Phaxio(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
+            var phaxio = new PhaxioClient(config["Phaxio"]["api_key"], config["Phaxio"]["api_secret"]);
 
             //var account = phaxio.GetAccountStatus();
 
@@ -22,9 +22,7 @@ namespace Phaxio.Examples.Basic
 
             var pdf = new FileInfo("C:\\temp\\test.pdf");
 
-            var request = new FaxRequest { ToNumber = "+18088675309", File = pdf };
-
-            var faxId = phaxio.SendFax(request);
+            var faxId = phaxio.Fax.Create(to: "+18088675309", file: pdf);
 
             Console.WriteLine(faxId);
 

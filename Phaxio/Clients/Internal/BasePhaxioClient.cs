@@ -1,9 +1,7 @@
 ﻿using Phaxio.Entities.Internal;
 using Phaxio.ThinRestClient;
-using Phaxio.ThinRestClient.Helpers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,63 +29,36 @@ namespace Phaxio.Clients.Internal
             client = restClient;
         }
 
-        protected byte[] readAllBytes(Stream stream)
+        internal byte[] download(string resource, Method method, Action<IRestRequest> requestModifier)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                stream.CopyTo(memoryStream);
-                return memoryStream.ToArray();
-            }
-        }
+            var request = prepareRequest(resource, method, true, requestModifier);
 
-        protected byte[] download(string resource, Method method, Action<IRestRequest> requestModifier)
-        {
-            IRestResponse response = null;
+            var response = client.Execute(request);
 
-            runRequest(resource, method, true, requestModifier, (request) =>
-            {
-                response = client.Execute(request);
-                return response.ErrorException;
-            });
-
-            if (response.ContentType == "application/json")
-            {
-                var json = new JsonDeserializer();
-
-                var phaxioResponse = json.Deserialize<Response<Object>>(response);
-
-                throw new ApplicationException(phaxioResponse.Message);
-            }
+            checkException(response);
 
             return response.RawBytes;
         }
 
-        protected Response<T> request<T>(string resource, Method method)
+        internal Response<T> request<T>(string resource, Method method)
         {
             return request<T>(resource, method, true, r => { });
         }
 
-        protected Response<T> request<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
+        internal Response<T> request<T>(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
         {
-            IRestResponse<Response<T>> response = null;
+            var request = prepareRequest(resource, method, auth, requestModifier);
 
-            runRequest(resource, method, auth, requestModifier, (request) =>
-            {
-                response = client.Execute<Response<T>>(request);
-                return response.ErrorException;
-            });
+            var response = client.Execute<Response<T>>(request);
 
-            // If T is Object, it means that the method will return a
-            // bool indicating success or failure.
-            if (typeof(T) != typeof(Object) && !response.Data.Success)
-            {
-                throw new ApplicationException(response.Data.Message);
-            }
+            modifyDataItem(response.Data.Data);
+
+            checkException(response);
 
             return response.Data;
         }
 
-        protected void runRequest(string resource, Method method, bool auth, Action<IRestRequest> requestModifier, Func<IRestRequest, Exception> executor)
+        private RestRequest prepareRequest(string resource, Method method, bool auth, Action<IRestRequest> requestModifier)
         {
             var request = new RestRequest();
 
@@ -103,13 +74,11 @@ namespace Phaxio.Clients.Internal
             request.Method = method;
             request.Resource = resource;
 
-            var exception = executor(request);
-
-            if (exception != null)
-            {
-                const string message = "Error retrieving response. Check inner exception.";
-                throw new ApplicationException(message, exception);
-            }
+            return request;
         }
+
+        protected abstract void checkException(IRestResponse response);
+        protected abstract void checkException<T>(IRestResponse<Response<T>> response);
+        protected abstract void modifyDataItem<T>(T item);
     }
 }
