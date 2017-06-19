@@ -253,10 +253,10 @@ namespace Phaxio.Repositories.V2
         ///  Sends a request to Phaxio to test a callback (web hook).
         /// </summary>
         /// <param name="file">The file to send to the callback.</param>
-        /// <param name="fromNumber">The phone number of the simulated sender.</param>
-        /// <param name="toNumber">The phone number that is receiving the fax.</param>
+        /// <param name="from">The phone number of the simulated sender.</param>
+        /// <param name="to">The phone number that is receiving the fax.</param>
         /// <returns>A Result object indicating whether the operation was successful.</returns>
-        public Result TestRecieveCallback(FileInfo file, string fromNumber = null, string toNumber = null)
+        public Result TestRecieveCallback(FileInfo file, string from = null, string to = null)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -266,14 +266,14 @@ namespace Phaxio.Repositories.V2
 
                 req.AddFile("file", fileBytes, file.Name, "application/octet");
 
-                if (fromNumber != null)
+                if (from != null)
                 {
-                    req.AddParameter("from_number", fromNumber);
+                    req.AddParameter("from_number", from);
                 }
 
-                if (toNumber != null)
+                if (to != null)
                 {
-                    req.AddParameter("to_number", toNumber);
+                    req.AddParameter("to_number", to);
                 }
             };
 
