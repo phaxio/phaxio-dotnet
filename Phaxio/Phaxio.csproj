@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\Internal\BasePhaxioClient.cs" />
-    <Compile Include="Clients\PhaxioContext.cs" />
+    <Compile Include="Clients\PhaxioClient.cs" />
     <Compile Include="Entities\Recipient.cs" />
     <Compile Include="Repositories\V2\AccountRespository.cs" />
     <Compile Include="Entities\AreaCode.cs" />
