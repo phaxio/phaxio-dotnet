@@ -69,6 +69,7 @@
     <Compile Include="UnitTests\FaxTests.cs" />
     <Compile Include="UnitTests\NumberTests.cs" />
     <Compile Include="UnitTests\PhaxCodeTests.cs" />
+    <Compile Include="UnitTests\PhaxioClientTests.cs" />
     <Compile Include="UnitTests\SupportedCountriesTests.cs" />
     <Compile Include="UnitTests\TestRecieveCallbackTests.cs" />
   </ItemGroup>
@@ -111,6 +112,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Fixtures\Json\V2\fax_send.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\error_authentication.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\error_invalid_entity.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\error_service.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\error_not_found.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Json\V2\error_rate_limited.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="keys.ini.sample" />

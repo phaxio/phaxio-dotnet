@@ -69,6 +69,41 @@ namespace Phaxio.Tests.Helpers
             return this;
         }
 
+        public RestClientBuilder RateLimited()
+        {
+            statusCode = (HttpStatusCode)429;
+
+            return this;
+        }
+
+        public RestClientBuilder InvalidEntity()
+        {
+            statusCode = (HttpStatusCode)422;
+
+            return this;
+        }
+
+        public RestClientBuilder Unauthorized()
+        {
+            statusCode = HttpStatusCode.Unauthorized;
+
+            return this;
+        }
+
+        public RestClientBuilder NotFound()
+        {
+            statusCode = HttpStatusCode.NotFound;
+
+            return this;
+        }
+
+        public RestClientBuilder InternalServerError()
+        {
+            statusCode = HttpStatusCode.InternalServerError;
+
+            return this;
+        }
+
         public IRestClient Build()
         {
             var mockIRestClient = new Mock<IRestClient>();

@@ -51,9 +51,9 @@ namespace Phaxio.Clients.Internal
 
             var response = client.Execute<Response<T>>(request);
 
-            modifyDataItem(response.Data.Data);
-
             checkException(response);
+
+            modifyDataItem(response.Data.Data);
 
             return response.Data;
         }
