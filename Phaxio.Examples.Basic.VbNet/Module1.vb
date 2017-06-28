@@ -52,9 +52,7 @@ Module Module1
         Dim number = phaxio.PhoneNumber.Retrieve("8088675309")
         number.Release()
 
-        Dim phaxCode1 = phaxio.PhaxCode.Create()
-
-        Dim phaxCode2 = phaxio.PhaxCode.Create("code-for-form1234")
+        Dim phaxCode1 = phaxio.PhaxCode.Create("code-for-form1234")
 
         File.WriteAllBytes("C:\temp\phaxCode.png", phaxCode1.Png)
 

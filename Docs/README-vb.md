@@ -168,11 +168,7 @@ This operation will throw an exception if the number cannot be released.
 
 ## Creating a PhaxCode
 
-Creating a PhaxCode is simple:
-
-    Dim phaxCode = phaxio.PhaxCode.Create()
-
-You can also attach metadata to the code so you can reference it later:
+Creating a PhaxCode is simple, just pass the metadata that you want associated with your PhaxCode:
 
     Dim phaxCode = phaxio.PhaxCode.Create("code-for-form1234")
 

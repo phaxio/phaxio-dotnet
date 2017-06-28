@@ -47,7 +47,9 @@ namespace Phaxio.Resources.V2
         {
             get
             {
-                return new FaxFile(faxId, "s");
+                var file = new FaxFile(faxId, "s");
+                file.PhaxioClient = PhaxioClient;
+                return file;
             }
         }
 
@@ -55,7 +57,9 @@ namespace Phaxio.Resources.V2
         {
             get
             {
-                return new FaxFile(faxId, "l");
+                var file = new FaxFile(faxId, "l");
+                file.PhaxioClient = PhaxioClient;
+                return file;
             }
         }
 

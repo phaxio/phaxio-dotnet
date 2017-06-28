@@ -19,14 +19,11 @@ namespace Phaxio.Repositories.V2
         /// </summary>
         /// <param name="metadata">Metadata to associate with this code.</param>
         /// <returns>A PhaxCode object.</returns>
-        public PhaxCode Create(string metadata = null)
+        public PhaxCode Create(string metadata)
         {
             Action<IRestRequest> addParameters = req =>
             {
-                if (metadata != null)
-                {
-                    req.AddParameter("metadata", metadata);
-                }
+                req.AddParameter("metadata", metadata);
             };
 
             return client.request<PhaxCode>("phax_codes.json", Method.POST, true, addParameters).Data;
