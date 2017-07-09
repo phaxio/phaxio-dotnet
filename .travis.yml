@@ -8,4 +8,4 @@ install:
   - mono .nuget/nuget.exe install NUnit.Runners -Version 3.6.1 -OutputDirectory tools
 script:
   - xbuild /p:Configuration=Release phaxio-dotnet.sln /p:TargetFrameworkVersion="v4.5"
-  - mono ./tools/NUnit.Runners.3.6.1/tools/nunit-console.exe ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
+  - mono ./tools/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
