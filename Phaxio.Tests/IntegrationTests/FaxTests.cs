@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Phaxio.Entities;
+using Phaxio.Errors.V2;
 using Phaxio.Tests.Helpers;
 using System;
 using System.Collections.Generic;
@@ -82,7 +82,9 @@ namespace Phaxio.Tests.IntegrationTests.V2
             {
                 try
                 {
-                    var thumbnailBytes = phaxio.Fax.Retrieve(fax.Id).File.SmallJpeg.Bytes;
+                    var retreivedFax = phaxio.Fax.Retrieve(fax.Id);
+                    var retreivedFile = retreivedFax.File;
+                    var thumbnailBytes = retreivedFile.SmallJpeg.Bytes;
                     var thumbnailFilename = pwd() + metadata + ".jpg";
 
                     filesToCleanup.Add(thumbnailFilename);
@@ -93,7 +95,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
                 }
                 catch (Exception e)
                 {
-                    Console.Error.WriteLine(e.Message);
+                    Console.Error.WriteLine(string.Format("Error '{0}' while trying to retrieve fax #{1}", e.Message, fax.Id.ToString()));
                     retries++;
                     Thread.Sleep(1000);
                 }
@@ -109,7 +111,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
             Thread.Sleep(1000);
 
             // Cancel a fax
-            Assert.Throws<Exception>(() => fax.Cancel(), "CancelFax should throw exception.");
+            Assert.Throws<InvalidRequestException>(() => fax.Cancel(), "CancelFax should throw exception.");
 
             Thread.Sleep(1000);
 
