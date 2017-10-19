@@ -80,25 +80,6 @@ namespace Phaxio
                 }
             }
         }
-        protected override void checkException(IRestResponse response)
-        {
-            handleNetworkException(response);
-
-            if (response.ContentType == "application/json")
-            {
-                var json = new JsonDeserializer();
-
-                var phaxioException = json.Deserialize<Response<object>>(response);
-
-                handlePhaxioException(response, phaxioException);
-            }
-        }
-
-        protected override void checkException<T>(IRestResponse<Response<T>> response)
-        {
-            handleNetworkException(response);
-            handlePhaxioException(response, response.Data);
-        }
 
         protected override void modifyDataItem<T>(T item)
         {
@@ -110,7 +91,57 @@ namespace Phaxio
             }
         }
 
-        private void handleNetworkException(IRestResponse response)
+        protected override void checkException(IRestResponse response)
+        {
+            checkNetworkException(response);
+
+            Func<string> getErrorMessage = null;
+
+            if (response.ContentType == "application/json")
+            {
+                getErrorMessage = () => {
+                    var json = new JsonDeserializer();
+
+                    var phaxioException = json.Deserialize<Response<object>>(response);
+
+                    return phaxioException.Message;
+                };
+            }
+            else if (response.ContentType.StartsWith("text"))
+            {
+                getErrorMessage = () => response.Content;
+            }
+            else
+            {
+                getErrorMessage = () => "The Phaxio service returned an unexpected result.";
+            }
+
+            checkPhaxioException(response, getErrorMessage);
+        }
+
+        protected override void checkException<T>(IRestResponse<Response<T>> response)
+        {
+            checkNetworkException(response);
+
+            Func<string> getErrorMessage = null;
+
+            if (response.ContentType == "application/json")
+            {
+                getErrorMessage = () => response.Data.Message;
+            }
+            else if (response.ContentType.StartsWith("text"))
+            {
+                getErrorMessage = () => response.Content;
+            }
+            else
+            {
+                getErrorMessage = () => "The Phaxio service returned an unexpected result.";
+            }
+
+            checkPhaxioException(response, getErrorMessage);
+        }
+
+        private void checkNetworkException(IRestResponse response)
         {
             if (response.ErrorException != null)
             {
@@ -118,27 +149,27 @@ namespace Phaxio
             }
         }
 
-        private void handlePhaxioException<T>(IRestResponse restResponse, Response<T> apiResponse)
+        private void checkPhaxioException(IRestResponse restResponse, Func<string> message)
         {
             if (restResponse.StatusCode == (HttpStatusCode)429) // Rate limit
             {
-                throw new RateLimitException(apiResponse.Message);
+                throw new RateLimitException(message.Invoke());
             }
             else if (restResponse.StatusCode == (HttpStatusCode)422) // Invalid entity
             {
-                throw new InvalidRequestException(apiResponse.Message);
-            }
+                throw new InvalidRequestException(message.Invoke());
+            }   
             else if (restResponse.StatusCode == HttpStatusCode.Unauthorized)
             {
-                throw new AuthenticationException(apiResponse.Message);
+                throw new AuthenticationException(message.Invoke());
             }
             else if (restResponse.StatusCode == HttpStatusCode.NotFound)
             {
-                throw new NotFoundException(apiResponse.Message);
+                throw new NotFoundException(message.Invoke());
             }
             else if ((int)restResponse.StatusCode >= 500 && (int)restResponse.StatusCode < 600) // 500 errors
             {
-                throw new ServiceException(apiResponse.Message);
+                throw new ServiceException(message.Invoke());
             }
         }
     }

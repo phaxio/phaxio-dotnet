@@ -1,5 +1,10 @@
 ## Project-specific ignores
 keys.ini
+tools/
+.nuget/
+
+# macOS
+.DS_Store
 
 # General .NET/Visual Studio ignores
 ## Ignore Visual Studio temporary files, build results, and

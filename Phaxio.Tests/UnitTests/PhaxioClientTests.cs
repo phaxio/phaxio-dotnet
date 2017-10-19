@@ -10,6 +10,27 @@ namespace Phaxio.Tests.UnitTests.V2
     public class PhaxioClientTests
     {
         [Test]
+        public void UnitTests_V2_NonJsonErrorHandled()
+        {
+            var requestAsserts = new RequestAsserts()
+                .Auth()
+                .Get()
+                .Resource("account/status")
+                .Build();
+
+            var restClient = new RestClientBuilder()
+                .WithRequestAsserts(requestAsserts)
+                .AsText()
+                .Content("There was an error")
+                .InternalServerError()
+                .Build<Response<AccountStatus>>();
+
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
+
+            Assert.Throws(typeof(ServiceException), () => Console.Write(phaxio.Account.Status.Balance));
+        }
+
+        [Test]
         public void UnitTests_V2_RateLimitException()
         {
             var requestAsserts = new RequestAsserts()

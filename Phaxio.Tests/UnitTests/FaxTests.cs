@@ -137,7 +137,6 @@ namespace Phaxio.Tests.UnitTests.V2
 
             var faxInfo = phaxio.Fax.Retrieve(123456);
 
-            DateTime createdAt = Convert.ToDateTime("2015-09-02T11:28:02.000-05:00");
             DateTime completedAt = Convert.ToDateTime("2015-09-02T11:28:54.000-05:00");
 
             Assert.AreEqual(123456, faxInfo.Id, "");

@@ -41,6 +41,13 @@ namespace Phaxio.Tests.Helpers
             return this;
         }
 
+        public RestClientBuilder AsText()
+        {
+            contentType = "text/plain";
+
+            return this;
+        }
+
         public RestClientBuilder AsPng()
         {
             contentType = "image/png";
