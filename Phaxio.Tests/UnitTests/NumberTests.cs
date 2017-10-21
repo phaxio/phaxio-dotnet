@@ -56,8 +56,8 @@ namespace Phaxio.Tests.UnitTests.V2
             Assert.AreEqual("Illinois", number.State);
             Assert.AreEqual("United States", number.Country);
             Assert.AreEqual(200, number.Cost);
-            Assert.AreEqual(lastBilledAt, number.LastBilled);
-            Assert.AreEqual(provisionedAt, number.Provisioned);
+            Assert.AreEqual(lastBilledAt, number.LastBilledAt);
+            Assert.AreEqual(provisionedAt, number.ProvisionedAt);
             Assert.AreEqual("http://example.com", number.CallbackUrl);
         }
 
@@ -89,8 +89,8 @@ namespace Phaxio.Tests.UnitTests.V2
             Assert.AreEqual("Illinois", number.State);
             Assert.AreEqual("United States", number.Country);
             Assert.AreEqual(200, number.Cost);
-            Assert.AreEqual(lastBilledAt, number.LastBilled);
-            Assert.AreEqual(provisionedAt, number.Provisioned);
+            Assert.AreEqual(lastBilledAt, number.LastBilledAt);
+            Assert.AreEqual(provisionedAt, number.ProvisionedAt);
             Assert.AreEqual("http://example.com", number.CallbackUrl);
         }
 

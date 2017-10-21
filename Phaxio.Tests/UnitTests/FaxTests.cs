@@ -56,13 +56,13 @@ namespace Phaxio.Tests.UnitTests.V2
                 file: testPdf,
                 contentUrl: "http://example.com",
                 headerText: "blah",
-                batchDelaySeconds: 10,
-                avoidBatchCollision: true,
+                batchDelay: 10,
+                batchCollisionAvoidance: true,
                 callbackUrl: "http://example.org",
-                cancelTimeoutAfter: 30,
+                cancelTimeout: 30,
                 tags: new Dictionary<string, string>() { { "key", "value" } },
                 callerId: "Bob",
-                failureErrorType: "Send failure");
+                testFail: "Send failure");
 
             Assert.AreEqual(1234, fax.Id);
         }
@@ -141,11 +141,11 @@ namespace Phaxio.Tests.UnitTests.V2
 
             Assert.AreEqual(123456, faxInfo.Id, "");
             Assert.AreEqual("sent", faxInfo.Direction, "");
-            Assert.AreEqual(3, faxInfo.PageCount, "");
+            Assert.AreEqual(3, faxInfo.NumPages, "");
             Assert.AreEqual("success", faxInfo.Status, "");
             Assert.IsTrue(faxInfo.IsTest, "");
             Assert.AreEqual(completedAt, faxInfo.CompletedAt.Value, "");
-            Assert.AreEqual(21, faxInfo.CostInCents, "");
+            Assert.AreEqual(21, faxInfo.Cost, "");
             Assert.AreEqual("123", faxInfo.FromNumber, "");
             Assert.AreEqual("order_id", faxInfo.Tags.First().Key, "");
             Assert.AreEqual("1234", faxInfo.Tags.First().Value, "");

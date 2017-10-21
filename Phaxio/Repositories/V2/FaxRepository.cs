@@ -47,16 +47,16 @@ namespace Phaxio.Repositories.V2
         /// <param name="file">The file to send. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png. Ignored if Files is set.</param>
         /// <param name="files">The files to send. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png. Ignored if Files is set.</param>
         /// <param name="headerText">Text that will be displayed at the top of each page of the fax. 50 characters maximum. Default header text is "-".</param>
-        /// <param name="batchDelaySeconds">Enables batching and specifies the amount of time, in seconds, before the batch is fired. Maximum delay is 3600 (1 hour).</param>
-        /// <param name="avoidBatchCollision">When BatchDelaySeconds is set, fax will be blocked until the receiving machine is no longer busy.</param>
+        /// <param name="batchDelay">Enables batching and specifies the amount of time, in seconds, before the batch is fired. Maximum delay is 3600 (1 hour).</param>
+        /// <param name="batchCollisionAvoidance">When BatchDelaySeconds is set, fax will be blocked until the receiving machine is no longer busy.</param>
         /// <param name="callbackUrl">You can specify a callback url that will override the one you have defined globally for your account.</param>
-        /// <param name="cancelTimeoutAfter">
+        /// <param name="cancelTimeout">
         /// A number of minutes after which the fax will be canceled if it hasn't yet completed. Must be between 3 and 60.
         /// Additionally, for faxes with a BatchDelaySeconds, the CancelTimeoutAfter must be at least 3 minutes after the batch_delay.
         /// </param>
         /// <param name="tags">Tags for your fax. You may specify a maximum of 10.</param>
         /// <param name="callerId">A Phaxio phone number you would like to use for the caller id, in E.164 format (+[country code][number])</param>
-        /// <param name="failureErrorType">When using a test API key, this will simulate a sending failure at Phaxio.</param>
+        /// <param name="testFail">When using a test API key, this will simulate a sending failure at Phaxio.</param>
         /// <returns>a Fax object.</returns>
         public Fax Create(string to = null,
             IEnumerable<string> toNumbers = null,
@@ -65,13 +65,13 @@ namespace Phaxio.Repositories.V2
             FileInfo file = null,
             IEnumerable<FileInfo> files = null,
             string headerText = null,
-            int? batchDelaySeconds = null,
-            bool? avoidBatchCollision = null,
+            int? batchDelay = null,
+            bool? batchCollisionAvoidance = null,
             string callbackUrl = null,
-            int? cancelTimeoutAfter = null,
+            int? cancelTimeout = null,
             Dictionary<string, string> tags = null,
             string callerId = null,
-            string failureErrorType = null
+            string testFail = null
         )
         {
             Action<IRestRequest> requestModifier = req =>
@@ -124,14 +124,14 @@ namespace Phaxio.Repositories.V2
                     req.AddParameter("header_text", headerText);
                 }
 
-                if (batchDelaySeconds != null)
+                if (batchDelay != null)
                 {
-                    req.AddParameter("batch_delay", batchDelaySeconds);
+                    req.AddParameter("batch_delay", batchDelay);
                 }
 
-                if (avoidBatchCollision != null)
+                if (batchCollisionAvoidance != null)
                 {
-                    req.AddParameter("batch_collision_avoidance", avoidBatchCollision);
+                    req.AddParameter("batch_collision_avoidance", batchCollisionAvoidance);
                 }
 
                 if (callbackUrl != null)
@@ -139,9 +139,9 @@ namespace Phaxio.Repositories.V2
                     req.AddParameter("callback_url", callbackUrl);
                 }
 
-                if (cancelTimeoutAfter != null)
+                if (cancelTimeout != null)
                 {
-                    req.AddParameter("cancel_timeout", cancelTimeoutAfter);
+                    req.AddParameter("cancel_timeout", cancelTimeout);
                 }
 
                 if (tags != null)
@@ -157,9 +157,9 @@ namespace Phaxio.Repositories.V2
                     req.AddParameter("caller_id", callerId);
                 }
 
-                if (failureErrorType != null)
+                if (testFail != null)
                 {
-                    req.AddParameter("test_fail", failureErrorType);
+                    req.AddParameter("test_fail", testFail);
                 }
             };
 
@@ -253,10 +253,10 @@ namespace Phaxio.Repositories.V2
         ///  Sends a request to Phaxio to test a callback (web hook).
         /// </summary>
         /// <param name="file">The file to send to the callback.</param>
-        /// <param name="from">The phone number of the simulated sender.</param>
-        /// <param name="to">The phone number that is receiving the fax.</param>
+        /// <param name="fromNumber">The phone number of the simulated sender.</param>
+        /// <param name="toNumber">The phone number that is receiving the fax.</param>
         /// <returns>A Result object indicating whether the operation was successful.</returns>
-        public Result TestRecieveCallback(FileInfo file, string from = null, string to = null)
+        public Result TestRecieveCallback(FileInfo file, string fromNumber = null, string toNumber = null)
         {
             Action<IRestRequest> addParameters = req =>
             {
@@ -266,14 +266,14 @@ namespace Phaxio.Repositories.V2
 
                 req.AddFile("file", fileBytes, file.Name, "application/octet");
 
-                if (from != null)
+                if (fromNumber != null)
                 {
-                    req.AddParameter("from_number", from);
+                    req.AddParameter("from_number", fromNumber);
                 }
 
-                if (to != null)
+                if (toNumber != null)
                 {
-                    req.AddParameter("to_number", to);
+                    req.AddParameter("to_number", toNumber);
                 }
             };
 
