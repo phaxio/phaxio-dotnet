@@ -68,6 +68,77 @@ namespace Phaxio.Tests.UnitTests.V2
         }
 
         [Test]
+        public void UnitTests_V2_Fax_Create_With_Byte_Arrays()
+        {
+            var testPdfBytes = BinaryFixtures.GetTestPdf();
+            var testPdfName = "FileName";
+
+            Action<IRestRequest> parameterAsserts = req =>
+            {
+                Assert.AreEqual(1, req.Files.Count);
+                Assert.AreEqual(testPdfName, req.Files.First().FileName);
+                Assert.AreEqual(testPdfBytes, req.Files.First().Bytes);
+            };
+
+            var requestAsserts = new RequestAsserts()
+                .Post()
+                .Custom(parameterAsserts)
+                .Resource("faxes")
+                .Build();
+
+            var restClient = new RestClientBuilder()
+                .WithRequestAsserts(requestAsserts)
+                .AsJson()
+                .Content(JsonResponseFixtures.FromFile("V2/fax_send"))
+                .Ok()
+                .Build<Response<Fax>>();
+
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
+
+            var fax = phaxio.Fax.Create(to: "123",
+                byteArrays: new byte[][] { testPdfBytes },
+                fileNames: new string[] { testPdfName });
+        }
+
+        [Test]
+        public void UnitTests_V2_Fax_Create_With_Byte_Arrays_No_File_Names()
+        {
+            var testPdfBytes = BinaryFixtures.GetTestPdf();
+
+            var restClient = new RestClientBuilder()
+                .AsJson()
+                .Content(JsonResponseFixtures.FromFile("V2/fax_send"))
+                .Ok()
+                .Build<Response<Fax>>();
+
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
+
+            Assert.Throws<ArgumentException>(
+                () => { phaxio.Fax.Create(to: "123", byteArrays: new byte[][] { testPdfBytes }); });
+        }
+
+        [Test]
+        public void UnitTests_V2_Fax_Create_With_Byte_Arrays_Too_Many_File_Names()
+        {
+            var testPdfBytes = BinaryFixtures.GetTestPdf();
+            var testPdfName = "FileName";
+
+            var restClient = new RestClientBuilder()
+                .AsJson()
+                .Content(JsonResponseFixtures.FromFile("V2/fax_send"))
+                .Ok()
+                .Build<Response<Fax>>();
+
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
+
+            Assert.Throws<ArgumentException>(
+                () => { phaxio.Fax.Create(to: "123",
+                byteArrays: new byte[][] { testPdfBytes },
+                fileNames: new string[] { testPdfName, testPdfName });
+            });
+        }
+
+        [Test]
         public void UnitTests_V2_Fax_Cancel()
         {
             var requestAsserts = new RequestAsserts()

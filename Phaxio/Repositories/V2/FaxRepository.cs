@@ -5,6 +5,7 @@ using Phaxio.ThinRestClient;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Phaxio.Repositories.V2
 {
@@ -44,8 +45,8 @@ namespace Phaxio.Repositories.V2
         /// <param name="toNumbers">The numbers (with country code) to send the fax to.</param>
         /// <param name="contentUrl">A URL to be rendered and sent as the fax content. Ignored if ContentUrls is set.</param>
         /// <param name="contentUrls">A list of URLs to be rendered and sent as the fax content.</param>
-        /// <param name="file">The file to send. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png. Ignored if Files is set.</param>
-        /// <param name="files">The files to send. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png. Ignored if Files is set.</param>
+        /// <param name="file">The file to send. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png.</param>
+        /// <param name="files">The files to send. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png.</param>
         /// <param name="headerText">Text that will be displayed at the top of each page of the fax. 50 characters maximum. Default header text is "-".</param>
         /// <param name="batchDelaySeconds">Enables batching and specifies the amount of time, in seconds, before the batch is fired. Maximum delay is 3600 (1 hour).</param>
         /// <param name="avoidBatchCollision">When BatchDelaySeconds is set, fax will be blocked until the receiving machine is no longer busy.</param>
@@ -57,6 +58,8 @@ namespace Phaxio.Repositories.V2
         /// <param name="tags">Tags for your fax. You may specify a maximum of 10.</param>
         /// <param name="callerId">A Phaxio phone number you would like to use for the caller id, in E.164 format (+[country code][number])</param>
         /// <param name="failureErrorType">When using a test API key, this will simulate a sending failure at Phaxio.</param>
+        /// <param name="byteArrays">The bytes representing files to send. You must also specify the filenames in the same order in the fileNames parameter. Supports doc, docx, pdf, tif, jpg, odt, txt, html and png.</param>
+        /// <param name="fileNames">The filenames of the files represented in the byteArrays parameter.</param>
         /// <returns>a Fax object.</returns>
         public Fax Create(string to = null,
             IEnumerable<string> toNumbers = null,
@@ -71,7 +74,9 @@ namespace Phaxio.Repositories.V2
             int? cancelTimeoutAfter = null,
             Dictionary<string, string> tags = null,
             string callerId = null,
-            string failureErrorType = null
+            string failureErrorType = null,
+            IEnumerable<byte[]> byteArrays = null,
+            IEnumerable<string> fileNames = null
         )
         {
             Action<IRestRequest> requestModifier = req =>
@@ -160,6 +165,21 @@ namespace Phaxio.Repositories.V2
                 if (failureErrorType != null)
                 {
                     req.AddParameter("test_fail", failureErrorType);
+                }
+
+                if (byteArrays != null)
+                {
+                    if (fileNames == null || byteArrays.Count() != fileNames.Count())
+                    {
+                        throw new ArgumentException("You must specify one filename in the fileNames parameter for every array in byteArrays.");
+                    }
+
+                    var byteEnum = byteArrays.GetEnumerator();
+                    var fileNameEnum = fileNames.GetEnumerator();    
+                    
+                    while(byteEnum.MoveNext() && fileNameEnum.MoveNext()) {
+                        req.AddFile("file[]", byteEnum.Current, fileNameEnum.Current, "application/octet");
+                    }
                 }
             };
 
