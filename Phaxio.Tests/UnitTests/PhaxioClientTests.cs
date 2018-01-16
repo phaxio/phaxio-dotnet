@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Phaxio.Entities;
 using Phaxio.Errors.V2;
+using Phaxio.Resources.V2;
 using Phaxio.Tests.Helpers;
 using System;
 
@@ -28,6 +29,30 @@ namespace Phaxio.Tests.UnitTests.V2
             var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
             Assert.Throws(typeof(ServiceException), () => Console.Write(phaxio.Account.Status.Balance));
+        }
+
+        [Test]
+        public void UnitTests_V2_FileDownloadThrowsError()
+        {
+            var requestAsserts = new RequestAsserts()
+                .Auth()
+                .Get()
+                .Resource("faxes/123456/file")
+                .Build();
+
+            var restClient = new RestClientBuilder()
+                .WithRequestAsserts(requestAsserts)
+                .AsJson()
+                .Content(JsonResponseFixtures.FromFile("V2/error_rate_limited"))
+                .RateLimited()
+                .Build();
+
+            var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
+
+            var fax = new FaxFile(123456);
+            fax.PhaxioClient = phaxio;
+
+            Assert.Throws(typeof(RateLimitException), () => Console.Write(fax.Pdf.Bytes));
         }
 
         [Test]
