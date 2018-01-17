@@ -74,7 +74,7 @@ namespace Phaxio.Repositories.V2
             int? cancelTimeout = null,
             Dictionary<string, string> tags = null,
             string callerId = null,
-            string testFail = null
+            string testFail = null,
             IEnumerable<byte[]> byteArrays = null,
             IEnumerable<string> fileNames = null
         )
