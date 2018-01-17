@@ -38,10 +38,10 @@ namespace Phaxio.Resources.V2
         public string Direction { get; set; }
 
         [JsonProperty(PropertyName = "num_pages")]
-        public int PageCount { get; set; }
+        public int NumPages { get; set; }
 
         [JsonProperty(PropertyName = "cost")]
-        public int CostInCents { get; set; }
+        public int Cost { get; set; }
 
         [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }

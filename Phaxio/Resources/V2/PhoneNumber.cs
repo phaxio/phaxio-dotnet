@@ -28,10 +28,10 @@ namespace Phaxio.Resources.V2
         public int Cost { get; set; }
 
         [JsonProperty(PropertyName = "last_billed_at")]
-        public DateTime LastBilled { get; set; }
+        public DateTime LastBilledAt { get; set; }
 
         [JsonProperty(PropertyName = "provisioned_at")]
-        public DateTime Provisioned { get; set; }
+        public DateTime ProvisionedAt { get; set; }
 
         [JsonProperty(PropertyName = "callback_url")]
         public string CallbackUrl { get; set; }

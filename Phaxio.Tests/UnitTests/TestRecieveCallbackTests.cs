@@ -41,7 +41,7 @@ namespace Phaxio.Tests.UnitTests.UnitTests.V2
 
             var phaxio = new PhaxioClient(RestClientBuilder.TEST_KEY, RestClientBuilder.TEST_SECRET, restClient);
 
-            var result = phaxio.Fax.TestRecieveCallback(testPdf, from: "1", to: "2");
+            var result = phaxio.Fax.TestRecieveCallback(testPdf, fromNumber: "1", toNumber: "2");
 
             Assert.IsTrue(result.Success, "Result should be Success = true.");
         }
