@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Phaxio")]
 [assembly: AssemblyProduct("Phaxio")]
-[assembly: AssemblyCopyright("Copyright © Phaxio 2016-2017")]
+[assembly: AssemblyCopyright("Copyright © Phaxio 2016-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
