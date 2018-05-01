@@ -40,5 +40,13 @@ fi
 # Build the project
 xbuild /p:Configuration=Release phaxio-dotnet.sln /p:TargetFrameworkVersion="v4.5"
 
+# See if this is an integration test
+RUNLIST=""
+if [ "$1" = "integration" ]; then
+    echo $1
+    echo "Running integration tests\n"
+    RUNLIST="--testlist=./Phaxio.Tests/IntegrationTestsRunList.txt"
+fi
+
 # Run the tests
-mono $NUNIT_RUNNER_EXE ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
+mono $NUNIT_RUNNER_EXE $RUNLIST ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll

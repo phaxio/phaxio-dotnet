@@ -23,7 +23,7 @@ namespace Phaxio.ThinRestClient
             {
                 if (_contentType == null && httpResponse != null)
                 {
-                    _contentType = httpResponse.GetHeader("Content-Type");
+					_contentType = httpResponse.Content.Headers.ContentType.MediaType;
                 }
 
                 return _contentType;

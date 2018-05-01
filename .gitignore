@@ -1,5 +1,5 @@
 ## Project-specific ignores
-keys.ini
+**/keys.ini
 tools/
 .nuget/
 

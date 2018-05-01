@@ -129,7 +129,7 @@ namespace Phaxio
             {
                 getErrorMessage = () => response.Data.Message;
             }
-            else if (response.ContentType.StartsWith("text"))
+            else if (response.ContentType == "text")
             {
                 getErrorMessage = () => response.Content;
             }
