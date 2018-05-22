@@ -53,8 +53,3 @@ Check the exception message, wait a second, and then try your request again.
 Writing a callback to get fax send or receive events is simple. Read this [handy guide](Docs/README-callbacks.md) to get started.
 
 &copy; 2016-2018 Phaxio
-Message Input
-
-Message #general
-
-*bold* _italics_ ~strike~ `code` ```preformatted``` >quote
