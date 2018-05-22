@@ -25,7 +25,7 @@ This is a complete re-write and starts from scratch in its design. Please see th
 
 ## Migration from API V1 to V2
 
-This lbirary now uses Phaxio API V2, so these methods have been removed and have no equivalent:
+This library now uses Phaxio API V2, so these methods have been removed and have no equivalent:
 
 - AttachPhaxCodeToPdf was removed
 - CreatePhaxCode is now GeneratePhaxCode
