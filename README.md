@@ -1,4 +1,4 @@
-﻿# Phaxio
+# Phaxio
 
 ![AppVeyor build status](https://ci.appveyor.com/api/projects/status/s9gjrnfa42g08mb4?svg=true)
 
@@ -8,16 +8,16 @@ Phaxio is the only cloud based fax API designed for developers. This is the .NET
 
 ## Getting started
 
-First, [sign up](https://console.phaxio.com/signup) if you haven't already.
+First, [sign up](https://console.phaxio.com/signup) if you haven’t already.
 
 Second, go to [api settings](https://console.phaxio.com/apiSettings) and get your key and your secret.
 
-Third, install this client with Nuget:
+Third, install this client with NuGet:
 
-    Install-Package Phaxio
+  Install-Package Phaxio
 
-Use [this guide](Docs/README-csharp.md) if you're a C# developer or
-[this guide](Docs/README-vb.md) if you're a VB.NET developer.
+Use [this guide](Docs/README-csharp.md) if you’re a C# developer or
+[this guide](Docs/README-vb.md) if you’re a VB.NET developer.
 
 ## Migration from library version 1.0.0 to 2.0.0
 
@@ -27,10 +27,11 @@ This is a complete re-write and starts from scratch in its design. Please see th
 
 This library now uses Phaxio API V2, so these methods have been removed and have no equivalent:
 
-- AttachPhaxCodeToPdf was removed
-- CreatePhaxCode is now GeneratePhaxCode
-- DownloadPhaxCodePng is now DownloadPhaxCode
-- GetHostedDocument was removed
+- AttachPhaxCodeToPdf
+- GetHostedDocument
+
+In addition, CreatePhaxCode was replaced by a POST to the /phax_codes endpoint.  
+
 
 ## Errors
 
@@ -39,7 +40,7 @@ Operations that connect to Phaxio will throw an exception if an error is encount
 RateLimitException happens if you have made too many requests per second.
 InvalidRequestException is throw if the data sent to Phaxio is not correct
 AuthenticationException gets thrown when your credentials are invalid
-NotFoundException is throw when you try to retrieve a resource by ID but it isn't found
+NotFoundException is throw when you try to retrieve a resource by ID but it isn’t found
 ApiConnectionException occurs when there is a network issue
 ServerException happens if the server is not working
 
@@ -50,6 +51,6 @@ Check the exception message, wait a second, and then try your request again.
 
 ## Writing callbacks (webhooks)
 
-Writing a callback to get fax send or recieve events is simple. Read this [handy guide](Docs/README-callbacks.md) to get started.
+Writing a callback to get fax send or receive events is simple. Read this [handy guide](Docs/README-callbacks.md) to get started.
 
-&copy; 2016-2017 Phaxio
+&copy; 2016-2018 Phaxio
