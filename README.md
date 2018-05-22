@@ -10,7 +10,7 @@ Phaxio is the only cloud based fax API designed for developers. This is the .NET
 
 First, [sign up](https://console.phaxio.com/signup) if you haven’t already.
 
-Second, go to [api settings](https://console.phaxio.com/apiSettings) and get your key and your secret.
+Second, go to [api settings](https://console.phaxio.com/api_credentials) and get your key and your secret.
 
 Third, install this client with NuGet:
 
@@ -27,11 +27,10 @@ This is a complete re-write and starts from scratch in its design. Please see th
 
 This library now uses Phaxio API V2, so these methods have been removed and have no equivalent:
 
-- AttachPhaxCodeToPdf
-- GetHostedDocument
-
-In addition, CreatePhaxCode was replaced by a POST to the /phax_codes endpoint.  
-
+- AttachPhaxCodeToPdf was removed
+- CreatePhaxCode is now GeneratePhaxCode
+- DownloadPhaxCodePng is now DownloadPhaxCode
+- GetHostedDocument was removed
 
 ## Errors
 
@@ -53,4 +52,9 @@ Check the exception message, wait a second, and then try your request again.
 
 Writing a callback to get fax send or receive events is simple. Read this [handy guide](Docs/README-callbacks.md) to get started.
 
-&copy; 2016-2018 Phaxio
+&copy; 2016-2017 Phaxio
+Message Input
+
+Message #general
+
+*bold* _italics_ ~strike~ `code` ```preformatted``` >quote
