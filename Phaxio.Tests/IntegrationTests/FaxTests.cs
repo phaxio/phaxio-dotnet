@@ -13,11 +13,6 @@ namespace Phaxio.Tests.IntegrationTests.V2
     {
         private List<string> filesToCleanup = new List<string>();
 
-        private string pwd()
-        {
-            return AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-        }
-
         [TearDown]
         public void Teardown()
         {
@@ -57,7 +52,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
 
             var phaxCode = phaxio.PhaxCode.Create(metadata);
 
-            var phaxCodeFilename = pwd() + metadata + ".png";
+            var phaxCodeFilename = App.BaseDirectory() + metadata + ".png";
 
             filesToCleanup.Add(phaxCodeFilename);
 
@@ -85,7 +80,7 @@ namespace Phaxio.Tests.IntegrationTests.V2
                     var retreivedFax = phaxio.Fax.Retrieve(fax.Id);
                     var retreivedFile = retreivedFax.File;
                     var thumbnailBytes = retreivedFile.SmallJpeg.Bytes;
-                    var thumbnailFilename = pwd() + metadata + ".jpg";
+                    var thumbnailFilename = App.BaseDirectory() + metadata + ".jpg";
 
                     filesToCleanup.Add(thumbnailFilename);
 

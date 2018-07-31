@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Phaxio.Tests.Helpers;
 
 namespace Phaxio.Tests
 {
@@ -24,7 +25,7 @@ namespace Phaxio.Tests
 
         private static string getQualifiedPath(string filename)
         {
-            return AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "Fixtures" + Path.DirectorySeparatorChar + filename;
+            return App.BaseDirectory() + "Fixtures" + Path.DirectorySeparatorChar + filename;
         }
 
         private static byte[] toBytesFromHex (string hex)

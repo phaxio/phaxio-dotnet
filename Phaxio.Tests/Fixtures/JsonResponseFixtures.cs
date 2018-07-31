@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Phaxio.Tests.Helpers;
 
 namespace Phaxio.Tests
 {
@@ -13,7 +14,7 @@ namespace Phaxio.Tests
 
         private static string getQualifiedPath(string filename)
         {
-            var fullPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "Fixtures/Json/" + filename;
+            var fullPath = App.BaseDirectory() + "Fixtures/Json/" + filename;
             return fullPath.Replace('/', Path.DirectorySeparatorChar);
         }
 
