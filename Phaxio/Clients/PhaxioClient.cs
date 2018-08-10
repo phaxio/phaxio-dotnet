@@ -12,7 +12,7 @@ namespace Phaxio
 {
     public class PhaxioClient : BasePhaxioClient
     {
-        private const string phaxioApiEndpoint = "https://api.phaxio.com/v2/";
+        private const string phaxioApiEndpoint = "https://api.phaxio.com/v2.1/";
 
         public PhaxioClient(string key, string secret)
             : this(key, secret, new RestClient())

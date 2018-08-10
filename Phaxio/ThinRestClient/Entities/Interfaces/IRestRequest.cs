@@ -8,6 +8,7 @@ namespace Phaxio.ThinRestClient
     {
         Method Method { get; set; }
         string Resource { get; set; }
+        BasicAuthorization Authorization { get; set; }
         List<Parameter> Parameters { get; set; }
         List<FileParameter> Files { get; set; }
         IRestRequest AddParameter(string name, object value);
