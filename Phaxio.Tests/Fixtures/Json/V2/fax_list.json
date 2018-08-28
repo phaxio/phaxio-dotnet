@@ -4,6 +4,20 @@
     "data":[
         {
             "id":123456,
+            "caller_name": "Alice",
+            "barcodes": [{
+                "type": "barcode-type-1",
+                "page": 1,
+                "value" : "barcode-value-1",
+                "identifier": "phax-code-id-1",
+                "metadata": "phax-code-metadata-1"
+            },{
+                "type": "barcode-type-2",
+                "page": 1,
+                "value" : "barcode-value-2",
+                "identifier": "phax-code-id-2",
+                "metadata": "phax-code-metadata-2"
+            }],
             "direction":"sent",
             "num_pages":1,
             "status":"success",
@@ -32,6 +46,14 @@
         },
         {
             "id":123455,
+            "caller_name": "Bob",
+            "barcodes": [{
+                "type": "barcode-type",
+                "page": 1,
+                "value" : "barcode-value",
+                "identifier": "phax-code-id",
+                "metadata": "phax-code-metadata"
+            }],
             "direction":"sent",
             "num_pages":1,
             "status":"success",
@@ -60,6 +82,8 @@
         },
         {
             "id":123454,
+            "caller_name": "Cathy",
+            "barcodes": [],
             "direction":"sent",
             "num_pages":1,
             "status":"success",

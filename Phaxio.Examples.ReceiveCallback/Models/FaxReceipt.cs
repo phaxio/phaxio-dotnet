@@ -2,10 +2,7 @@
 {
     public class FaxReceipt
     {
-        public string Direction { get; set; }
         public dynamic Fax { get; set; }
-        public bool IsTest { get; set; }
-        public bool Success { get; set; }
         public string Key { get; set; }
     }
 }

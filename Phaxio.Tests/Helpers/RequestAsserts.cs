@@ -24,10 +24,9 @@ namespace Phaxio.Tests.Helpers
         {
             asserts.Enqueue(request =>
             {
-                var parameters = ParametersHelper.ToDictionary(request.Parameters);
-
-                Assert.AreEqual((string)parameters[PhaxioConstants.KEY_NAME], TEST_KEY);
-                Assert.AreEqual((string)parameters[PhaxioConstants.SECRET_NAME], TEST_SECRET);
+                Assert.NotNull(request.Authorization, "Authorization was null");
+                Assert.AreEqual(request.Authorization.Username, TEST_KEY, "Key was incorrect");
+                Assert.AreEqual(request.Authorization.Password, TEST_SECRET, "Secret was incorrect");
             });
 
             return this;

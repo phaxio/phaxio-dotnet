@@ -34,6 +34,12 @@ namespace Phaxio.Resources.V2
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 
+        [JsonProperty(PropertyName = "barcodes")]
+        public IEnumerable<Barcode> Barcodes { get; set; }
+
+        [JsonProperty(PropertyName = "caller_name")]
+        public string CallerName { get; set; }
+
         [JsonProperty(PropertyName = "direction")]
         public string Direction { get; set; }
 
