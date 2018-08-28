@@ -1,5 +1,8 @@
 language: csharp
 solution: phaxio-dotnet.sln
+mono:
+  - 5.12.0
+dotnet: 2.1.300
 before_install:
   - mkdir -p .nuget
   - wget -O .nuget/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
@@ -7,5 +10,6 @@ install:
   - mono .nuget/nuget.exe restore phaxio-dotnet.sln
   - mono .nuget/nuget.exe install NUnit.Runners -Version 3.6.1 -OutputDirectory tools
 script:
-  - xbuild /p:Configuration=Release phaxio-dotnet.sln /p:TargetFrameworkVersion="v4.5"
-  - mono ./tools/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe ./Phaxio.Tests/bin/Release/Phaxio.Tests.dll
+  - msbuild phaxio-dotnet.sln /p:Configuration=Release
+  - mono ./tools/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe ./Phaxio.Tests/bin/Release/net45/Phaxio.Tests.dll
+  - dotnet test --framework netcoreapp2.0 ./Phaxio.Tests/Phaxio.Tests.csproj

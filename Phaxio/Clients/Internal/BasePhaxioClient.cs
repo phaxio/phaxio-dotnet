@@ -17,7 +17,6 @@ namespace Phaxio.Clients.Internal
         public BasePhaxioClient(string key, string secret)
             : this(key, secret, new RestClient())
         {
-
         }
 
         public BasePhaxioClient(string key, string secret, IRestClient restClient)
@@ -64,8 +63,7 @@ namespace Phaxio.Clients.Internal
 
             if (auth)
             {
-                request.AddParameter(PhaxioConstants.KEY_NAME, key);
-                request.AddParameter(PhaxioConstants.SECRET_NAME, secret);
+                request.Authorization = new BasicAuthorization() { Username = key, Password = secret };
             }
 
             // Run any custom modifications

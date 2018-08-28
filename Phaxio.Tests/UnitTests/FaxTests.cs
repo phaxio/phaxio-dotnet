@@ -211,6 +211,17 @@ namespace Phaxio.Tests.UnitTests.V2
             DateTime completedAt = Convert.ToDateTime("2015-09-02T11:28:54.000-05:00");
 
             Assert.AreEqual(123456, faxInfo.Id, "");
+            Assert.AreEqual("Alice", faxInfo.CallerName, "");
+            Assert.AreEqual(2, faxInfo.Barcodes.Count(), "");
+
+            var barcode = faxInfo.Barcodes.First();
+
+            Assert.AreEqual("barcode-type-1", barcode.Type, "");
+            Assert.AreEqual(1, barcode.Page, "");
+            Assert.AreEqual("barcode-value-1", barcode.Value, "");
+            Assert.AreEqual("phax-code-id-1", barcode.Identifier, "");
+            Assert.AreEqual("phax-code-metadata-1", barcode.Metadata, "");
+
             Assert.AreEqual("sent", faxInfo.Direction, "");
             Assert.AreEqual(3, faxInfo.NumPages, "");
             Assert.AreEqual("success", faxInfo.Status, "");

@@ -64,9 +64,9 @@ Module Module1
 
         Dim testFax1 = phaxio.Fax.TestRecieveCallback(New FileInfo("test-fax.pdf"))
 
-        Dim testFax2 = phaxio.Fax.TestRecieveCallback(New FileInfo("test-fax.pdf"), to:="8088675309")
+        Dim testFax2 = phaxio.Fax.TestRecieveCallback(New FileInfo("test-fax.pdf"), toNumber:="8088675309")
 
-        Dim testFax3 = phaxio.Fax.TestRecieveCallback(New FileInfo("test-fax.pdf"), from:="2125552368")
+        Dim testFax3 = phaxio.Fax.TestRecieveCallback(New FileInfo("test-fax.pdf"), fromNumber:="2125552368")
     End Sub
 
 End Module

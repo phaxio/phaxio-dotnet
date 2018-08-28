@@ -1,115 +1,33 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ADCCE4D2-A31D-43E3-A992-A5556C279C49}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Phaxio</RootNamespace>
-    <AssemblyName>Phaxio</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <DefineConstants>$(DefineConstants);NETFX</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>$(DefineConstants);CORE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Clients\Internal\BasePhaxioClient.cs" />
-    <Compile Include="Clients\PhaxioClient.cs" />
-    <Compile Include="Entities\Recipient.cs" />
-    <Compile Include="Repositories\V2\AccountRespository.cs" />
-    <Compile Include="Entities\AreaCode.cs" />
-    <Compile Include="Repositories\V2\AreaCodeRepository.cs" />
-    <Compile Include="Entities\AccountStatus.cs" />
-    <Compile Include="Entities\Country.cs" />
-    <Compile Include="Errors\V2\Exceptions.cs" />
-    <Compile Include="Entities\FaxCount.cs" />
-    <Compile Include="Entities\Internal\PhaxioConstants.cs" />
-    <Compile Include="Entities\Internal\SerializeAsAttribute.cs" />
-    <Compile Include="Entities\Result.cs" />
-    <Compile Include="Resources\V2\Fax.cs" />
-    <Compile Include="Resources\V2\FaxFile.cs" />
-    <Compile Include="Repositories\V2\FaxRepository.cs" />
-    <Compile Include="Helpers\DateHelper.cs" />
-    <Compile Include="Resources\V2\PhaxCode.cs" />
-    <Compile Include="Repositories\V2\PhaxCodeRepository.cs" />
-    <Compile Include="Resources\V2\PhoneNumber.cs" />
-    <Compile Include="Repositories\V2\PhoneNumberRepository.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Internal\Response.cs" />
-    <Compile Include="Repositories\V2\PublicRepository.cs" />
-    <Compile Include="Repositories\V2\SupportedCountryRepository.cs" />
-    <Compile Include="ThinRestClient\Helpers\HttpClientExtensions.cs" />
-    <Compile Include="ThinRestClient\Entities\Interfaces\IRestClient.cs" />
-    <Compile Include="ThinRestClient\Entities\Interfaces\IRestRequest.cs" />
-    <Compile Include="ThinRestClient\Entities\Interfaces\IRestResponse.cs" />
-    <Compile Include="ThinRestClient\Helpers\JsonDeserializer.cs" />
-    <Compile Include="ThinRestClient\Middleware\LoggingMiddleware.cs" />
-    <Compile Include="ThinRestClient\Entities\Method.cs" />
-    <Compile Include="ThinRestClient\Entities\Parameter.cs" />
-    <Compile Include="ThinRestClient\RestClient.cs" />
-    <Compile Include="ThinRestClient\Entities\RestRequest.cs" />
-    <Compile Include="ThinRestClient\Entities\RestResponse.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Phaxio.nuspec" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PackageId>Phaxio</PackageId>
+    <Title>phaxio-dotnet</Title>
+    <Description>The .NET client for Phaxio</Description>
+    <Authors>Noel Herrick</Authors>
+    <PackageLicenseUrl>https://github.com/phaxio/phaxio-dotnet/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/phaxio/phaxio-dotnet</PackageProjectUrl>
+    <Copyright>Copyright 2017-2018 Phaxio</Copyright>
+    <PackageTags>Phaxio Fax Faxing</PackageTags>
+    <VersionPrefix>2.4.0.0-alpha</VersionPrefix>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.5" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
 </Project>

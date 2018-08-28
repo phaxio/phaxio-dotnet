@@ -36,6 +36,11 @@ namespace Phaxio.ThinRestClient
 
             client.BaseAddress = BaseUrl;
             
+            if (request.Authorization != null)
+            {
+                client.DefaultRequestHeaders.Authorization = request.Authorization.ToHeader();
+            }
+            
             HttpResponseMessage response;
 
             if (request.Method == Method.GET)

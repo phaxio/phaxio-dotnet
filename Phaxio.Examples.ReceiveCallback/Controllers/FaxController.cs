@@ -52,7 +52,9 @@ namespace Phaxio.Examples.ReceiveCallback.Controllers
 
                     // Here we get a new Fax object from the key/values
                     // that Phaxio passed us
-                    var receipt = getFaxFromFormData(provider.FormData);
+                    var receipt = new FaxReceipt() {
+                        Fax = JsonConvert.DeserializeObject(provider.FormData["fax"])
+                    };
 
                     // Here we'll get the name of the file so we can
                     // reference it later
@@ -72,20 +74,6 @@ namespace Phaxio.Examples.ReceiveCallback.Controllers
             );
 
             return task;
-        }
-
-        private FaxReceipt getFaxFromFormData(NameValueCollection formData)
-        {
-            return new FaxReceipt
-            {
-                Direction = formData["direction"],
-
-                // The "fax" field is a JSON document, so we'll let
-                // Json.NET make a dynamic object we can use later
-                Fax = JsonConvert.DeserializeObject(formData["fax"]),
-                IsTest = formData["is_test"] == "true" ? true : false,
-                Success = formData["success"] == "true" ? true : false
-            };
         }
     }
 }

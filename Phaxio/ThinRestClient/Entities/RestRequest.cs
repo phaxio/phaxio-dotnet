@@ -12,6 +12,8 @@ namespace Phaxio.ThinRestClient
 
         public string Resource { get; set; }
 
+        public BasicAuthorization Authorization { get; set; }
+
         public List<Parameter> Parameters { get; set; }
 
         public Action<Stream> ResponseWriter { get; set; }

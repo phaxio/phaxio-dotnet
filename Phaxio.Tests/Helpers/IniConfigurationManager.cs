@@ -11,7 +11,7 @@ namespace Phaxio.Tests.Helpers
         public KeyManager ()
         {
             var parser = new FileIniDataParser();
-            data = parser.ReadFile(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "keys.ini");
+            data = parser.ReadFile(App.BaseDirectory() + "keys.ini");
         }
 
         public string this[string key]
