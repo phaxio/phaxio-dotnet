@@ -15,14 +15,14 @@
 @if (Model.Count() > 0)
 {
     <table class="table">
-        <tr><th>Direction</th><th>Success?</th><th>IsTest?</th><th>Fax</th><th>File</th></tr>
+        <tr><th>Direction</th><th>Status</th><th>IsTest?</th><th>Fax</th><th>File</th></tr>
         @foreach (var receipt in Model)
         {
             <tr>
-                <td>@receipt.Direction</td>
-                <td>@receipt.Success</td>
-                <td>@receipt.IsTest</td>
-                <td>@receipt.Json</td>
+                <td>@receipt.Fax.Direction</td>
+                <td>@receipt.Fax.Status</td>
+                <td>@receipt.Fax.IsTest</td>
+                <td>@receipt.Fax</td>
                 <td><a href="~/api/fax?key=@receipt.Key">PDF</a></td>
             </tr>
         }
