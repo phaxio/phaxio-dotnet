@@ -1,4 +1,6 @@
-﻿namespace Phaxio.Examples.ReceiveCallback.Models
+﻿using System.Collections.Generic;
+
+namespace Phaxio.Examples.ReceiveCallback.Models
 {
     public class FaxReceipt
     {
