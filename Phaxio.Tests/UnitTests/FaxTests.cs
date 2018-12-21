@@ -239,8 +239,11 @@ namespace Phaxio.Tests.UnitTests.V2
             var recipient = faxInfo.Recipients.First();
 
             Assert.AreEqual("+14141234567", recipient.PhoneNumber);
-            Assert.AreEqual(completedAt, recipient.CompletedAt.Value, "");
             Assert.AreEqual("success", recipient.Status, "");
+            Assert.AreEqual(0, recipient.RetryCount);
+            Assert.AreEqual(completedAt, recipient.CompletedAt.Value, "");
+            Assert.AreEqual(14400, recipient.Bitrate);
+            Assert.AreEqual(8040, recipient.Resolution);
             Assert.AreEqual(41, recipient.ErrorId.Value, "");
             Assert.AreEqual("recipient_error_type", recipient.ErrorType, "");
             Assert.AreEqual("recipient_error_message", recipient.ErrorMessage, "");

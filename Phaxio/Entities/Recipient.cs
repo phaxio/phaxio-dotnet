@@ -11,8 +11,17 @@ namespace Phaxio.Entities
         [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
 
+        [JsonProperty(PropertyName = "retry_count")]
+        public int RetryCount { get; set; }
+
         [JsonProperty(PropertyName = "completed_at")]
         public DateTime? CompletedAt { get; set; }
+
+        [JsonProperty(PropertyName = "bitrate")]
+        public int Bitrate { get; set; }
+
+        [JsonProperty(PropertyName = "resolution")]
+        public int Resolution { get; set; }
 
         [JsonProperty(PropertyName = "error_type")]
         public string ErrorType { get; set; }
