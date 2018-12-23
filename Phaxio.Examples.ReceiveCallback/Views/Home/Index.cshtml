@@ -6,7 +6,7 @@
 
 <h2>Recieved callbacks</h2>
 
-<form action="~/api/trigger" method="get">
+<form action="~/trigger" method="post">
     <p>Key: <input type="text" name="key" /></p>
     <p>Secret: <input type="text" name="secret" /></p>
     <p><button>Trigger</button></p>
@@ -18,13 +18,13 @@
         <tr><th>Direction</th><th>Status</th><th>IsTest?</th><th>Fax</th><th>File</th></tr>
         @foreach (var receipt in Model)
         {
-            <tr>
-                <td>@receipt.Fax.Direction</td>
-                <td>@receipt.Fax.Status</td>
-                <td>@receipt.Fax.IsTest</td>
-                <td>@receipt.Fax</td>
-                <td><a href="~/api/fax?key=@receipt.Key">PDF</a></td>
-            </tr>
+        <tr>
+            <td>@receipt.Fax["direction"]</td>
+            <td>@receipt.Fax["status"]</td>
+            <td>@receipt.Fax["is_test"]</td>
+            <td>@receipt.Fax</td>
+            <td><a href="~/api/fax?key=@receipt.Key">PDF</a></td>
+        </tr>
         }
     </table>
 }
@@ -46,6 +46,6 @@ else
     <li>Follow <a href="http://irwinj.blogspot.com/2012/06/using-localtunnel-to-allow-external.html">this tutorial</a> to get IISExpress to allow the proxy</li>
     <li>Run this command: lt --port @Request.Url.Port</li>
     <li>This creates an Internet-accessible address to will proxy requests to your computer</li>
-    <li>Go to your Phaxio control panel and put this as your default callback: proxy + /api/fax/</li>
-    <li>Trigger callback</li>
+    <li>Go to your Phaxio control panel and put this as your default callback: proxy + /api/fax/ (make sure your Webhook version is on 2.1)</li>
+    <li>Trigger callback & refresh this page in a few seconds if you don't see your callback</li>
 </ol>
