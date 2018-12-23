@@ -33,7 +33,10 @@
                 {
                     "phone_number":"+14141234567",
                     "status":"success",
+                    "retry_count":0,
                     "completed_at":"2016-01-20T11:28:52.000-06:00",
+                    "bitrate":14400,
+                    "resolution":8040,
                     "error_type":null,
                     "error_id":null,
                     "error_message":null
@@ -69,7 +72,10 @@
                 {
                     "phone_number":"+14141234567",
                     "status":"success",
+                    "retry_count":0,
                     "completed_at":"2016-01-20T11:25:24.000-06:00",
+                    "bitrate":14400,
+                    "resolution":8040,
                     "error_type":null,
                     "error_id":null,
                     "error_message":null
@@ -97,7 +103,10 @@
                 {
                     "phone_number":"+14141234567",
                     "status":"success",
+                    "retry_count":0,
                     "completed_at":"2016-01-10T14:08:45.000-06:00",
+                    "bitrate":14400,
+                    "resolution":8040,
                     "error_type":null,
                     "error_id":null,
                     "error_message":null
@@ -105,7 +114,10 @@
                 {
                     "phone_number":"+14141234568",
                     "status":"success",
+                    "retry_count":0,
                     "completed_at":"2016-01-10T14:09:01.000-06:00",
+                    "bitrate":14400,
+                    "resolution":8040,
                     "error_type":null,
                     "error_id":null,
                     "error_message":null

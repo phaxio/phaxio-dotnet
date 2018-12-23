@@ -32,7 +32,10 @@
             {
                 "phone_number":"+14141234567",
                 "status":"success",
+                "retry_count":0,
                 "completed_at":"2015-09-02T11:28:54.000-05:00",
+                "bitrate":14400,
+                "resolution":8040,
                 "error_type":"recipient_error_type",
                 "error_id": 41,
                 "error_message":"recipient_error_message"
