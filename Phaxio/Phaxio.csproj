@@ -18,10 +18,11 @@
     <Description>The .NET client for Phaxio</Description>
     <Authors>Noel Herrick</Authors>
     <PackageLicenseUrl>https://github.com/phaxio/phaxio-dotnet/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/phaxio/phaxio-dotnet</PackageProjectUrl>
     <Copyright>Copyright 2017-2018 Phaxio</Copyright>
     <PackageTags>Phaxio Fax Faxing</PackageTags>
-    <VersionPrefix>2.4.0.0-alpha</VersionPrefix>
+    <VersionPrefix>2.4.1</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
